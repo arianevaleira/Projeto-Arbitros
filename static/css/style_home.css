@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    
+}
+
+.container{
+    display: flex;
+    height: 100%;
+}
+
+
+.barra-lateral {
+    width: 20%;
+    background-color: #eeffe4;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cabecalho {
+    background-color: #377b1c;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.conteudo {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.foto{
+    background-color: black;
+    width: 8%;
+    height: 8%;
+    padding: 8%;
+    margin-left: 3%;
+}
+
+.user{
+    display: flex;
+    width: 17%;
+    align-items: center;
+}
+
+.user p{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
+.logo{
+    margin-left: 8%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 23px;
+    color: white;
+}
+
+.titulo{
+    margin-top: 13%;
+    margin-left: 13%;
+}
+
+
+.titulo p{
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1b5d00;
+}
+
+.rotas{
+    margin-left: 9%;
+    margin-top: 23%;
+}
+
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 9%;
+    margin-top: 15%;
+    margin-bottom: 7%;
+}
+
+.link  .icone{
+    background-color: #377b1c;
+    width: 3%;
+    height: 4%;
+    padding: 4%;
+    margin-right: 7%;
+}
+
+.link a{
+    text-decoration: none;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.acesso-rapido, .avaliacao{
+    display: flex;
+    border: #d4d4d4 solid 1px;
+    margin: 10px;
+    border-radius: 17px;
+}
+
+
+#cont{
+    background-color: #77b255;
+    width: 27%;
+    height: 75%;
+    border-radius: 3%;
+}
+
+
+.avaliacao{
+    height: 50%;
+}
+
+.acesso-rapido{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 35%;
+}
+
+.title{  
+    margin-top: 10%;
+}
+
+.acesso-rapido .title p{
+    color: #1b5d00;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+}
+
+.acesso-rapido  p{
+    color: #0f3201;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 15%;
+    margin: 19px;
+}
+
+
