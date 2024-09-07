@@ -39,11 +39,22 @@ html, body {
 
 
 .foto{
-    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 8%;
     height: 8%;
     padding: 8%;
-    margin-left: 3%;
+    margin-left: 2%;
+}
+
+.material-icons.perfil {
+    color: #ffffff;
+    font-size: 30px;
+}
+
+.material-icons.menu {
+    color: #1b5d00;
 }
 
 .user{
@@ -87,12 +98,12 @@ html, body {
     flex-direction: row;
     align-items: center;
     margin: 9%;
-    margin-top: 15%;
-    margin-bottom: 7%;
+    margin-bottom: 9%;
 }
 
-.link  .icone{
-    background-color: #377b1c;
+.link .icone{
+    display: flex;
+    justify-content: center;
     width: 3%;
     height: 4%;
     padding: 4%;
@@ -150,5 +161,6 @@ html, body {
     margin-left: 15%;
     margin: 19px;
 }
+
 
 
