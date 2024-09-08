@@ -9,15 +9,15 @@ html, body {
 }
 
 body {
-    background-image: url('/static/assets/criança-login.jpeg');
+    background-image: url('/static/assets/img2.png');
     background-repeat: no-repeat;
     background-size: cover; 
     float: right;  
 }
 .cadastro {
-    background-color: #377b1c;
+    background-color: #77b255;
     width: 90vh;
-    height: 120vh;
+    height: 117vh;
     display: flex;
     flex-direction: column; 
 }
@@ -47,7 +47,9 @@ h1, p {
     border-radius: 5px;
     box-shadow: 0 11px 17px rgba(0, 0, 0, 0.5);
     color: white; 
+    font-size: larger;
     transition: background-color 0.3s ease; 
+    width: 75%;
 }
 
 #botao:hover {
@@ -63,18 +65,13 @@ h1, p {
     border: none;
 }
 
-.cadastrar{
-    width: 75%;
-    padding: 2.5%;
-    margin-top: 3%;
-}
 
 .formulario, .inp:focus {
     outline: none;
 }
 
 .titulo,h1 {
-    margin-left: 9%;
+    margin-left: 8%;
 }
 
 .conta{
@@ -87,6 +84,6 @@ h1, p {
 
 .conta,a {
     margin-left: 5px;
-    color: #77b255;
+    color: #1b5d00;
     font-family: Arial, Helvetica, sans-serif;
 }
