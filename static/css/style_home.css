@@ -1,0 +1,265 @@
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+.barra-lateral {
+    width: 20%;
+    background-color: #eeffe4;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cabecalho {
+    background-color: #52883b;
+    width: 100%;
+    height: 13%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.conteudo {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.foto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8%;
+    height: 8%;
+    padding: 8%;
+    margin-left: 2%;
+}
+
+.material-icons.perfil {
+    color: #ffffff;
+    font-size: 30px;
+}
+
+.material-icons.icones {
+    color: #1b5d00;
+    margin-left: 7%;
+}
+
+.user{
+    display: flex;
+    width: 17%;
+    align-items: center;
+}
+
+.user p{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    margin-left: 8%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.logo img {
+    width: 55%;
+}
+
+.rotas{
+    margin-left: 9%;
+    margin-top: 23%;
+}
+
+
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 9%;
+    margin-bottom: 7%;
+}
+
+
+.link .icone{
+    display: flex;
+    justify-content: center;
+    width: 3%;
+    height: 4%;
+    padding: 4%;
+    margin-right: 7%;
+}
+
+
+.link a{
+    text-decoration: none;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.acesso-rapido, .avaliacao{
+    display: flex;
+    border: #d4d4d4 solid 1px;
+    margin: 10px;
+    border-radius: 17px;
+}
+
+#cont{
+    background-color: #77b255;
+    width: 27%;
+    height: 75%;
+    border-radius: 3%;
+    transition: transform 0.3s ease;
+}
+
+#cont:hover {
+    transform: scale(1.1);
+}
+
+.acesso-rapido{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 35%;
+}
+
+.title{  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.acesso-rapido .title p{
+    color: #1b5d00;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin-left: 2%;
+}
+
+
+.acesso-rapido  p{
+    color: #0f3201;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 15%;
+    margin: 19px;
+}
+
+.avaliacao{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.avaliacao .title{
+    margin-top: -1.7%;
+    margin-left: 4%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 123%;
+    background-color: white;
+    width: 10%;
+    padding: 0.5%;
+}
+
+.avaliacao .notas{
+    margin-top: 1%;
+    margin-left: 4%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 139%;
+}
+
+.comentario{
+    padding: 3%;
+    margin-top: 3%;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+}
+
+.comentario .coment{
+    padding: 1%; 
+    width: 29%;
+    display: flex;
+    flex-direction: column;
+    border: #d4d4d4 solid 1px;
+    border-radius: 7px;
+    height: 119%;
+}
+
+.usuario{
+    display: flex;
+    align-items: center;
+    padding: 3px;
+}
+
+.coment .usuario p{
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 5px;
+    font-size: 13px;
+    margin-top: 0%;
+}
+
+.coment p{
+    word-wrap: break-word; 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin-top: 5%;
+}
+
+.imagem{
+    color: black;
+}
+
+.rodape{
+    width: 100%;
+    height: 50px;
+    background-color: #52883b;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 3%;
+    color: white;
+     
+}
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	display: inline-block;
+	margin: 0 10px;
+}
+
+a {
+	color: white;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.rodape p{
+    margin: 3px;
+}
