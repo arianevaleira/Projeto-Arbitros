@@ -16,7 +16,7 @@ def cadastro():
 
 
 #Pagina principal (usuario)
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
 
