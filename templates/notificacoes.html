@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbitros</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_notificacoes.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sobre</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style_sobre.css')}}">
+    </head>
+    <body>
+        {% extends "home.html" %}
+    
+        {% block conteudo %}
+        <section id='secao-noti'>
+            <div class="noti-container">
+                <div class="noti-header">
+                    <h2>Notificações</h2>
+                </div>
+                <div class="noti">
+                    <div class="noti-content">
+                        <strong>Nova Mensagem</strong>
+                        <p>Você recebeu uma nova mensagem de Joaquim.</p>
+                        <span class="noti-time">5 minutos atrás</span>
+                    </div>
+                    <button class="apagar-btn">&times;</button>
+                </div>
+                <div class="noti">
+                    <div class="noti-content">
+                        <strong>Nova Partida</strong>
+                        <p>Começou uma nova partida!</p>
+                        <span class="noti-time">10 minutos atrás</span>
+                    </div>
+                    <button class="apagar-btn">&times;</button>
+                </div>
+                <div class="noti">
+                    <div class="noti-content">
+                        <strong>Nova Avaliação</strong>
+                        <p>Karyne Ohara fez uma nova avaliação!.</p>
+                        <span class="noti-time">30 minutos atrás</span>
+                    </div>
+                    <button class="apagar-btn">&times;</button>
+                </div>
+            </div>
+        </section>
+        {% endblock %}
+    </body>
+    </html>
+</body>
+</html>
