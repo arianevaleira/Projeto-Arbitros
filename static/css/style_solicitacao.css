@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    box-sizing: border-box; 
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif; 
+    background-color: #f4f4f4; 
+}
+
+.form {
+    width: 115%;
+    height: auto; 
+    max-width: 650px; 
+    box-shadow: 1px 1px 15px rgba(158, 158, 158, 0.3);
+    background-color: #9bd87a;
+    padding: 20px;
+    border-radius: 8px; 
+    margin: auto; 
+}
+
+.cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.email, .modalidade, .data, .inicio, .termino, .desc {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 0;  
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2c7a1c; 
+}
+
+input {
+    font-family: 'Roboto', sans-serif; 
+    border-radius: 5px;
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    transition: border-color 0.3s ease; 
+}
+
+input:focus {
+    border-color: #1b5d00;
+    outline: none; 
+}
+
+.data-e-modalidade, .horarios {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.enviar {
+    background-color: #1b5d00;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%; 
+    margin-top: 20px; 
+}
+
+.enviar:hover {
+    background-color: #155d00; 
+}
+
+.desc h3 {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333; 
+}
+
+.botao {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end; 
+}
