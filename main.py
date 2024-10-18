@@ -3,6 +3,12 @@ from flask import Flask , render_template, url_for, redirect
 app = Flask(__name__)
 
 
+#primeira pagina (de abertura)
+@app.route('/inicial')
+def inicial():
+    return render_template('inicial.html')
+
+
 #Pagina inicial (login)
 @app.route('/', methods=['POST','GET'])
 def index():
@@ -38,13 +44,20 @@ def solicitacao():
 def partidas():
     return render_template('partidas.html')
 
+#Pagina onde sera o chat (mensagens)
 @app.route('/chat')
 def chat():
     return render_template('mensagem.html')
 
+#Pagina onde ficara a alteração de dados do usurio (editar)
+@app.route('/configuracoes')
+def configuracoes():
+    return render_template('configuracao.html')
+
+
+#Pagina onde ficara as notificações do usuario
 @app.route('/notificacoes')
 def notificacoes():
     return render_template('notificacoes.html')
-
 if __name__ == '__main__':
     app.run(debug=True)
