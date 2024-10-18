@@ -42,5 +42,9 @@ def partidas():
 def chat():
     return render_template('mensagem.html')
 
+@app.route('/notificacoes')
+def notificacoes():
+    return render_template('notificacoes.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
