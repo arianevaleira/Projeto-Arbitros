@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 login_manager.init_app(app)
 
-app.config['SECRET_KEY'] = 'ULTRAMEGADIFICIL'
+app.config['SECRET_KEY'] = 'muitodificil'
 
 @login_manager.user_loader
 def load_user(user_id):
