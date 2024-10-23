@@ -4,7 +4,8 @@ import mysql.connector
 
 
 def conectar_db():
-    return mysql.connector.connect(host='localhost', user='root', password='mysqlK.O2806', database='db_projeto')
+    #alterar de acordo com a sua senha
+    return mysql.connector.connect(host='localhost', user='root', password='', database='db_projeto')
 
 class User(UserMixin):
     _hash : str
