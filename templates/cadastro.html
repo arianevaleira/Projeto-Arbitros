@@ -18,7 +18,7 @@
                 <h1>Cadastro</h1>
             </div>
             <div class="formulario">
-                <form action="{{url_for('index')}}" method="POST">
+                <form action="{{url_for('cadastro')}}" method="POST">
                     <div>
                         <p>Nome:</p>
                         <input class="inp" type="text" name="nome">
@@ -44,6 +44,9 @@
                         <input class="inp" type="password" name="senha">
                     </div>
                     <input class="inp-button" id="botao" type="submit" value="Cadastrar">
+                    {% if get_flashed_messages() %}
+                        <div class="flash">{{ get_flashed_messages()[-1] }}</div>
+                    {% endif %}
                     <div class="conta">
                         <p>Já possui conta?</p>
                         <a href="{{url_for('index')}}">Fazer login</a>
