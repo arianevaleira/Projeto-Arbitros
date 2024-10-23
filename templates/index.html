@@ -12,7 +12,7 @@
                 <img src="static/assets/logo.png">
             </div>
             <div class="formulario">
-                <form action="{{url_for('home')}}" method="POST">
+                <form action="{{url_for('index')}}" method="POST">
                     <p><label>Email:</label></p>
                     <input class="inp" type="email" name="email">
                     <p><label>Senha:</label></p>
@@ -21,6 +21,9 @@
                     <div class="checkbox"><input type="checkbox"><p>Me manter conectado</p></div>
                     <div class="registre"><p>Não tem conta ?</p><a href="{{url_for('cadastro')}}">Cadastre-se</a></div>
                     <input class="enviar" id="botao" type="submit" value="Login">
+                    {% if get_flashed_messages() %}
+                        <div class="flash">{{ get_flashed_messages()[-1] }}</div>
+                    {% endif %}
                 </form>
             </div>
     </div>
