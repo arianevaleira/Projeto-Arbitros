@@ -1,46 +1,7 @@
-* {
-    margin: 0;
+.carousel{
+   height: 70%;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;    
-    font-family: 'Roboto', sans-serif;
-    
-}
-
-
-.cabecalho {
-    background-color:  #77b255; 
-    width: 100%;
-    height: 9vh;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: fixed;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-}
-
-
-
-.logo img {
-    width: 55%;
-}
-
-.cabecalho a{
-    color: white;
-    text-decoration: none;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 1px;
-}
-
-
-main{
-    background-image: url('/static/assets/pagina_inicial_foto1.jpg') no-repeat center center;
-    background: cover;
-    height: 91vh;
+.navbar{
+   background-color: rgb(9, 255, 0);
 }
