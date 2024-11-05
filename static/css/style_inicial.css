@@ -1,0 +1,29 @@
+.cabecalho {
+    background-color: #5faf58;
+    width: auto;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+
+.cabecalho img{
+    width: 10rem;
+}
+
+.cabecalho a{
+    color: white;
+    font-size: 1.1rem;
+}
+
+.cabecalho a:hover{
+    color: rgb(2, 75, 2);
+    text-decoration: none;
+}
+
+.rotas a{
+    margin: 0.5rem;
+}

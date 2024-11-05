@@ -1,0 +1,86 @@
+/* Reseta as margens */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fonte padrão e cor do texto */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f3f3f3;
+}
+
+/* Container principal */
+.soli-conteiner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Formulário de Evento */
+.formulario-evento {
+    background-color: white;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-evento h3 {
+    text-align: center;
+    color: #0a4500;
+    margin-bottom: 20px;
+}
+
+/* Estilo dos Labels e Inputs */
+.form-group label {
+    font-weight: bold;
+    color: #0a4500;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Estilo dos Botões */
+.btn-success {
+    background-color: #0a4500;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #066600;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .notificacoes, .formulario-evento {
+        width: 90%;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .btn-success {
+        font-size: 0.9rem;
+    }
+}
