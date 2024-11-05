@@ -19,14 +19,14 @@ def load_user(user_id):
 
 
 #primeira pagina (de abertura)
-@app.route('/inicial')
+@app.route('/')
 def inicial():
-    return render_template('inicial.html')
+    return render_template('index.html')
 
 
 #Pagina inicial (login)
-@app.route('/', methods=['POST','GET'])
-def index():
+@app.route('/login', methods=['POST','GET'])
+def login():
     if request.method == 'POST':
         email = request.form['email']
         senha = request.form['senha']   
@@ -38,7 +38,7 @@ def index():
         
         else:
             flash("Email ou senha inválidos")
-    return render_template('index.html')
+    return render_template('login.html')
 
 
 #Pagina de cadastro
@@ -68,7 +68,7 @@ def cadastro():
 
 #Pagina principal (usuario)
 @app.route('/home', methods=['GET', 'POST'])
-@login_required
+#@login_required lembrar de apagar  
 def home():
     return render_template('home.html')
 
