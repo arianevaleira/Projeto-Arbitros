@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Evento</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_solicitacao.css')}}">
+</head>
+<body>
+    {% extends "home.html" %}
+
+    {% block conteudo %}
+        <div class="formulario-evento mt-5 p-4">
+            <h3>Formulário de Solicitação de Evento</h3>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Digite seu email">
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição do Evento</label>
+                    <textarea class="form-control" id="descricao" rows="3" placeholder="Descreva o evento"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="data">Data do Evento</label>
+                    <input type="date" class="form-control" id="data">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="horaInicio">Hora de Início</label>
+                        <input type="time" class="form-control" id="horaInicio">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="horaFim">Hora de Fim</label>
+                        <input type="time" class="form-control" id="horaFim">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Enviar Solicitação</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
