@@ -242,3 +242,11 @@ input:focus, select:focus {
 .sing-up-js .first-content .segunda-coluna{
     z-index: 11;
 }
+
+.flash {
+    color: red;
+    margin-top: 8px;
+    font-size: small;
+    margin-left: 8px;
+    margin-bottom: 1px;
+}
