@@ -15,19 +15,15 @@
         <div class="content first-content">
             <div class="primeira-coluna">
                 <h2 class="titulo titulo-primary">Bem - vindo !</h2>
-                <p class="descricao descricao-primary"> Para se manter conectado conosco</p>
-                <p class="descricao descricao-primary">Por favor logue-se com suas informações</p>
-                <button id="singin" class="btn btn-primary">Sing in</button>
+                <p class="descricao descricao-primary"> Para conectar-se conosco</p>
+                <p class="descricao descricao-primary">Por favor cadastre-se com suas informações</p>
+                <button id="singin" class="btn btn-primary">Cadastro</button>
             </div>
             <!--Div onde fica o formulario-->
             <div class="segunda-coluna">
                 <h2 class="titulo titulo-second">Faça seu login</h2>
                 <p class="descricao descricao-second">Utilize seu email para registro</p>
-                <form action="{{url_for('login')}}" class="form">
-                    <div class="nome gru-input">
-                        <label>Nome:</label>
-                       <input type="text" name="nome" placeholder="nome">
-                    </div>
+                <form action="{{url_for('login')}}" class="form" method="POST">
                     <div class="email gru-input">
                         <label>Email:</label>
                         <input type="email" name="email" placeholder="email">
@@ -36,6 +32,9 @@
                         <label>Senha:</label>
                         <input type="password" name="senha" placeholder="senha">
                     </div>
+                    {% if get_flashed_messages() %}
+                        <div class="flash">{{ get_flashed_messages()[-1] }}</div>
+                    {% endif %}
                     <button  class="btn btn-second">Logar</button>
                 </form>
             </div>
@@ -52,7 +51,7 @@
             <!--Div onde fica o formulario-->
             <div class="segunda-coluna">
                 <h2 class="titulo titulo-second">Faça seu Cadastro</h2>
-                <form action="{{url_for('cadastro')}}" class="form">
+                <form action="{{url_for('cadastro')}}" class="form" method="POST">
                     <div class="nome gru-input">
                         <label>Nome:</label>
                         <input type="text" name="nome">
@@ -67,6 +66,10 @@
                             <input type="number" name="telefone" placeholder="Telefone">
                         </div>
                     </div>
+                    <div class="gru-input">
+                        <label>Email:</label>
+                        <input type="email" name="email">
+                    </div>
                     <div class="gru-input gru-input-second">
                         <div class="senha1">
                             <label>Crie Sua Senha:</label>
@@ -77,14 +80,11 @@
                             <input type="password" name="senha-conf">
                         </div>
                     </div>
-                    <div class="gru-input">
-                        <label>Email:</label>
-                        <input type="email" name="email">
-                    </div>
+                    
                     <div class="gru-input">
                        <label>Selecione Sua Area:</label>
-                       <select id="userType">
-                           <option value="comum" selected>Usuario</option>
+                       <select id="userType" name="tipo">
+                           <option value="comum" selected>Contratante</option>
                            <option value="profissional">Árbitro</option>
                        </select>
                     </div>
