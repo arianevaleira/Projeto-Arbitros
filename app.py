@@ -48,22 +48,22 @@ def cadastro():
     if request.method == 'POST':
         nome = request.form['nome']
         email = request.form['email']
-        cpf = request.form['CPF']
+        cpf = request.form['cpf']
         telefone = request.form['telefone']
         senha = request.form['senha']
-        tipo = request.form['area de atuaçao']
+        tipo = request.form['tipo']
 
         if not User.exists(email):
             user = User(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha, tipo=tipo)
             user.add_usuario()            
             # logar o usuário após cadatro
             login_user(user)
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
         
         else:
             flash("Email já cadastrado")
 
-    return render_template('cadastro.html')
+    return render_template('login.html')
 
 
 #Pagina principal (usuario)
