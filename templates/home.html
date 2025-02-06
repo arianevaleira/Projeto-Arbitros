@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #E0F2F1;
+            color: #004D40;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar, footer {
+            background-color: #00796B;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 50px;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .banner {
+            width: 100%;
+            height: 200px;
+            background-color: #80CBC4;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card-custom {
+            background-color: #80CBC4;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        .card-custom h3 {
+            font-size: 1.5rem;
+        }
+        .btn-custom {
+            background-color: #4DB6AC;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-custom:hover {
+            background-color: #00796B;
+        }
+        .comments-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: none;
+            border-radius: 10px;
+            border: 1px solid #80CBC4;
+            text-align: left;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .comment {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        .card-custom, .comment {
+            flex: 1; /* Garante que os cards e comentários ocupem a mesma largura */
+            margin: 10px;
+        }
+        .comment strong {
+            color: #00796B;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{url_for('home')}}">Árbitros +</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('sobre')}}">Sobre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('solicitacao')}}">Solicitações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('notificacoes')}}">Notificações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes')}}">Configurações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('partidas')}}">Partidas</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {%block conteudo%}
+    <!-- Conteúdo Principal -->
+    <div class="content">
+        <div class="banner"></div>
+        <div class="cards-container">
+            <div class="card-custom">
+                <h3>Solicitações</h3>
+                <p>Solicitar uma partida de forma rápida e fácil. Preencha o formulario e viva uma experiêcencia unica</p>
+                <a href="{{url_for('solicitacao')}}" class="btn-custom">Acessar</a>
+            </div>
+            <div class="card-custom">
+                <h3>Partidas</h3>
+                <p>Veja aqui suas partidas que estão em aberto. Explore suas experiêcencias ja vividas</p>
+                <a href="{{url_for('partidas')}}" class="btn-custom">Acessar</a>
+            </div>
+            <div class="card-custom">
+                <h3>Mensagens</h3>
+                <p>Seu chat de mensagens te aguarda. Mantenha contato com eficiência e segurança</p>
+                <a href="{{url_for('notificacoes')}}" class="btn-custom">Acessar</a>
+            </div>
+        </div>
+        <div class="comments-section">
+            <h2>Comentários</h2>
+           
+            <div class="comment">
+                <strong>Lucas Mendes:</strong> <br>Excelente plataforma! Muito fácil de usar e bastante eficiente.
+            </div>
+            <div class="comment">
+                <strong>Maria Oliveira:</strong><br> Gostei muito da organização e praticidade. Recomendo!
+            </div>
+            <div class="comment">
+                <strong>João Silva:</strong> <br>A experiência foi ótima, facilitou muito a comunicação entre os árbitros.
+            </div>
+        </div>
+    </div>
+    {%endblock%}    
+    <!-- Footer -->
+    <footer class="mt-auto">
+        <p>&copy; 2025 Árbitros +. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
