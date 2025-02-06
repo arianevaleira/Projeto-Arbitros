@@ -1,0 +1,104 @@
+/* Reseta as margens */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fonte padrão e cor do texto */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f3f3f3;
+}
+
+/* Container principal */
+.soli-conteiner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Formulário de Evento */
+.formulario-evento {
+    background-color: white;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-evento h3 {
+    text-align: center;
+    color: #00796B;
+    margin-bottom: 20px;
+}
+
+/* Estilo dos Labels e Inputs */
+.form-group label {
+    font-weight: bold;
+    color: #00796B;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Estilo dos Botões */
+.btn-success {
+    background-color: #00796B;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #066600;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(25%) sepia(100%) saturate(6) hue-rotate(-260deg);
+  }
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(25%) sepia(100%) saturate(6) hue-rotate(-260deg);
+  }
+
+.form-control:required:invalid::-webkit-datetime-edit{
+	color: #1b5d00;
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .notificacoes, .formulario-evento {
+        width: 90%;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .btn-success {
+        font-size: 0.9rem;
+    }
+}
+
+
+
