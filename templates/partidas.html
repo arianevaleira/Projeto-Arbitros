@@ -5,10 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidas</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_sobre.css')}}">
+    <style type="text/css">
+        #map {
+            height: 900px;
+            width: 900px;
+            background: #ddd;
+        }
+    </style>
+    
 </head>
-<body>
+<body onload="initialize()">
     {% extends "home.html" %}
     
     {% block conteudo %}
+    <div id="map"></div>
+    <script>
+        
+        let map;
+
+        async function initMap() {
+        // Localização de um lugar, nesse caso ilha de sanatana
+        const position = { lat: -6.456984, lng: -37.090124 };
+        // Bibliotecas da api
+        const { Map } = await google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        // Mapa centralizado na localização acima
+        map = new Map(document.getElementById("map"), {
+            zoom: 17,
+            center: position,
+            mapId: "DEMO_MAP_ID",
+        });
+
+        //definindo outro local
+        const lugar = { lat: -6.446363, lng: -37.068976 };
+        
+        // Adicionando Marcador
+        const marker = new AdvancedMarkerElement({
+            map: map,
+            position: lugar,
+            title: "IFRN"
+        });
+        }
+
+        initMap();
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0pUTdpJmnAIw2cGQpu9SZLmCzKnu5HW4&loading=async&callback=initMap"></script>
     {% endblock %}
     
