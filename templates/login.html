@@ -55,38 +55,38 @@
                 <form action="{{url_for('cadastro')}}" class="form" method="POST">
                     <div class="nome gru-input">
                         <label>Nome:</label>
-                        <input type="text" name="nome">
+                        <input type="text" name="nome" required>
                     </div>
                     <div class="gru-input gru-input-second">
                         <div class="cpf">    
                             <label>CPF/CNPJ:</label>
-                            <input type="number" name="cpf" placeholder="CPF/CNPJ">
+                            <input type="number" name="cpf" placeholder="CPF/CNPJ" required>
                         </div>
                         <div class="telefone">
                             <label>Telefone:</label>
-                            <input type="number" name="telefone" placeholder="Telefone">
+                            <input type="number" name="telefone" placeholder="Telefone" required>
                         </div>
                     </div>
                     <div class="gru-input">
                         <label>Email:</label>
-                        <input type="email" name="email">
+                        <input type="email" name="email" required>
                     </div>
                     <div class="gru-input gru-input-second">
                         <div class="senha1">
                             <label>Crie Sua Senha:</label>
-                            <input type="password" name="senha">
+                            <input type="password" name="senha" required>
                         </div>
                         <div class="senha1">
                             <label>Confirme Sua Senha:</label>
-                            <input type="password" name="senha-conf">
+                            <input type="password" name="senha-conf" required>
                         </div>
                     </div>
                     
                     <div class="gru-input">
                        <label>Selecione Sua Area:</label>
                        <select id="userType" name="tipo">
-                           <option value="comum" selected>Contratante</option>
-                           <option value="profissional">Árbitro</option>
+                           <option value="contratante" selected>Contratante</option>
+                           <option value="arbitro">Árbitro</option>
                        </select>
                     </div>
                     
