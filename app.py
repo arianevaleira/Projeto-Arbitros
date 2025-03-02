@@ -1,26 +1,30 @@
 
-from flask import Flask, redirect, render_template, url_for, request, flash
+from flask import Flask, redirect, render_template, url_for, request, flash, session
 from werkzeug.security import check_password_hash
-from models import User
+from models.arbitro import Arbitro
+from models.contratante import Contratante
 from flask_login import LoginManager, login_user, login_required, logout_user
-import mysql.connector
 
-login_manager = LoginManager()
 
 app = Flask(__name__)
-
-login_manager.init_app(app)
-
 app.config['SECRET_KEY'] = 'muitodificil'
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    arbitro = Arbitro.get(int(user_id))
+    if arbitro:
+        return arbitro
+    contratante = Contratante.get(int(user_id))
+    return contratante
 
 
 #primeira pagina (de abertura)
 @app.route('/')
-def inicial():
+def index():
     return render_template('index.html')
 
 
@@ -29,11 +33,20 @@ def inicial():
 def login():
     if request.method == 'POST':
         email = request.form['email']
-        senha = request.form['senha']   
-        user = User.get_by_email(email)
+        senha = request.form['senha']
 
-        if user and check_password_hash(user['usu_senha'], senha):
-            login_user(User.get(user['usu_id']))
+        arbitro = Arbitro.get_by_email(email)
+        contratante = Contratante.get_by_email(email)
+        if arbitro and check_password_hash(arbitro['arb_senha'], senha):
+            # Guarda o tipo do usuário na sessão
+            session['user_tipo'] = "arbitro"
+            login_user(Arbitro.get(arbitro['arb_id']))
+            return redirect(url_for('home'))
+
+        if contratante and check_password_hash(contratante['con_senha'], senha):
+            # Guarda o tipo do usuário na sessão
+            session['user_tipo'] = "contratante"
+            login_user(Contratante.get(contratante['con_id']))
             return redirect(url_for('home'))
         
         else:
@@ -53,15 +66,23 @@ def cadastro():
         senha = request.form['senha']
         tipo = request.form['tipo']
 
-        if not User.exists(email):
-            user = User(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha, tipo=tipo)
-            user.add_usuario()            
-            # logar o usuário após cadatro
-            login_user(user)
-            return redirect(url_for('login'))
+        if Arbitro.exists(email) or Contratante.exists(email):
+            return "Email já cadastrado!", 400
         
         else:
-            flash("Email já cadastrado")
+            if tipo == "arbitro":
+                user = Arbitro(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha)
+                user.add_arbitro()            
+                # logar o usuário após cadatro
+                login_user(user)
+                return redirect(url_for('login'))
+            
+            else:
+                user = Contratante(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha)
+                user.add_contratante()            
+                # logar o usuário após cadatro
+                login_user(user)
+                return redirect(url_for('login'))
 
     return render_template('login.html')
 
