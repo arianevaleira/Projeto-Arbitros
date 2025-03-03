@@ -1,17 +1,18 @@
-
 from flask import Flask, redirect, render_template, url_for, request, flash, session
 from werkzeug.security import check_password_hash
 from models.arbitro import Arbitro
 from models.contratante import Contratante
 from flask_login import LoginManager, login_user, login_required, logout_user
-
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'muitodificil'
-
+import mysql.connector
 
 login_manager = LoginManager()
+
+app = Flask(__name__)
+
 login_manager.init_app(app)
+
+app.config['SECRET_KEY'] = 'muitodificil'
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -24,7 +25,7 @@ def load_user(user_id):
 
 #primeira pagina (de abertura)
 @app.route('/')
-def index():
+def inicial():
     return render_template('index.html')
 
 
@@ -52,6 +53,7 @@ def login():
         else:
             flash("Email ou senha inválidos")
     return render_template('login.html')
+
 
 
 #Pagina de cadastro
@@ -89,42 +91,48 @@ def cadastro():
 
 #Pagina principal (usuario)
 @app.route('/home', methods=['GET', 'POST'])
-#@login_required lembrar de apagar  
+@login_required 
 def home():
     return render_template('home.html')
 
 
 #Pagina sobre (informações)
 @app.route('/sobre')
-def sobre():
+def sobre(): 
     return render_template('sobre.html')
 
 
 #Pagina de solicitação (Cadastrar partidas)
 @app.route('/solicitacao')
+@login_required
 def solicitacao():
     return render_template('solicitacao.html')
 
 
 #Pagina onde ficará a galeria (fotos das partidas)
 @app.route('/partidas')
+@login_required
 def partidas():
     return render_template('partidas.html')
 
-#Pagina onde sera o chat (mensagens)
-@app.route('/chat')
-def chat():
-    return render_template('mensagem.html')
-
 #Pagina onde ficara a alteração de dados do usurio (editar)
 @app.route('/configuracoes')
+@login_required
 def configuracoes():
     return render_template('configuracao.html')
 
 
 #Pagina onde ficara as notificações do usuario
 @app.route('/notificacoes')
+@login_required
 def notificacoes():
     return render_template('notificacoes.html')
+
+@app.route('/saiba-mais')
+def saiba_mais():
+    return render_template('saiba_mais.html')
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
