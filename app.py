@@ -132,6 +132,12 @@ def notificacoes():
 def saiba_mais():
     return render_template('saiba_mais.html')
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 
 
 if __name__ == '__main__':
