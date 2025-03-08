@@ -44,7 +44,7 @@ def login():
             login_user(Arbitro.get(arbitro['arb_id']))
             return redirect(url_for('home'))
 
-        if contratante and check_password_hash(contratante['con_senha'], senha):
+        elif contratante and check_password_hash(contratante['con_senha'], senha):
             # Guarda o tipo do usuário na sessão
             session['user_tipo'] = "contratante"
             login_user(Contratante.get(contratante['con_id']))
@@ -66,12 +66,13 @@ def cadastro():
         cpf = request.form['cpf']
         telefone = request.form['telefone']
         senha = request.form['senha']
+        conf_senha = request.form['confirmaSenha']
         tipo = request.form['tipo']
 
         if Arbitro.exists(email) or Contratante.exists(email):
             return "Email já cadastrado!", 400
         
-        else:
+        elif senha==conf_senha:
             if tipo == "arbitro":
                 user = Arbitro(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha)
                 user.add_arbitro()            
@@ -85,6 +86,10 @@ def cadastro():
                 # logar o usuário após cadatro
                 login_user(user)
                 return redirect(url_for('login'))
+            
+        else:
+            flash("As senhas não são equivalentes")
+            return redirect (url_for('cadastro'))
 
     return render_template('login.html')
 
@@ -132,6 +137,11 @@ def notificacoes():
 def saiba_mais():
     return render_template('saiba_mais.html')
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
