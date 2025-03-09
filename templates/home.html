@@ -22,8 +22,8 @@
                     <li class="nav-item"><a class="nav-link" href="{{url_for('sobre')}}">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('solicitacao')}}">Solicitações</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('notificacoes')}}">Notificações</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes')}}">Configurações</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('partidas')}}">Partidas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes')}}">Configurações</a></li>
                     <li class="nav-item logout-container">
                         <a class="nav-link logout-icon" href="{{url_for('logout')}}" title="Sair">
                             <i class="bi bi-box-arrow-right"></i> Sair 
@@ -64,21 +64,19 @@
         <div class="comments-section">
             <h2>Comentários</h2>
             <div class="comments-list">
-                <div class="comment"><strong>Lucas Mendes:</strong> Excelente plataforma! Fácil de usar e eficiente.</div>
-                <div class="comment"><strong>Maria Oliveira:</strong> Gostei muito da organização e praticidade. Recomendo!</div>
-                <div class="comment"><strong>João Silva:</strong> Facilitou muito a comunicação entre os árbitros.</div>
-                <div class="comment"><strong>Ana Costa:</strong> Atendimento rápido e eficiente. Parabéns!</div>
-                <div class="comment"><strong>Pedro Santos:</strong> Interface intuitiva e de fácil acesso.</div>
-                <div class="comment"><strong>Carla Lima:</strong> Melhor solução para gerenciar eventos esportivos!</div>
+                {% for comentario in lista %}
+                <div class="comment"><strong>{{comentario.usuario}}:</strong> {{comentario.comentario}}</div>
+                {%endfor%}
             </div>
             <div class="show-more">
                 <button id="toggle-button">Ver mais...</button>
                 <button id="show-less-button" style="display: none;">Ver menos</button>
             </div>
             <div class="comment-input">
-                <!-- Mudar para forms -->
-                <textarea placeholder="Escreva um comentário..."></textarea>
-                <button type="submit">➤</button>
+                 <form action="{{url_for('comentarios')}}" method="post">
+                    <textarea placeholder="Escreva um comentário..." name="conteudo"></textarea>
+                    <button type="submit">➤</button>
+                 </form>
             </div>
         </div>
     </div>
