@@ -44,7 +44,7 @@ def login():
             login_user(Arbitro.get(arbitro['arb_id']))
             return redirect(url_for('home'))
 
-        elif contratante and check_password_hash(contratante['con_senha'], senha):
+        if contratante and check_password_hash(contratante['con_senha'], senha):
             # Guarda o tipo do usuário na sessão
             session['user_tipo'] = "contratante"
             login_user(Contratante.get(contratante['con_id']))
@@ -66,13 +66,12 @@ def cadastro():
         cpf = request.form['cpf']
         telefone = request.form['telefone']
         senha = request.form['senha']
-        conf_senha = request.form['confirmaSenha']
         tipo = request.form['tipo']
 
         if Arbitro.exists(email) or Contratante.exists(email):
             return "Email já cadastrado!", 400
         
-        elif senha==conf_senha:
+        else:
             if tipo == "arbitro":
                 user = Arbitro(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha)
                 user.add_arbitro()            
@@ -86,10 +85,6 @@ def cadastro():
                 # logar o usuário após cadatro
                 login_user(user)
                 return redirect(url_for('login'))
-            
-        else:
-            flash("As senhas não são equivalentes")
-            return redirect (url_for('cadastro'))
 
     return render_template('login.html')
 
@@ -103,9 +98,15 @@ def home():
 
 #Pagina sobre (informações)
 @app.route('/sobre')
+@login_required
 def sobre(): 
     return render_template('sobre.html')
 
+
+#Pagina Sobre (Fora do Login)
+@app.route('/sobre_inicial')
+def sobre_inicial():
+    return render_template('sobre_inicial.html')
 
 #Pagina de solicitação (Cadastrar partidas)
 @app.route('/solicitacao')
@@ -137,11 +138,21 @@ def notificacoes():
 def saiba_mais():
     return render_template('saiba_mais.html')
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('login'))
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
 
 
 if __name__ == '__main__':
