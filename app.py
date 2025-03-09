@@ -77,8 +77,8 @@ def cadastro():
 @app.route('/home', methods=['GET', 'POST'])
 @login_required 
 def home():
-    lista = Comentario.listar()
-    return render_template('home.html', lista=lista)
+    comentarios = Comentario.listar()
+    return render_template('home.html', comentarios=comentarios)
 
 
 #Pagina sobre (informações)
@@ -103,11 +103,10 @@ def solicitacao():
 @app.route('/comentarios', methods=['POST'])
 @login_required
 def comentarios():
-    if request.method == 'POST':
-        conteudo = request.form['conteudo']
-        usu_id = current_user.get_id()
-        Comentario.add_comentario(conteudo, usu_id)
-    return render_template('home.html')
+    conteudo = request.form['conteudo']
+    usu_id = current_user.get_id()
+    Comentario.add_comentario(conteudo, usu_id)
+    return redirect (url_for('home'))
 
 
 #Pagina onde ficará a galeria (fotos das partidas)
