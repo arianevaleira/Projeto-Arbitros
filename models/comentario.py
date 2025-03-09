@@ -1,38 +1,40 @@
-#como eu pensei em fazer 
 from models import conectar_db
 
 class Comentario:
-    def __init__(self, user_id, user_tipo, comentario):
-        self.user_id = user_id
-        self.user_tipo = user_tipo
-        self.comentario = comentario
-
-    def salvar(self):
-        conn = conectar_db()
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO tb_comentarios (user_id, user_tipo, comentario) VALUES (%s, %s, %s)",
-            (self.user_id, self.user_tipo, self.comentario)
-        )
+        
+    @classmethod
+    def add_comentario(cls, conteudo, usu_id):
+        conn = conectar_db()  
+        cursor = conn.cursor(dictionary=True)      
+        cursor.execute("INSERT INTO tb_comentarios(com_conteudo, com_usu_id) VALUES(%s,%s)", (conteudo, usu_id,))
         conn.commit()
-        cursor.close()
         conn.close()
-
-    @staticmethod
-    def listar():
+        cursor.close()
+        return True
+    
+    @classmethod
+    def listar(cls):
         conn = conectar_db()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("""
-            SELECT c.comentario, 
-                   a.arb_nome AS nome_arbitro, 
-                   con.con_nome AS nome_contratante, 
-                   c.user_tipo
-            FROM tb_comentarios c
-            LEFT JOIN tb_arbitros a ON c.user_id = a.arb_id AND c.user_tipo = 'arbitro'
-            LEFT JOIN tb_contratantes con ON c.user_id = con.con_id AND c.user_tipo = 'contratante'
-            ORDER BY c.com_id DESC
-        """)
+        cursor.execute("SELECT usu_nome as usuario, com_conteudo as comentario FROM tb_comentarios JOIN tb_usuarios ON usu_id = com_usu_id")
         comentarios = cursor.fetchall()
         cursor.close()
         conn.close()
         return comentarios
+    # def __init__(self, usu_id, conteudo):
+    #     self.usu_id = usu_id
+    #     self.conteudo = conteudo
+
+
+    # def add_comentario(self):
+    #     conn = conectar_db()
+    #     cursor = conn.cursor()
+    #     cursor.execute(
+    #         "INSERT INTO tb_comentarios (com_conteudo, com_usu_id) VALUES (%s, %s)",
+    #         (self.usu_id, self.conteudo)
+    #     )
+    #     conn.commit()
+    #     cursor.close()
+    #     conn.close()
+
+    
