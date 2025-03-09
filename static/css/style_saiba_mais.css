@@ -1,0 +1,143 @@
+/* Resetando margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #E0F2F1;
+    color: #004D40;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 18px; /* Aumentando o tamanho da fonte */
+}
+
+h1, h2 {
+    font-size: 2rem; /* Aumentando o tamanho dos títulos */
+}
+
+h3, h4, h5 {
+    font-size: 1.5rem; /* Aumentando o tamanho das fontes menores */
+}
+
+.navbar, footer {
+    background-color: #00796B;
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0;
+    color: white;
+}
+
+footer p {
+    color: white;
+}
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: #00796B;
+    color: white;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.feature, .highlight {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.feature img, .highlight img {
+    max-width: 300px;
+    border-radius: 10px;
+}
+
+.btn-custom {
+    background-color: #00796B;
+    color: white;
+    padding: 12px 24px; /* Aumentando o tamanho do botão */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-custom:hover {
+    background-color: #004D40;
+    color: white;
+}
+
+.wellbeing-section {
+    text-align: center;
+    padding: 60px 20px;
+    background: #02b49f9f;
+    color: #212121;
+    margin-bottom: 30px;
+}
+
+.wellbeing-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.wellbeing-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1rem; /* Aumentando o tamanho da fonte dos cards */
+}
+
+.wellbeing-card img {
+    max-width: 200px;
+    margin-bottom: 15px;
+}
+
+.highlight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.highlight div {
+    width: 50%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .feature, .highlight {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .highlight div {
+        width: 100%;
+        text-align: center;
+    }
+
+    .wellbeing-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .wellbeing-card {
+        width: 80%;
+    }
+}
