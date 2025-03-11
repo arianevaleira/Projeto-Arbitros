@@ -22,7 +22,7 @@ class Notificacao:
     def listar(cls, usu_id):
         conn = conectar_db()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT not_id as id, not_conteudo as conteudo, not_data as data FROM tb_notificacoes join tb_usuarios on usu_id = not_usu_id where usu_id = %s ", (usu_id,))
+        cursor.execute("SELECT not_id as id, not_conteudo as conteudo, not_data as data FROM tb_notificacoes where not_usu_id = %s ", (usu_id,))
         notificacoes = cursor.fetchall()
         cursor.close()
         conn.close()
