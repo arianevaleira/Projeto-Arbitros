@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_configuracao.css') }}">
+</head>
+<body>
+    {% extends "home.html" %}
+
+    {% block conteudo %}
+    <div class="profile-form-container">
+        <!-- <div class="profile-card">
+            <div class="user-image">
+                <img src="path/to/user/image.jpg" alt="Imagem do Usuário" class="img-circle">
+            </div>
+            <h2>Perfil do Usuário</h2>
+            <p><strong>Nome:</strong> {{ user._nome }}</p>
+            <p><strong>Email:</strong> {{ user._email }}</p>
+            <p><strong>Data de Registro:</strong> {{ user.data_registro }}</p>
+            <p><strong>Telefone:</strong> {{ user._telefone }}</p>
+        </div> -->
+        <div class="form-container">
+            <h1 class="form-title">Configuração do Perfil</h1>
+            <form action="#">
+                <div class="infor_perfil-group">
+                    <div class="infor_perfil">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" value="{{ user._nome }}" placeholder="Digite seu nome">
+                    </div>
+                </div>
+                <div class="infor_perfil-group">
+                    <div class="infor_perfil">
+                        <label for="cep">CEP</label>
+                        <input type="text" id="cep" name="cep" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
+                    </div>
+                </div>
+                <div class="infor_perfil">
+                    <label for="sobre">Sobre</label>
+                    <textarea id="sobre" placeholder="Fale um pouco sobre você">{{ user.sobre }}</textarea>
+                </div>
+                <div class="infor_perfil-group">
+                    <div class="infor_perfil">
+                        <label for="estado">Estado</label>
+                        <input type="text" id="estado" name="estado" value="{{ user.estado }}" placeholder="Digite seu estado">
+                    </div>
+                    <div class="infor_perfil">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" name="cidade" value="{{ user.cidade }}" placeholder="Digite sua cidade">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="reset" class="btn-reset">Redefinir</button>
+                    <button type="submit" class="btn-submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function buscaEndereco(cep) {
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById('estado').value = data.uf;
+                        document.getElementById('cidade').value = data.localidade;
+                    } else {
+                        alert('CEP não encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                });
+        }
+    </script>
+    {% endblock %}
+</body>
+</html>
+
+
