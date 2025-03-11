@@ -8,7 +8,7 @@ usu_id int auto_increment primary key not null,
 usu_nome varchar(45) not null,
 usu_email varchar(155) not null,
 usu_cpf varchar(45) not null,
-usu_telefone varchar(45) not null,
+usu_telefone varchar(45) not null, 
 usu_senha text not null,
 usu_tipo enum ('arbitro', 'contratante')
 );
@@ -46,4 +46,12 @@ com_id int auto_increment primary key not null,
 com_conteudo text not null,
 com_usu_id int not null,
 foreign key (com_usu_id) references tb_usuarios(usu_id)
+);
+
+create table tb_notificacoes (
+not_id int auto_increment primary key not null,
+not_usu_id int not null,
+not_conteudo text not null,
+not_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+foreign key (not_usu_id) references tb_usuarios(usu_id)
 );
