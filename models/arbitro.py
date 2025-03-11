@@ -20,5 +20,15 @@ class Arbitro():
         conn.close()
         cursor.close()
         return True
+    
+    @classmethod
+    def listar(cls):
+        conn = conectar_db()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT arb_id as id, usu_nome as nome FROM tb_arbitros JOIN tb_usuarios ON usu_id = arb_usu_id")
+        arbitros = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return arbitros
 
     
