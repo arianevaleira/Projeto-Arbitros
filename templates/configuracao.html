@@ -5,74 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuração</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style_configuracao.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_configuracao.css') }}">
 </head>
 <body>
     {% extends "home.html" %}
 
     {% block conteudo %}
-    <div class="form-container">
-        <h1 class="form-title">Configuração do Perfil</h1> <!-- Título do formulário -->
-        
-        <form action="#">
-            <div class="foto_perfil">
-                <div class="photo-circle">A</div>
-                <button type="button" class="alterar-btn">Alterar</button>
+    <div class="profile-form-container">
+        <!-- <div class="profile-card">
+            <div class="user-image">
+                <img src="path/to/user/image.jpg" alt="Imagem do Usuário" class="img-circle">
             </div>
-        
-            <div class="infor_perfil-group">
-                <div class="infor_perfil">
-                    <label for="nome">Nome</label>
-                    <input type="text" id="nome" placeholder="Digite seu nome">
+            <h2>Perfil do Usuário</h2>
+            <p><strong>Nome:</strong> {{ user._nome }}</p>
+            <p><strong>Email:</strong> {{ user._email }}</p>
+            <p><strong>Data de Registro:</strong> {{ user.data_registro }}</p>
+            <p><strong>Telefone:</strong> {{ user._telefone }}</p>
+        </div> -->
+        <div class="form-container">
+            <h1 class="form-title">Configuração do Perfil</h1>
+            <form action="#">
+                <div class="infor_perfil-group">
+                    <div class="infor_perfil">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" value="{{ user._nome }}" placeholder="Digite seu nome">
+                    </div>
                 </div>
-                
-                <div class="infor_perfil">
-                    <label for="sobrenome">Sobrenome</label>
-                    <input type="text" id="sobrenome" placeholder="Digite seu sobrenome">
+                <div class="infor_perfil-group">
+                    <div class="infor_perfil">
+                        <label for="certificado">Certificado</label>
+                        <input type="file" id="certificado" name="certificado">
+                    </div>
+                    <div class="infor_perfil">
+                        <label for="cep">CEP</label>
+                        <input type="text" id="cep" name="cep" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
+                    </div>
                 </div>
-            </div>
-        
-            <div class="infor_perfil">
-                <label for="sobre">Sobre</label>
-                <textarea id="sobre" placeholder="Fale um pouco sobre você"></textarea>
-            </div>
-        
-            <div class="infor_perfil-group">
                 <div class="infor_perfil">
-                    <label for="pronome">Adicione seu pronome</label>
-                    <select id="pronome">
-                        <option>Ele</option>
-                        <option>Ela</option>
-                    </select>
+                    <label for="sobre">Sobre</label>
+                    <textarea id="sobre" placeholder="Fale um pouco sobre você">{{ user.sobre }}</textarea>
                 </div>
-        
-                <div class="infor_perfil">
-                    <label for="area">Adicione sua área de atuação</label>
-                    <select id="area">
-                        <option>Árbitro</option>
-                        <option>Contratante</option>
-                    </select>
+                <div class="infor_perfil-group">
+                    <div class="infor_perfil">
+                        <label for="estado">Estado</label>
+                        <input type="text" id="estado" name="estado" value="{{ user.estado }}" placeholder="Digite seu estado">
+                    </div>
+                    <div class="infor_perfil">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" name="cidade" value="{{ user.cidade }}" placeholder="Digite sua cidade">
+                    </div>
                 </div>
-            </div>
-        
-            <div class="infor_perfil">
-                <label for="site">Email</label>
-                <input type="text" id="Email" placeholder="Adicione seu email">
-            </div>
-        
-            <div class="infor_perfil">
-                <label for="username">Nome de usuário</label>
-                <input type="text" id="username" placeholder="Digite seu nome de usuário">
-            </div>
-        
-            <div class="buttons">
-                <button type="reset" class="btn-reset">Redefinir</button>
-                <button type="submit" class="btn-submit">Salvar</button>
-            </div>
-        </form>
+                <div class="buttons">
+                    <button type="reset" class="btn-reset">Redefinir</button>
+                    <button type="submit" class="btn-submit">Salvar</button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <script>
+        function buscaEndereco(cep) {
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById('estado').value = data.uf;
+                        document.getElementById('cidade').value = data.localidade;
+                    } else {
+                        alert('CEP não encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                });
+        }
+    </script>
     {% endblock %}
 </body>
 </html>
+
+
