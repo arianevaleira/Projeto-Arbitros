@@ -4,6 +4,7 @@ from models.arbitro import Arbitro
 from models.contratante import Contratante
 from models.usuario import Usuario
 from models.comentario import Comentario
+from models.notificacao import Notificacao
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 login_manager = LoginManager()
@@ -116,17 +117,26 @@ def partidas():
     return render_template('partidas.html')
 
 #Pagina onde ficara a alteração de dados do usurio (editar)
-@app.route('/configuracoes')
+@app.route('/configuracoes', methods=['GET', 'POST'])
 @login_required
 def configuracoes():
-    return render_template('configuracao.html')
+    user_data = Usuario.get(current_user.get_id())
+    return render_template('configuracao.html', user=user_data)
 
 
 #Pagina onde ficara as notificações do usuario
 @app.route('/notificacoes')
 @login_required
 def notificacoes():
-    return render_template('notificacoes.html')
+    usu_id = current_user.get_id()
+    notificacoes = Notificacao.listar(usu_id)
+    return render_template('notificacoes.html', notificacoes=notificacoes)
+
+@app.route('/excluir_notificacoes/<int:id>')
+@login_required
+def excluir_notificacoes(id):
+    Notificacao.delete(id)
+    return redirect (url_for('notificacoes'))
 
 @app.route('/saiba-mais')
 def saiba_mais():
@@ -147,6 +157,9 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/teste')
+def teste():
+    return render_template('teste.html')
 
 
 if __name__ == '__main__':
