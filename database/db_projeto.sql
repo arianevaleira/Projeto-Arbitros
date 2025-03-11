@@ -32,12 +32,10 @@ sol_id int auto_increment primary key not null,
 sol_data date not null,
 sol_inicio time not null,
 sol_termino time not null,
-sol_local varchar(255),
-sol_modalidade varchar(45) not null,
 sol_descricao text,
 sol_con_id int not null,
-foreign key (sol_con_id) references tb_contratantes(con_id),
 sol_arb_id int not null,
+foreign key (sol_con_id) references tb_contratantes(con_id),
 foreign key (sol_arb_id) references tb_arbitros(arb_id)
 );
 
