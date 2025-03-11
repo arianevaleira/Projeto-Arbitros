@@ -140,14 +140,33 @@ def comentarios():
 @login_required
 def partidas():
     return render_template('partidas.html')
+@app.route('/configuracoes')
 
-#Pagina onde ficara a alteração de dados do usurio (editar)
-@app.route('/configuracoes', methods=['GET', 'POST'])
 @login_required
-def configuracoes():
-    user_data = Usuario.get(current_user.get_id())
-    return render_template('configuracao.html', user=user_data)
+def configuracoes_dinamica():
+    arbitros = Arbitro.listar()
+    if session.get('user_tipo') == "contratante":  # Se o usuário for contratante
+        return redirect(url_for('configuracoes_con'))
+    elif session.get('user_tipo') == "arbitro":  # Se o usuário for árbitro
+        return redirect(url_for('configuracoes_arb', arbitros=arbitros))
+    else:
+        flash("Tipo de usuário não reconhecido.")
+        return redirect(url_for('home'))  
 
+
+@app.route('/configuracoes_arb', methods=['GET', 'POST'])
+@login_required
+def configuracoes_arb():
+    if session.get('user_tipo') != "arbitro":
+        return redirect(url_for('configuracoes_con'))
+    
+    user_data = Usuario.get(current_user.get_id())
+    return render_template('configuracao_arb.html', user=user_data)
+
+@app.route('/configuracoes_con')
+@login_required
+def configuracoes_con():
+    return render_template('configuracao_con.html', user=current_user)
 
 #Pagina onde ficara as notificações do usuario
 @app.route('/notificacoes')
@@ -189,3 +208,4 @@ def teste():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
