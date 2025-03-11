@@ -5,6 +5,7 @@ from models.contratante import Contratante
 from models.usuario import Usuario
 from models.comentario import Comentario
 from models.notificacao import Notificacao
+from models.solicitacao import Solicitacao
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 login_manager = LoginManager()
@@ -36,6 +37,10 @@ def login():
 
         user = Usuario.get_by_email(email)
         if user and check_password_hash(user['usu_senha'], senha):
+            if user['usu_tipo'] == "arbitro":
+                session['user_tipo'] = "arbitro"
+            elif user['usu_tipo'] == "contratante":
+                session['user_tipo'] = "contratante"
             login_user(Usuario.get(user['usu_id']))
             return redirect(url_for('home'))
         
@@ -95,10 +100,30 @@ def sobre_inicial():
     return render_template('sobre_inicial.html')
 
 #Pagina de solicitação (Cadastrar partidas)
-@app.route('/solicitacao')
+@app.route('/solicitacao', methods=['GET', 'POST'])
 @login_required
 def solicitacao():
-    return render_template('solicitacao.html')
+    arbitros = Arbitro.listar()
+    if session.get('user_tipo') != "contratante":
+        return redirect(url_for('solicitacao_arbitro'))
+    if request.method == 'POST':
+        arb_id = request.form['arbitro']
+        descricao = request.form['descricao']
+        data = request.form['data']
+        inicio = request.form['inicio']
+        fim = request.form['fim']
+        con_id = current_user.get_id()
+        Solicitacao.criar_solicitacao(data, inicio, fim, descricao, con_id, arb_id)
+        Notificacao.notificacao_arbitro(con_id, arb_id)
+    return render_template('solicitacao.html', arbitros=arbitros)
+
+@app.route('/solicitacao_arbitro')
+def solicitacao_arbitro():
+    if session.get('user_tipo') != "arbitro":
+        return redirect(url_for('solicitacao'))
+    arb_id = current_user.get_id()
+    solicitacoes = Solicitacao.listar(arb_id)
+    return render_template('solicitacao_arbitro.html', solicitacoes=solicitacoes)
 
 
 @app.route('/comentarios', methods=['POST'])
