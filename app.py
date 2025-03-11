@@ -140,8 +140,9 @@ def comentarios():
 @login_required
 def partidas():
     return render_template('partidas.html')
-@app.route('/configuracoes')
 
+
+@app.route('/configuracoes')
 @login_required
 def configuracoes_dinamica():
     arbitros = Arbitro.listar()
