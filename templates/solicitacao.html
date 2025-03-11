@@ -94,7 +94,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{url_for('sobre')}}">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('solicitacao')}}">Solicitações</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('notificacoes')}}">Notificações</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes')}}">Configurações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes_dinamica')}}">Configurações</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('partidas')}}">Partidas</a></li>
                 </ul>
             </div>
@@ -105,9 +105,9 @@
             <div class="formulario-evento">
                 <h3>Formulário de Solicitação de Evento</h3>
                 <form action="{{url_for('solicitacao')}}" method="post">
-                    <div class="form-group col-md-6">
-                        <label for="horaFim">Arbitro</label>
-                        <select name="arbitro">
+                    <div class="form-group">
+                        <label for="descricao">Arbitro</label>
+                        <select name="arbitro" class="form-control">
                             {%for arbitro in arbitros%}
                             <option value="{{arbitro.id}}">{{arbitro.nome}}</option>
                             {%endfor%}
