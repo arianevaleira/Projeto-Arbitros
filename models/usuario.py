@@ -78,7 +78,7 @@ class Usuario(UserMixin):
     def get_by_email(cls,email):
         conn = conectar_db()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT usu_id, usu_email, usu_senha FROM tb_usuarios WHERE usu_email = %s", (email,))
+        cursor.execute("SELECT usu_id, usu_email, usu_senha, usu_tipo FROM tb_usuarios WHERE usu_email = %s", (email,))
         user = cursor.fetchone() 
         conn.commit()
         conn.close()
