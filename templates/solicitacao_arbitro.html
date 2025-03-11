@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidas</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_partidas.css')}}">
+</head>
+<body>
+    {% extends "home.html" %}
+    {% block conteudo %}
+    <main>
+        <section class="partidas">
+            <h2>Minhas Solicitações</h2>
+            {%for solicitacao in solicitacoes%}
+            <div class="partida">
+                <h3>Nova solicitação</h3>
+                <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
+                <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
+                <p><strong>Data:</strong> {{solicitacao.data}}</p>
+                <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
+            </div>
+            {%endfor%}
+        </section>
+    </main>
+    {% endblock %}
+    <footer>
+        <p>&copy; 2025 - Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>
