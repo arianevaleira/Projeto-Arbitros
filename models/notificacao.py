@@ -22,15 +22,24 @@ class Notificacao:
     def notificacao_arbitro(cls, con_id, arb_id):
         conn = conectar_db()  
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("select usu_nome from tb_usuarios join tb_contratantes on con_usu_id = usu_id where con_id = %s", (con_id,))
+        cursor.execute("SELECT usu_nome FROM tb_usuarios JOIN tb_contratantes ON con_usu_id = usu_id WHERE con_id = %s", (con_id,))
         nome = cursor.fetchone()
-        cursor.execute("select arb_usu_id as id from tb_arbitros where arb_id = %s", (arb_id,))
+        cursor.execute("SELECT arb_usu_id AS id FROM tb_arbitros WHERE arb_id = %s", (arb_id,))
         id = cursor.fetchone()
+        if not nome or 'usu_nome' not in nome:
+            print(f"DEBUG: Nenhum contratante encontrado para con_id={con_id}")
+            conn.close()
+            return False  # ou lançar uma exceção
+        if not id or 'id' not in id:
+            print(f"DEBUG: Nenhum árbitro encontrado para arb_id={arb_id}")
+            conn.close()
+            return False  # ou lançar uma exceção
         conteudo = f"Você tem uma nova solicitação de {nome['usu_nome']}"
-        cursor.execute("INSERT INTO tb_notificacoes(not_usu_id, not_conteudo) VALUES(%s,%s)", (id['id'], conteudo,))
+        cursor.execute("INSERT INTO tb_notificacoes(not_usu_id, not_conteudo) VALUES(%s, %s)", (id['id'], conteudo))
+
         conn.commit()
-        conn.close()
         cursor.close()
+        conn.close()
         return True
 
     
