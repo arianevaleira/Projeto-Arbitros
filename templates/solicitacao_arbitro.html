@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidas</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_partidas.css')}}">
+    <style>
+        .btn-aceitar{
+            background-color: #00796B;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-aceitar:hover{
+            background-color: #1aa191;
+        }
+        .btn-recusar{
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-aceitar:hover{
+            background-color: rgb(252, 172, 172);
+            color: white;
+        }
+    </style>
 </head>
 <body>
     {% extends "home.html" %}
@@ -12,15 +39,42 @@
     <main>
         <section class="partidas">
             <h2>Minhas Solicitações</h2>
+
             {%for solicitacao in solicitacoes%}
+            {%if solicitacao.status == "Pendente" %}
             <div class="partida">
-                <h3>Nova solicitação</h3>
+                <h3>Status: Pendente</h3>
+                
+                <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
+                <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
+                <p><strong>Data:</strong> {{solicitacao.data}}</p>
+                <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
+                <form action="{{url_for('responder_solicitacao')}}" method="POST">
+                    <input type="hidden" name="sol_id" value="{{ solicitacao.sol_id }}">
+                    <input type="hidden" name="con_id" value="{{ solicitacao.con_id }}">
+                    <button type="submit" name="acao" value="aceitar" class="btn-aceitar">Aceitar</button>
+                    <button type="submit" name="acao" value="recusar" class="btn-recusar">Recusar</button>
+                </form>
+            </div>
+            {%elif solicitacao.status == "Aceita" %}
+            <div class="partida">
+                <h3>Status: Aceita</h3>
                 
                 <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
                 <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
                 <p><strong>Data:</strong> {{solicitacao.data}}</p>
                 <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
             </div>
+            {%else%}
+            <div class="partida">
+                <h3>Status: Recusada</h3>
+                
+                <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
+                <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
+                <p><strong>Data:</strong> {{solicitacao.data}}</p>
+                <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
+            </div>
+            {%endif%}
             {%endfor%}
         </section>
     </main>
