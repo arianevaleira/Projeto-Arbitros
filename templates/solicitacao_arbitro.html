@@ -56,18 +56,9 @@
                     <button type="submit" name="acao" value="recusar" class="btn-recusar">Recusar</button>
                 </form>
             </div>
-            {%elif solicitacao.status == "Aceita" %}
-            <div class="partida">
-                <h3>Status: Aceita</h3>
-                
-                <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
-                <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
-                <p><strong>Data:</strong> {{solicitacao.data}}</p>
-                <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
-            </div>
             {%else%}
             <div class="partida">
-                <h3>Status: Recusada</h3>
+                <h3>Status: {{solicitacao.status}}</h3>
                 
                 <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
                 <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
