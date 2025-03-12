@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuração</title>
+    <title>Configuração do Contratante</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_configuracao.css') }}">
 </head>
@@ -12,23 +12,13 @@
 
     {% block conteudo %}
     <div class="profile-form-container">
-        <!-- <div class="profile-card">
-            <div class="user-image">
-                <img src="path/to/user/image.jpg" alt="Imagem do Usuário" class="img-circle">
-            </div>
-            <h2>Perfil do Usuário</h2>
-            <p><strong>Nome:</strong> {{ user._nome }}</p>
-            <p><strong>Email:</strong> {{ user._email }}</p>
-            <p><strong>Data de Registro:</strong> {{ user.data_registro }}</p>
-            <p><strong>Telefone:</strong> {{ user._telefone }}</p>
-        </div> -->
         <div class="form-container">
             <h1 class="form-title">Configuração do Perfil</h1>
-            <form action="#">
+            <form action="{{ url_for('update_contratante') }}" method="POST">
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" value="{{ user._nome }}" placeholder="Digite seu nome">
+                        <input type="text" id="nome" name="nome" value="{{ user._nome }}" placeholder="Digite seu nome">
                     </div>
                 </div>
                 <div class="infor_perfil-group">
@@ -39,7 +29,7 @@
                 </div>
                 <div class="infor_perfil">
                     <label for="sobre">Sobre</label>
-                    <textarea id="sobre" placeholder="Fale um pouco sobre você">{{ user.sobre }}</textarea>
+                    <textarea id="sobre" name="sobre" placeholder="Fale um pouco sobre você">{{ user.sobre }}</textarea>
                 </div>
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
@@ -79,5 +69,3 @@
     {% endblock %}
 </body>
 </html>
-
-
