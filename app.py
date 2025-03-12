@@ -7,6 +7,8 @@ from models.comentario import Comentario
 from models.notificacao import Notificacao
 from models.solicitacao import Solicitacao
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+import os
+from models import conectar_db
 
 login_manager = LoginManager()
 
@@ -118,6 +120,7 @@ def solicitacao():
     return render_template('solicitacao.html', arbitros=arbitros)
 
 
+
 @app.route('/responder_solicitacao', methods=['POST'])
 def responder_solicitacao():
     sol_id = request.form['sol_id']
@@ -133,7 +136,6 @@ def responder_solicitacao():
 
     return redirect(url_for('solicitacao_arbitro'))
 
-
 @app.route('/solicitacao_arbitro')
 def solicitacao_arbitro():
     if session.get('user_tipo') != "arbitro":
@@ -141,6 +143,7 @@ def solicitacao_arbitro():
     arb_id = current_user.get_id()
     solicitacoes = Solicitacao.listar(arb_id)
     return render_template('solicitacao_arbitro.html', solicitacoes=solicitacoes)
+
 
 
 @app.route('/comentarios', methods=['POST'])
@@ -157,8 +160,7 @@ def comentarios():
 @login_required
 def partidas():
     return render_template('partidas.html')
-
-
+    
 @app.route('/configuracoes')
 @login_required
 def configuracoes_dinamica():
@@ -185,6 +187,64 @@ def configuracoes_arb():
 @login_required
 def configuracoes_con():
     return render_template('configuracao_con.html', user=current_user)
+
+
+@app.route('/update_arbitro', methods=['POST'])
+@login_required
+def update_arbitro():
+    if session.get('user_tipo') != "arbitro":
+        return redirect(url_for('configuracoes_con'))
+
+    nome = request.form['nome']
+    cep = request.form['cep']
+    sobre = request.form['sobre']
+    estado = request.form['estado']
+    cidade = request.form['cidade']
+    
+
+    arquivo = request.files['certificado']
+    caminho_certificado = ""
+
+    if arquivo:
+    
+        diretorio_certificados = 'certificados'  #Pasta onde vai ficar os cerificados 
+        os.makedirs(diretorio_certificados, exist_ok=True)  # Cria a pasta se não existir
+
+        caminho_certificado = os.path.join(diretorio_certificados, arquivo.filename)
+        arquivo.save(caminho_certificado)
+
+        # Atualiza os dados do usuário
+        Arbitro.atualizar_usuario(current_user.get_id(), cep, estado, cidade)
+
+        # Atualiza o caminho do certificado
+        Arbitro.atualizar_certificado(current_user.get_id(), caminho_certificado)
+
+    flash('Perfil atualizado com sucesso!')
+    return redirect(url_for('configuracoes_arb'))
+
+@app.route('/update_contratante', methods=['POST'])
+@login_required
+def update_contratante():
+    nome = request.form['nome']
+    cep = request.form['cep']
+    estado = request.form['estado']
+    cidade = request.form['cidade']
+    sobre = request.form['sobre'] #Depois botar essa coluna no banco 
+
+
+    conn = conectar_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE tb_usuarios 
+        SET usu_nome = %s, usu_cep = %s, usu_estado = %s, usu_cidade = %s 
+        WHERE usu_id = %s
+    """, (nome, cep, estado, cidade, current_user.get_id()))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    flash('Perfil atualizado com sucesso!')
+    return redirect(url_for('configuracoes_con'))
 
 #Pagina onde ficara as notificações do usuario
 @app.route('/notificacoes')
@@ -226,3 +286,4 @@ def teste():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
