@@ -1,18 +1,21 @@
-#secao-noti{
+#secao-noti {
     width: 100%;
-    height: 100vh; /* Ajuste para ocupar a tela inteira */
+    min-height: 100vh; /* Melhor que height: 100vh para evitar cortes */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
 }
-    
 
 .noti-container {
-    width: 60%;
+    width: 90%;
+    max-width: 600px; /* Para evitar que fique muito largo em telas grandes */
     margin-top: 2rem;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Evita que conteúdos se expandam desnecessariamente */
 }
 
 .noti-header {
@@ -20,6 +23,7 @@
     color: #fff;
     padding: 15px;
     text-align: center;
+    font-weight: bold;
 }
 
 .noti {
@@ -28,6 +32,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Garante que o conteúdo não estoure */
 }
 
 .noti:last-child {
@@ -37,6 +42,7 @@
 .noti-content {
     flex: 1;
     margin-right: 15px;
+    word-wrap: break-word; /* Evita textos longos saindo da tela */
 }
 
 .noti-time {
@@ -62,13 +68,21 @@
     color: white;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .noti-container {
+        width: 95%;
+    }
+
     .noti {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .noti {
-        margin-top: 5px;
+    .noti-content {
+        margin-bottom: 5px;
+    }
+
+    .apagar-btn {
+        align-self: flex-end;
     }
 }
