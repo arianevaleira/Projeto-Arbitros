@@ -8,31 +8,35 @@
 </head>
 <body>
     {% extends "home.html" %}
+
     {% block conteudo %}
-    <main>
-        <section class="partidas">
-            <h2>Lista de Partidas</h2>
-            <div class="partida">
-                <h3>Partida #1234</h3>
-                <p><strong>Contratante:</strong> João Silva</p>
-                <p><strong>Árbitro:</strong> Lucas Mendes</p>
-                <p><strong>Descrição:</strong> Jogo amistoso entre equipes locais.</p>
-                <p><strong>Data:</strong> 10/03/2025</p>
-                <p><strong>Horário:</strong> 15:00 - 17:00</p>
+    <div class="container py-5">
+        <h1 class="text-center fw-bold mb-4" style="color: #00796B; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px;">Partidas Agendadas</h1>
+        
+        {% if partidas %}
+            <div class="d-flex flex-column gap-4">
+                {% for partida in partidas %}
+                    <div class="p-4 border rounded shadow bg-white position-relative" style="border-left: 8px solid #004d40;">
+                        <h3 class="text-dark fw-bold" style="font-size: 1.7rem; color: #00796B;  margin-bottom: 10px;">⚽Partida {{ partida.par_id }}</h3>
+                        <p class="mb-2 text-muted" style="font-size: 1rem;">📅 <strong>Data:</strong> {{ partida.sol_data }}</p>
+                        <p class="mb-2 text-muted" style="font-size: 1rem;">⏳ <strong>Início:</strong> {{ partida.sol_inicio }}</p>
+                        <p class="mb-2 text-muted" style="font-size: 1rem;">🏁 <strong>Fim:</strong> {{ partida.sol_termino }}</p>
+                        <p class="mb-2 text-muted" style="font-size: 1rem;">👤 <strong>Contratante:</strong> {{ partida.contratante }}</p>
+                        <span class="badge bg-success position-absolute top-0 end-0 m-3" style="font-size: 1rem; padding: 10px 15px;">{{ partida.status }}</span>
+                    </div>
+                {% endfor %}
             </div>
-            <div class="partida">
-                <h3>Partida #1235</h3>
-                <p><strong>Contratante:</strong> Maria Oliveira</p>
-                <p><strong>Árbitro:</strong> Carlos Souza</p>
-                <p><strong>Descrição:</strong> Torneio regional de futebol.</p>
-                <p><strong>Data:</strong> 12/03/2025</p>
-                <p><strong>Horário:</strong> 18:00 - 20:00</p>
+        {% else %}
+            <div class="alert alert-warning text-center" role="alert" style="font-size: 1.2rem; padding: 15px;">
+                Nenhuma partida encontrada. 
             </div>
-        </section>
-    </main>
+            
+        {% endif %}
+    </div>
+
     {% endblock %}
-    <footer>
-        <p>&copy; 2025 - Todos os direitos reservados</p>
-    </footer>
 </body>
 </html>
+
+
+
