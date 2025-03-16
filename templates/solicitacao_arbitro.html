@@ -3,33 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partidas</title>
+    <title>Solicitações</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_partidas.css')}}">
     <style>
-        .btn-aceitar{
+        /* Estilo dos cartões */
+    
+        .solicitacao-card {
+            background: #fff;
+            width: 90%;
+            max-width: 900px;
+            border-left: 5px solid #00796B;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            position: relative;
+            margin: 10px auto;
+        }
+
+        .solicitacao-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .solicitacao-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #00796B;
+        }
+
+        .solicitacao-card p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        /* Status da Solicitação */
+        .status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #00796B;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Botões */
+        .btn-aceitar, .btn-recusar {
+            border: none;
+            border-radius: 20px;
+            padding: 10px 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        .btn-aceitar {
             background-color: #00796B;
             color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background 0.3s;
         }
-        .btn-aceitar:hover{
+
+        .btn-aceitar:hover {
             background-color: #1aa191;
         }
-        .btn-recusar{
+
+        .btn-recusar {
             background-color: red;
             color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background 0.3s;
         }
-        .btn-recusar:hover{
+
+        .btn-recusar:hover {
             background-color: rgb(252, 172, 172);
-            color: white;
+        }
+
+        /* Alerta de Nenhuma Solicitação */
+        .alerta {
+            text-align: center;
+            background: #ffee54;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px auto;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ícone do alerta */
+        .alerta i {
+            font-size: 24px;
+            color: #d32f2f;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .solicitacao-card, .alerta {
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -38,40 +113,37 @@
     {% block conteudo %}
     <main>
         <section class="partidas">
-            <h2>Minhas Solicitações</h2>
+            <h2 style="text-align: center; color: #00796B;">Minhas Solicitações</h2>
 
-            {%for solicitacao in solicitacoes%}
-            {%if solicitacao.status == "Pendente" %}
-            <div class="partida">
-                <h3>Status: Pendente</h3>
-                
-                <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
-                <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
-                <p><strong>Data:</strong> {{solicitacao.data}}</p>
-                <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
-                <form action="{{url_for('responder_solicitacao')}}" method="POST">
-                    <input type="hidden" name="sol_id" value="{{ solicitacao.sol_id }}">
-                    <input type="hidden" name="con_id" value="{{ solicitacao.con_id }}">
-                    <button type="submit" name="acao" value="aceitar" class="btn-aceitar">Aceitar</button>
-                    <button type="submit" name="acao" value="recusar" class="btn-recusar">Recusar</button>
-                </form>
+            {% if solicitacoes|length == 0 %}
+            <div class="alerta">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                Nenhuma solicitação pendente no momento.
             </div>
-            {%else%}
-            <div class="partida">
-                <h3>Status: {{solicitacao.status}}</h3>
-                
-                <p><strong>Contratante:</strong> {{solicitacao.contratante}}</p>
-                <p><strong>Descrição:</strong> {{solicitacao.descricao}}</p>
-                <p><strong>Data:</strong> {{solicitacao.data}}</p>
-                <p><strong>Horário:</strong> {{solicitacao.incio}} - {{solicitacao.fim}}</p>
-            </div>
-            {%endif%}
-            {%endfor%}
+            {% else %}
+                {% for solicitacao in solicitacoes %}
+                <div class="solicitacao-card">
+                    <div class="status">{{ solicitacao.status }}</div>
+                    
+                    <h3>⚽ {{ solicitacao.descricao }}</h3>
+                    <p><strong>📅 Data:</strong> {{ solicitacao.data }}</p>
+                    <p><strong>⏰ Horário:</strong> {{ solicitacao.incio }} - {{ solicitacao.fim }}</p>
+                    <p><strong>👤 Contratante:</strong> {{ solicitacao.contratante }}</p>
+
+                    {% if solicitacao.status == "Pendente" %}
+                    <form action="{{ url_for('responder_solicitacao') }}" method="POST">
+                        <input type="hidden" name="sol_id" value="{{ solicitacao.sol_id }}">
+                        <input type="hidden" name="con_id" value="{{ solicitacao.con_id }}">
+                        <button type="submit" name="acao" value="aceitar" class="btn-aceitar">Aceitar</button>
+                        <button type="submit" name="acao" value="recusar" class="btn-recusar">Recusar</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
         </section>
     </main>
     {% endblock %}
-    <footer>
-        <p>&copy; 2025 - Todos os direitos reservados</p>
-    </footer>
+    
 </body>
 </html>
