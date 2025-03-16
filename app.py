@@ -7,8 +7,8 @@ from models.comentario import Comentario
 from models.notificacao import Notificacao
 from models.solicitacao import Solicitacao
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-import os
 from models import conectar_db
+import os 
 
 login_manager = LoginManager()
 
@@ -119,8 +119,6 @@ def solicitacao():
         Notificacao.notificacao_arbitro(con_id, arb_id)
     return render_template('solicitacao.html', arbitros=arbitros)
 
-
-
 @app.route('/responder_solicitacao', methods=['POST'])
 def responder_solicitacao():
     sol_id = request.form['sol_id']
@@ -130,6 +128,7 @@ def responder_solicitacao():
     if acao == "aceitar":
         Notificacao.notificacao_contratante(con_id, arb_id, "aceitou")
         Solicitacao.alterar_status(sol_id, "Aceita")
+        Solicitacao.registrar_partida(sol_id, con_id ,arb_id)
     elif acao == "recusar":
         Notificacao.notificacao_contratante(con_id, arb_id, "recusou")
         Solicitacao.alterar_status(sol_id, "Recusada")
@@ -145,7 +144,6 @@ def solicitacao_arbitro():
     return render_template('solicitacao_arbitro.html', solicitacoes=solicitacoes)
 
 
-
 @app.route('/comentarios', methods=['POST'])
 @login_required
 def comentarios():
@@ -159,8 +157,17 @@ def comentarios():
 @app.route('/partidas')
 @login_required
 def partidas():
-    return render_template('partidas.html')
-    
+    user_id = current_user.get_id()
+    if session.get('user_tipo') == "contratante":
+        partidas = Solicitacao.listar_partidas_contratante(user_id)
+    elif session.get('user_tipo') == "arbitro":
+        partidas = Solicitacao.listar_partidas_arbitro(user_id)
+    else:
+        partidas = []
+        
+    return render_template('partidas.html', partidas=partidas)
+
+
 @app.route('/configuracoes')
 @login_required
 def configuracoes_dinamica():
@@ -194,28 +201,20 @@ def configuracoes_con():
 def update_arbitro():
     if session.get('user_tipo') != "arbitro":
         return redirect(url_for('configuracoes_con'))
-
     nome = request.form['nome']
     cep = request.form['cep']
     sobre = request.form['sobre']
     estado = request.form['estado']
     cidade = request.form['cidade']
-    
-
     arquivo = request.files['certificado']
     caminho_certificado = ""
-
     if arquivo:
-    
         diretorio_certificados = 'certificados'  #Pasta onde vai ficar os cerificados 
         os.makedirs(diretorio_certificados, exist_ok=True)  # Cria a pasta se não existir
-
         caminho_certificado = os.path.join(diretorio_certificados, arquivo.filename)
         arquivo.save(caminho_certificado)
-
         # Atualiza os dados do usuário
         Arbitro.atualizar_usuario(current_user.get_id(), cep, estado, cidade)
-
         # Atualiza o caminho do certificado
         Arbitro.atualizar_certificado(current_user.get_id(), caminho_certificado)
 
