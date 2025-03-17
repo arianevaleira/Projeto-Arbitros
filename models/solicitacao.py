@@ -57,16 +57,16 @@ class Solicitacao:
         conn = conectar_db()
         cursor = conn.cursor(dictionary=True)
         
-        cursor.execute('''
-            SELECT p.par_id, s.sol_data, s.sol_inicio, s.sol_termino, u.usu_nome AS arbitro
-            FROM tb_partidas AS p 
-            JOIN tb_solicitacoes AS s ON p.par_sol_id = s.sol_id 
-            JOIN tb_arbitros AS arb ON s.sol_arb_id = arb.arb_id 
-            JOIN tb_usuarios AS u ON arb.arb_usu_id = u.usu_id
-            WHERE arb.arb_id IN (
-                SELECT arb_id FROM tb_arbitros WHERE arb_usu_id = %s
-            )
-        ''', (arb_id,))
+        cursor.execute('''  
+                    SELECT p.par_id, s.sol_data, s.sol_inicio, s.sol_termino, u_arbitro.usu_nome AS arbitro, u_contratante.usu_nome AS contratante FROM tb_partidas AS p 
+                    JOIN tb_solicitacoes AS s ON p.par_sol_id = s.sol_id 
+                    JOIN tb_arbitros AS arb ON s.sol_arb_id = arb.arb_id 
+                    JOIN tb_usuarios AS u_arbitro ON arb.arb_usu_id = u_arbitro.usu_id 
+                    JOIN tb_contratantes AS con ON s.sol_con_id = con.con_id 
+                    JOIN tb_usuarios AS u_contratante ON con.con_usu_id = u_contratante.usu_id
+                    WHERE arb.arb_id IN ( 
+                        SELECT arb_id FROM tb_arbitros WHERE arb_usu_id = %s
+                    );''', (arb_id,))
         
         partidas = cursor.fetchall()
         
