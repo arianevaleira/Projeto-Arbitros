@@ -5,7 +5,6 @@
     box-sizing: border-box;
 }
 
-
 /* Fonte padrão e cor do texto */
 body {
     font-family: 'Roboto', sans-serif;
@@ -19,17 +18,21 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 10px;
 }
 
-.mapa{
 
+.mapa {
+    width: 100%;
 }
 
-.conteiner{
+/* Container para os elementos - flexível */
+.conteiner {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
-
 
 /* Formulário de Evento */
 .formulario-evento {
@@ -58,6 +61,7 @@ body {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 textarea.form-control {
@@ -78,25 +82,33 @@ textarea.form-control {
 }
 
 .btn-success:hover {
-    background-color: #066600;
+    background-color: #01665a;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
     filter: invert(25%) sepia(100%) saturate(6) hue-rotate(-260deg);
-  }
+}
 
 input[type="time"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
     filter: invert(25%) sepia(100%) saturate(6) hue-rotate(-260deg);
-  }
-
-.form-control:required:invalid::-webkit-datetime-edit{
-	color: #1b5d00;
 }
 
+.form-control:required:invalid::-webkit-datetime-edit {
+    color: #1b5d00;
+}
 
 /* Responsividade */
+@media (max-width: 1024px) {
+    .soli-conteiner {
+        padding: 20px;
+    }
+    .formulario-evento {
+        width: 95%;
+    }
+}
+
 @media (max-width: 768px) {
     .notificacoes, .formulario-evento {
         width: 90%;
@@ -109,7 +121,26 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     .btn-success {
         font-size: 0.9rem;
     }
+
+    .form-control {
+        padding: 8px;
+    }
 }
 
+@media (max-width: 480px) {
+    .formulario-evento {
+        padding: 15px;
+    }
 
+    .form-group label {
+        font-size: 0.8rem;
+    }
 
+    .btn-success {
+        font-size: 0.8rem;
+    }
+
+    .form-control {
+        padding: 6px;
+    }
+}
