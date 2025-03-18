@@ -18,9 +18,9 @@
  }
  
  i{
-     width: 7px;
-     height: 7px;
-     background-color: #00796B;
+    width: 7px;
+    height: 7px;
+    background-color: #00796B;
  }
  /*div dentro de conteiner onde esta login e cadastro*/
  .content{
@@ -130,7 +130,7 @@
  .btn-second:hover{
      background-color: #fff;
      border: 1px solid #00796B;
-     color: #58af6b;
+     color: #58af9b;
  }
  
  .form{
@@ -213,11 +213,16 @@
      z-index: -1;
  }
  
- .sing-in-js .second-content .primeira-coluna,
+ 
  .sing-in-js .second-content .segunda-coluna{
      z-index: 11;
  }
  
+ .sing-in-js .second-content .primeira-coluna{
+      z-index: 13;
+ }
+
+
  /*Quando estiver na tela de cadastro*/
  .sing-in-js .content::before{
      left: 60%;
@@ -225,18 +230,30 @@
      border-bottom-left-radius: 0;
      border-top-right-radius: 15px;
      border-bottom-right-radius: 15px;
+     animation: slidein 0.6s;
+     z-index: 12;
  }
- 
+
+ .sing-up-js .content::before {
+    animation: slideout 0.6s forwards; 
+    z-index: 12;
+}
+
  .sing-up-js .second-content .primeira-coluna,
  .sing-up-js .second-content .segunda-coluna{
      z-index: -1;
  }
  
- .sing-up-js .first-content .primeira-coluna,
+ 
  .sing-up-js .first-content .segunda-coluna{
      z-index: 11;
  }
  
+
+ .sing-up-js .first-content .primeira-coluna{
+    z-index: 13;
+ }
+
  .flash {
      color: red;
      margin-top: 8px;
@@ -244,4 +261,63 @@
      margin-left: 8px;
      margin-bottom: 1px;
  }
+
+
+ /*Adicionando as propriedades de animação*/
+@keyframes slidein{
+    from{
+        left: 0;
+        width: 40%;
+    }
+
+    25%{
+        left: 5%;
+        width: 50%;
+    }
+
+    50%{
+        left: 25%;
+        width: 60%;
+    }
+
+    75%{
+        left: 45%;
+        width: 50%;
+    }
+
+    to{
+        left: 60%;
+        width: 40%;
+    }
+
+}
+
  
+
+@keyframes slideout{
+    from{
+        left: 60%;
+        width: 40%;
+    }
+
+    25%{
+        left: 45%;
+        width: 50%;
+    }
+
+    50%{
+        left: 25%;
+        width: 60%;
+    }
+
+    75%{
+        left: 5%;
+        width: 50%;
+    }
+
+    to{
+        left: 0;
+        width: 40%;
+    }
+
+}
