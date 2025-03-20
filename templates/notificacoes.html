@@ -16,6 +16,12 @@
             <div class="noti-header">
                 <h2>Notificações</h2>
             </div>
+            {% if not notificacoes %}
+            <div class="no-notifications">
+                <h3>Você não tem novas notificações!</h3>
+                <p>Fique tranquilo, tudo está em ordem. Volte mais tarde!</p>
+            </div>
+            {% else %}
             {% for notificacao in notificacoes %}
             <div class="noti">
                 <div class="noti-content">
@@ -27,7 +33,8 @@
                     <button class="apagar-btn">&times;</button>
                 </form>
             </div>
-            {%endfor%}
+            {% endfor %}
+            {% endif %}
         </div>
     </section>
     {% endblock %}
