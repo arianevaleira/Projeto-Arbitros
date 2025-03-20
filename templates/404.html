@@ -8,21 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <!-- Espaço para imagem -->
+        
         <div class="image-container">
             <img src="../static/assets/desenho tela inicial (3).png" alt="Logo do CliqueCompra" alt="Página não encontrada">
         </div>
 
-        <!-- Mensagem centralizada -->
+        
         <div class="message">
-            <h2>Oops! Página não encontrada.</h2>
+            <h2>Ops! Página não encontrada.</h2>
             <p>Desculpe, a página que você procura não existe ou foi movida.</p>
+            <p><a class="voltar" href="{{url_for('inicial')}}">Voltar à página inicial</a></p>
         </div>
 
-        <!-- Botão para voltar para a página inicial 
-        <div class="back-button">
-            <a href="/" class="btn">Voltar para o início</a>
-        </div>-->
     </div>
 </body>
 </html>
