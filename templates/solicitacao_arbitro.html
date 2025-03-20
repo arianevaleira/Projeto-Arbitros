@@ -4,121 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitações</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style_partidas.css')}}">
-    <style>
-        /* Estilo dos cartões */
-    
-        .solicitacao-card {
-            background: #fff;
-            width: 90%;
-            max-width: 900px;
-            border-left: 5px solid #00796B;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-            position: relative;
-            margin: 10px auto;
-        }
-
-        .solicitacao-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .solicitacao-card h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            color: #00796B;
-        }
-
-        .solicitacao-card p {
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        /* Status da Solicitação */
-        .status {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #00796B;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        /* Botões */
-        .btn-aceitar, .btn-recusar {
-            border: none;
-            border-radius: 20px;
-            padding: 10px 25px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 16px;
-        }
-
-        .btn-aceitar {
-            background-color: #00796B;
-            color: white;
-        }
-
-        .btn-aceitar:hover {
-            background-color: #1aa191;
-        }
-
-        .btn-recusar {
-            background-color: red;
-            color: white;
-        }
-
-        .btn-recusar:hover {
-            background-color: rgb(252, 172, 172);
-        }
-
-        /* Alerta de Nenhuma Solicitação */
-        .alerta {
-            text-align: center;
-            background: #ffee54;
-            color: #ffffff;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            margin: 20px auto;
-            max-width: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Ícone do alerta */
-        .alerta i {
-            font-size: 24px;
-            color: #d32f2f;
-        }
-
-        /* Responsividade */
-        @media (max-width: 600px) {
-            .solicitacao-card, .alerta {
-                width: 95%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_solicitacao_arb.css')}}">
 </head>
 <body>
     {% extends "home.html" %}
     {% block conteudo %}
     <main>
         <section class="partidas">
-            <h2 style="text-align: center; color: #00796B;">Minhas Solicitações</h2>
+            <h1 class="text-center fw-bold mb-4" style="color: #00796B; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px;">Minhas Solicitações</h1>
 
             {% if solicitacoes|length == 0 %}
-            <div class="alerta">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-                Nenhuma solicitação pendente no momento.
+            <div class="alert alert-info alert-dismissible fade show mx-auto" role="alert" style="font-size: 1.1rem; padding: 15px 25px; max-width: 80%; border-radius: 8px;">
+                <strong>Sem Solicitações Pendentes!</strong> Ainda não há Solicitações registradas.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             {% else %}
                 {% for solicitacao in solicitacoes %}
