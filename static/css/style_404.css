@@ -58,3 +58,12 @@ body {
     background-color: #024139; 
     transform: scale(1.05); 
 }
+
+
+.voltar{
+    color: #1b8377;
+}
+
+.voltar:hover{
+    text-decoration: none;
+}
