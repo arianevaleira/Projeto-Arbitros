@@ -13,7 +13,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{url_for('home')}}">Árbitros +</a>
+            <a class="navbar-brand" href="{{url_for('home')}}"><img class="logo" src="/static/assets/logo (2).png" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -72,12 +72,10 @@
                 <button id="toggle-button">Ver mais...</button>
                 <button id="show-less-button" style="display: none;">Ver menos</button>
             </div>
-            <div class="comment-input">
-                 <form action="{{url_for('comentarios')}}" method="post">
-                    <textarea placeholder="Escreva um comentário..." name="conteudo"></textarea>
-                    <button type="submit">➤</button>
-                 </form>
-            </div>
+            <form class="comment-input" action="{{url_for('comentarios')}}" method="post">
+                <textarea placeholder="Escreva um comentário..." name="conteudo"></textarea>
+                <button type="submit">➤</button>
+            </form>
         </div>
     </div>
     {% endblock %}
