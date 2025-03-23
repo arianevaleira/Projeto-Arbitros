@@ -86,3 +86,29 @@ class Usuario(UserMixin):
         conn.commit()
         conn.close()
         return user
+    
+
+   
+    @classmethod
+    def atualizar_localizacao(cls, user_id, lat, lng):
+        conn = conectar_db()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE tb_usuarios 
+            SET usu_latitude = %s, usu_longitude = %s 
+            WHERE usu_id = %s
+        """, (lat, lng, user_id))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+    @classmethod
+    def listar_localizacoes(cls):
+        conn = conectar_db()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT usu_id, usu_nome, usu_latitude AS lat, usu_longitude AS lng FROM tb_usuarios WHERE usu_latitude IS NOT NULL AND usu_longitude IS NOT NULL")
+        localizacoes = cursor.fetchall()
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return localizacoes
