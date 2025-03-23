@@ -14,6 +14,8 @@ create table if not exists tb_usuarios (
     usu_cep varchar(45),
     usu_cidade varchar(45),
     usu_estado varchar(45),
+    usu_latitude DECIMAL(10, 8),
+	usu_longitude DECIMAL(11, 8),
     usu_tipo enum('arbitro', 'contratante')
 );
 
