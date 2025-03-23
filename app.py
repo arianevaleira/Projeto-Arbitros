@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, flash, session
+from flask import Flask, redirect, render_template, url_for, request, flash, session, jsonify
 from werkzeug.security import check_password_hash
 from models.arbitro import Arbitro
 from models.contratante import Contratante
@@ -50,12 +50,8 @@ def login():
             flash("Email ou senha inválidos")
     return render_template('login.html')
 
-
-
-#Pagina de cadastro
 @app.route('/cadastro', methods=['POST', 'GET'])
 def cadastro():
-
     if request.method == 'POST':
         nome = request.form['nome']
         email = request.form['email']
@@ -65,20 +61,20 @@ def cadastro():
         tipo = request.form['tipo']
 
         if Usuario.exists(email):
-            return "Email já cadastrado!", 400
+            flash("Este e-mail já está cadastrado. Tente outro!", "danger")
+            return redirect(url_for('cadastro'))
+        user = Usuario(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha, tipo=tipo)
+        user.add_usuario()
         
+        if tipo == "contratante":
+            Contratante.add_contratante(user.get_id())
         else:
-            user = Usuario(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha, tipo=tipo)
-            user.add_usuario()            
-            if tipo == "contratante":
-                Contratante.add_contratante(user.get_id())
-            else:
-                Arbitro.add_arbitro(user.get_id())
-            # logar o usuário após cadastro
-            login_user(user)
-            return redirect(url_for('login'))
+            Arbitro.add_arbitro(user.get_id())
+        login_user(user)
+        flash("Cadastro realizado com sucesso! Agora você pode fazer login.", "success")
+        return redirect(url_for('login'))
 
-    return render_template('login.html')
+    return render_template('login.html')  # Continua carregando login.html, pois é onde o formulário está
 
 
 #Pagina principal (usuario)
@@ -196,6 +192,33 @@ def configuracoes_con():
     return render_template('configuracao_con.html', user=current_user)
 
 
+@app.route('/salvar_localizacao', methods=['POST'])
+@login_required
+def salvar_localizacao():
+    data = request.json
+    lat = data.get('lat')
+    lng = data.get('lng')
+
+    if not lat or not lng:
+        return jsonify({"error": "Latitude e longitude são obrigatórias"}), 400
+
+    Usuario.atualizar_localizacao(current_user.get_id(), lat, lng)
+    
+    return jsonify({
+        "message": "Localização salva com sucesso!",
+        "lat": lat,
+        "lng": lng,
+        "nome": current_user._nome
+    }), 200
+
+
+@app.route('/recuperar_localizacoes', methods=['GET'])
+@login_required
+def recuperar_localizacoes():
+    localizacoes = Usuario.listar_localizacoes()
+    return jsonify([{"lat": loc['lat'], "lng": loc['lng'], "nome": loc['nome']} for loc in localizacoes]), 200
+
+
 @app.route('/update_arbitro', methods=['POST'])
 @login_required
 def update_arbitro():
@@ -209,8 +232,8 @@ def update_arbitro():
     arquivo = request.files['certificado']
     caminho_certificado = ""
     if arquivo:
-        diretorio_certificados = 'certificados'  #Pasta onde vai ficar os cerificados 
-        os.makedirs(diretorio_certificados, exist_ok=True)  # Cria a pasta se não existir
+        diretorio_certificados = 'certificados'  
+        os.makedirs(diretorio_certificados, exist_ok=True)  
         caminho_certificado = os.path.join(diretorio_certificados, arquivo.filename)
         arquivo.save(caminho_certificado)
         # Atualiza os dados do usuário
