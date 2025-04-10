@@ -1,6 +1,6 @@
-*-#secao-noti {
+#secao-noti {
     width: 100%;
-    min-height: 100vh; /* Melhor que height: 100vh para evitar cortes */
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,8 +9,8 @@
 }
 
 .noti-container {
-    width: 90%;
-    max-width: 900px; 
+    width: 100%;
+    max-width: 1150px; 
     margin-top: 2rem;
     background-color: #fff;
     border-radius: 8px;
@@ -66,6 +66,16 @@
     font-size: 1.4rem;
     border-radius: 60%;
     color: white;
+}
+
+.no-notifications {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #555;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin: 20px 0;
 }
 
 @media (max-width: 768px) {
