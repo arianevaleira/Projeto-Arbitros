@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuração do Árbitro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_configuracao.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0pUTdpJmnAIw2cGQpu9SZLmCzKnu5HW4&callback=initMap&libraries=marker" defer></script>
 </head>
 <body>
     {% extends "home.html" %}
@@ -45,15 +47,92 @@
                         <input type="text" id="cidade" name="cidade" value="{{ user.cidade }}" placeholder="Digite sua cidade">
                     </div>
                 </div>
+
+                <!-- Mapa para selecionar localização -->
+                <div class="infor_perfil">
+                    <label>Localização no Mapa</label>
+                    <div id="map" style="height: 300px; width: 100%;"></div>
+                    <input type="hidden" id="lat" name="lat">
+                    <input type="hidden" id="lng" name="lng">
+                </div>
+
                 <div class="buttons">
                     <button type="reset" class="btn-reset">Redefinir</button>
-                    <button type="submit" class="btn-submit">Salvar</button>
+                    <button type="button" class="btn-submit" onclick="submitForm()">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
+        let map, marker, coordenadas = null;
+
+        // Função para inicializar o mapa
+        async function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: { lat: lat, lng: lng },
+                        zoom: 12
+                    });
+
+                    // Criando um marcador no local atual
+                    marker = new google.maps.Marker({
+                        position: { lat: lat, lng: lng },
+                        map: map
+                    });
+
+                    // Armazenando latitude e longitude no formulário
+                    document.getElementById("lat").value = lat;
+                    document.getElementById("lng").value = lng;
+
+                    // Adicionando um evento de clique no mapa
+                    map.addListener("click", (event) => {
+                        if (marker) marker.setMap(null); // Remove o marcador anterior
+
+                        coordenadas = { lat: event.latLng.lat(), lng: event.latLng.lng() }; // Atualiza coordenadas
+                        marker = new google.maps.Marker({
+                            position: coordenadas,
+                            map: map
+                        });
+
+                        // Armazenando nova latitude e longitude no formulário
+                        document.getElementById("lat").value = coordenadas.lat;
+                        document.getElementById("lng").value = coordenadas.lng;
+                    });
+                }, () => {
+                    handleLocationError(true);
+                });
+            } else {
+                handleLocationError(false);
+            }
+
+            // Buscar localizações dos usuários
+            fetch('/recuperar_localizacoes')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(loc => {
+                    new google.maps.Marker({
+                        position: { lat: loc.lat, lng: loc.lng },
+                        map: map,
+                        title: loc.nome // Título do marcador
+                    });
+                });
+            })
+            .catch(error => console.error('Erro ao buscar localizações:', error));
+        }
+
+        // Função para lidar com erros de geolocalização
+        function handleLocationError(browserHasGeolocation) {
+            alert(browserHasGeolocation
+                ? "Erro: O serviço de geolocalização falhou."
+                : "Erro: Seu navegador não suporta geolocalização.");
+        }
+
+        // Função para buscar endereço pelo CEP
         function buscaEndereco(cep) {
             fetch(`https://viacep.com.br/ws/${cep}/json/`)
                 .then(response => response.json())
@@ -65,10 +144,41 @@
                         alert('CEP não encontrado.');
                     }
                 })
-                .catch(error => {
-                    console.error('Erro:', error);
-                });
+                .catch(error => console.error('Erro:', error));
         }
+
+        // Função para enviar dados de localização ao servidor
+        function submitForm() {
+            if (coordenadas) {
+                document.getElementById("lat").value = coordenadas.lat;
+                document.getElementById("lng").value = coordenadas.lng;
+                document.querySelector('form').submit(); // Envia o formulário
+            } else {
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Insira Uma Localização no Mapa.',
+                    icon: 'error',
+                    background: '#fff', 
+                    color: '#222', 
+                    confirmButtonColor: '#00796B', 
+                    confirmButtonText: 'Entendi'
+                });
+                // 'success' – ✅ sucesso
+
+                // 'error' – ❌ erro
+
+                // 'warning' – ⚠️ aviso
+
+                // 'info' – ℹ️ informação
+
+                // 'question' – ❓ pergunta
+
+
+            }
+        }
+
+        // Carregar o Google Maps API
+        window.onload = initMap;
     </script>
     {% endblock %}
 </body>
