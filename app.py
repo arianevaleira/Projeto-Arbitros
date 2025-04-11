@@ -61,8 +61,8 @@ def cadastro():
         tipo = request.form['tipo']
 
         if Usuario.exists(email):
-            flash("Este e-mail já está cadastrado. Tente outro!", "danger")
-            return redirect(url_for('cadastro'))
+            return redirect(url_for('cadastro', erro='email'))
+
         user = Usuario(nome=nome, email=email, cpf=cpf, telefone=telefone, senha=senha, tipo=tipo)
         user.add_usuario()
         
@@ -70,12 +70,11 @@ def cadastro():
             Contratante.add_contratante(user.get_id())
         else:
             Arbitro.add_arbitro(user.get_id())
+            
         login_user(user)
-        flash("Cadastro realizado com sucesso! Agora você pode fazer login.", "success")
         return redirect(url_for('login'))
 
-    return render_template('login.html')  # Continua carregando login.html, pois é onde o formulário está
-
+    return render_template('login.html')
 
 #Pagina principal (usuario)
 @app.route('/home', methods=['GET', 'POST'])
@@ -196,12 +195,13 @@ def configuracoes_con():
 @login_required
 def salvar_localizacao():
     data = request.json
-    lat = data.get('lat')
-    lng = data.get('lng')
+    lat = data.get('latitude')
+    lng = data.get('longitude')
 
     if not lat or not lng:
         return jsonify({"error": "Latitude e longitude são obrigatórias"}), 400
 
+    # Atualiza a localização do usuário no banco de dados
     Usuario.atualizar_localizacao(current_user.get_id(), lat, lng)
     
     return jsonify({
@@ -210,7 +210,6 @@ def salvar_localizacao():
         "lng": lng,
         "nome": current_user._nome
     }), 200
-
 
 @app.route('/recuperar_localizacoes', methods=['GET'])
 @login_required
