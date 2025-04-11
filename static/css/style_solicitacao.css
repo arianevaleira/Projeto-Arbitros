@@ -22,19 +22,37 @@ body {
 }
 
 
-.mapa {
-    width: 100%;
-}
-
-/* Container para os elementos - flexível */
 .conteiner {
     display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Alinhar itens para a mesma altura */
     flex-wrap: wrap;
-    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+    margin: 20px auto;
     gap: 20px;
 }
 
-/* Formulário de Evento */
+.formulario-evento {
+    background-color: white;
+    width: 40%;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mapa {
+    width: 55%;
+    display: flex;
+    justify-content: center;
+}
+
+#map {
+    height: 100px; 
+    border-radius: 8px;
+}
+
+/* Formulário de Evento 
 .formulario-evento {
     background-color: white;
     width: 100%;
@@ -42,7 +60,7 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+}*/
 
 .formulario-evento h3 {
     text-align: center;
@@ -59,7 +77,6 @@ body {
 .form-control {
     border-radius: 5px;
     border: 1px solid #ccc;
-    padding: 10px;
     margin-bottom: 15px;
     width: 100%;
 }
