@@ -82,3 +82,45 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
+
+requiredFields.forEach(field => {
+  // Define mensagem personalizada se o campo estiver vazio
+  field.addEventListener('invalid', function () {
+    this.setCustomValidity(`Por favor, preencha o campo "${getFieldLabel(this)}" corretamente.`);
+  });
+
+  // Limpa a mensagem personalizada ao começar a digitar
+  field.addEventListener('input', function () {
+    this.setCustomValidity('');
+  });
+});
+
+// Função para tentar pegar o label associado ao input
+function getFieldLabel(input) {
+  const label = document.querySelector(`label[for="${input.id}"]`);
+  return label ? label.innerText.replace(/:$/, '') : 'obrigatório';
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const erro = urlParams.get('erro');
+
+  if (erro === 'email') {
+      Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'Este e-mail já está cadastrado. Tente outro!',
+          confirmButtonText: 'Entendi',
+          confirmButtonColor: '#00796B'
+      });
+  } else if (erro === 'perfil') {
+      Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'Erro ao definir perfil. Tente novamente.',
+          confirmButtonText: 'Entendi',
+          confirmButtonColor: '#00796B'
+      });
+  }
+});
