@@ -8,7 +8,7 @@ from models.notificacao import Notificacao
 from models.solicitacao import Solicitacao
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import conectar_db
-import os 
+import os #Fazendo o teste
 
 login_manager = LoginManager()
 
