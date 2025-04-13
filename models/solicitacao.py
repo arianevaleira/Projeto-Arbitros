@@ -24,8 +24,8 @@ class Solicitacao:
                           FROM tb_solicitacoes 
                           JOIN tb_arbitros ON arb_id = sol_arb_id 
                           JOIN tb_usuarios ON usu_id = arb_usu_id 
-                          WHERE usu_id = %s 
-                          ORDER BY CASE sol_status WHEN 'Pendente' THEN 1 WHEN 'Aceita' THEN 2 WHEN 'Recusada' THEN 3 END''', (id,))
+                          WHERE usu_id = %s and sol_status in ('Pendente', 'Recusada')
+                          ORDER BY CASE sol_status WHEN 'Pendente' THEN 1 WHEN 'Recusada' THEN 2 END''', (id,))
         solicitacoes = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -44,7 +44,7 @@ class Solicitacao:
             JOIN tb_usuarios AS u ON c.con_usu_id = u.usu_id
             JOIN tb_arbitros AS arb ON s.sol_arb_id = arb.arb_id
             JOIN tb_usuarios AS ar ON arb.arb_usu_id = ar.usu_id
-            WHERE s.sol_con_id = %s
+            WHERE u.usu_id = %s
         ''', (con_id,))
         partidas = cursor.fetchall()
         cursor.close()
@@ -91,11 +91,13 @@ class Solicitacao:
             cursor = conn.cursor(dictionary=True)
 
             # Verificar se o arbitro ta no banco 
-            cursor.execute("SELECT arb_id FROM tb_arbitros WHERE arb_id = %s", (arb_id,))
+            cursor.execute("SELECT arb_id FROM tb_arbitros WHERE arb_usu_id = %s", (arb_id,))
             if not cursor.fetchone():
                 cursor.close()
                 conn.close()
                 raise ValueError("Árbitro não encontrado.")
+            else:
+                id_arb = cursor.fetchone()
 
            #Ver se o contrantante ta tambem
             cursor.execute("SELECT con_id FROM tb_contratantes WHERE con_id = %s", (con_id,))
@@ -115,7 +117,7 @@ class Solicitacao:
             cursor.execute('''
                 INSERT INTO tb_partidas (par_sol_id, par_con_id, par_arb_id, status)
                 VALUES (%s, %s, %s, 'Aceita')
-            ''', (sol_id, con_id, arb_id))
+            ''', (sol_id, con_id, id_arb))
             conn.commit()
             cursor.close()
             conn.close()
