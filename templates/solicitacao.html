@@ -147,10 +147,9 @@
             const horaInicio = this.value;
             const horaFimInput = document.getElementById('horaFim');
     
-            // Defina o min do horário final como o horário inicial
+            // Definindo o mínimo do horário final 
             horaFimInput.min = horaInicio;
             
-            // Se o horário final já estiver definido e for menor que o horário inicial, limpe o campo
             if (horaFimInput.value < horaInicio) {
                 horaFimInput.value = '';
             }
