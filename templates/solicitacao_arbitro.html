@@ -32,6 +32,7 @@
                     <form action="{{ url_for('responder_solicitacao') }}" method="POST">
                         <input type="hidden" name="sol_id" value="{{ solicitacao.sol_id }}">
                         <input type="hidden" name="con_id" value="{{ solicitacao.con_id }}">
+                        <input type="hidden" name="arb_id" value="{{ solicitacao.arb_id }}">
                         <button type="submit" name="acao" value="aceitar" class="btn-aceitar">Aceitar</button>
                         <button type="submit" name="acao" value="recusar" class="btn-recusar">Recusar</button>
                     </form>
