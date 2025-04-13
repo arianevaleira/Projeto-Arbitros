@@ -6,6 +6,7 @@ from models.usuario import Usuario
 from models.comentario import Comentario
 from models.notificacao import Notificacao
 from models.solicitacao import Solicitacao
+from models.partida import Partida
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import conectar_db
 import os 
@@ -117,7 +118,6 @@ def solicitacao():
                 return "Não é possível selecionar um horário que já passou"
         con_id = current_user.get_id()
         Solicitacao.criar_solicitacao(data, inicio, fim, descricao, con_id, arb_id)
-        Notificacao.notificacao_arbitro(con_id, arb_id)
     return render_template('solicitacao.html', arbitros=arbitros, today=today)
 
 @app.route('/responder_solicitacao', methods=['POST'])
@@ -125,11 +125,11 @@ def responder_solicitacao():
     sol_id = request.form['sol_id']
     con_id = request.form['con_id']
     acao = request.form['acao']
-    arb_id = current_user.get_id()
+    arb_id = request.form['arb_id']
     if acao == "aceitar":
         Notificacao.notificacao_contratante(con_id, arb_id, "aceitou")
         Solicitacao.alterar_status(sol_id, "Aceita")
-        Solicitacao.registrar_partida(sol_id, con_id ,arb_id)
+        Partida.registrar_partida(sol_id, con_id ,arb_id)
     elif acao == "recusar":
         Notificacao.notificacao_contratante(con_id, arb_id, "recusou")
         Solicitacao.alterar_status(sol_id, "Recusada")
@@ -160,13 +160,25 @@ def comentarios():
 def partidas():
     user_id = current_user.get_id()
     if session.get('user_tipo') == "contratante":
-        partidas = Solicitacao.listar_partidas_contratante(user_id)
+        partidas = Partida.listar_partidas_contratante(user_id)
     elif session.get('user_tipo') == "arbitro":
-        partidas = Solicitacao.listar_partidas_arbitro(user_id)
+        partidas = Partida.listar_partidas_arbitro(user_id)
     else:
         partidas = []
         
     return render_template('partidas.html', partidas=partidas)
+
+@app.route('/cancelar_partida', methods=['POST'])
+def cancelar_partida():
+    user_id = current_user.get_id()
+    user_tipo = session.get('user_tipo')
+    par_id = request.form['par_id']
+    con_id = request.form['con_id']
+    arb_id = request.form['arb_id']
+    Partida.cancelar_partida(par_id)
+    Notificacao.notificacao_cancelamento(user_tipo, con_id, arb_id, user_id)
+
+    return redirect(url_for('partidas'))
 
 
 @app.route('/configuracoes')
