@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidas Agendadas</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_partidas.css')}}">
+    <style>
+        .btn-cancelar {
+            background-color: #d32f2f;
+            color: white;
+            border-radius: 10px;
+            border-color: none;
+            padding: 8px;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #b71c1c;
+        }
+        
+    </style>
 </head>
 <body>
     {% extends "home.html" %}
@@ -22,7 +36,19 @@
                         <p class="mb-2 text-muted" style="font-size: 1rem;">⏳ <strong>Início:</strong> {{ partida.sol_inicio }}</p>
                         <p class="mb-2 text-muted" style="font-size: 1rem;">🏁 <strong>Fim:</strong> {{ partida.sol_termino }}</p>
                         <p class="mb-2 text-muted" style="font-size: 1rem;">👤 <strong>Contratante:</strong> {{ partida.contratante }}</p>
-                        <span class="badge bg-success position-absolute top-0 end-0 m-3" style="font-size: 1rem; padding: 10px 15px;">ACEITA</span>
+                        <p class="mb-2 text-muted" style="font-size: 1rem;">👤 <strong>Árbitro:</strong> {{ partida.arbitro }}</p>
+                        {% if partida.status == "Agendada" %}
+                        <form action="{{ url_for('cancelar_partida') }}" method="POST">
+                            <input type="hidden" name="par_id" value="{{ partida.par_id }}">
+                            <input type="hidden" name="con_id" value="{{ partida.par_con_id }}">
+                            <input type="hidden" name="arb_id" value="{{ partida.par_arb_id }}">
+                            <button type="submit" class="btn-cancelar">Cancelar Partida</button>
+                        </form>
+                        {% elif partida.status == "Realizada" %}
+                        <span class="badge bg-success position-absolute top-0 end-0 m-3" style="font-size: 1rem; padding: 10px 15px;">{{ partida.status }}</span>
+                        {% else %}
+                        <span class="badge bg-secondary position-absolute top-0 end-0 m-3 background-color-gray" style="font-size: 1rem; padding: 10px 15px;">{{ partida.status }}</span>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
