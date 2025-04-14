@@ -79,6 +79,38 @@ i {
     overflow: hidden;
 }
 
+
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+  border: 1px solid #d32f2f !important;
+  background-color: #fff6f6;
+  outline: none;
+}
+
+/* Mensagem de erro */
+.feedback {
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+  color: #d32f2f;
+}
+
+/* Suavizar transições (opcional) */
+input,
+select,
+textarea {
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Estilo para a div.flash do login */
+.flash {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
 .feedback {
     font-size: 0.85rem;
     color: #e53935;
