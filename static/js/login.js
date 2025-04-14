@@ -2,24 +2,22 @@ var bntSingin = document.querySelector("#singin");
 var bntSingup = document.querySelector("#singup");
 var body = document.querySelector("body");
 
-bntSingin.addEventListener("click", function() {
-    body.className = 'sing-in-js'
+bntSingin.addEventListener("click", function () {
+  body.className = 'sing-in-js';
 });
 
-bntSingup.addEventListener('click', function(){
-    body.className = 'sing-up-js'
+bntSingup.addEventListener("click", function () {
+  body.className = 'sing-up-js';
 });
 
-
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector('form[action*="cadastro"]');
   const senhaInput = form.querySelector('input[name="senha"]');
   const confirmaSenhaInput = form.querySelector('input[name="confirmaSenha"]');
   const telefoneInput = form.querySelector('input[name="telefone"]');
   const cpfInput = form.querySelector('input[name="cpf"]');
 
-  // Mensagem personalizada
+  // Funções de feedback
   const mostrarErro = (input, mensagem) => {
     let feedback = input.nextElementSibling;
     if (!feedback || !feedback.classList.contains('feedback')) {
@@ -29,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     feedback.innerHTML = mensagem;
     feedback.style.color = '#d32f2f';
+    input.classList.add('is-invalid');
   };
 
   const limparErro = (input) => {
@@ -36,9 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (feedback && feedback.classList.contains('feedback')) {
       feedback.textContent = '';
     }
+    input.classList.remove('is-invalid');
   };
 
-  // Máscara de telefone simples
+  // Máscara telefone
   telefoneInput.addEventListener('input', () => {
     let v = telefoneInput.value.replace(/\D/g, '');
     if (v.length > 2) v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
@@ -46,10 +46,30 @@ document.addEventListener('DOMContentLoaded', function () {
     telefoneInput.value = v.slice(0, 14);
   });
 
+  // Máscara CPF/CNPJ
+  cpfInput.addEventListener('input', () => {
+    let valor = cpfInput.value.replace(/\D/g, '');
+
+    if (valor.length <= 11) {
+      // CPF: 000.000.000-00
+      valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+      valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+      valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    } else {
+      // CNPJ: 00.000.000/0000-00
+      valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
+      valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+      valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
+      valor = valor.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+    }
+
+    cpfInput.value = valor.slice(0, 18);
+  });
+
+  // Validação do formulário
   form.addEventListener('submit', (e) => {
     let valido = true;
 
-    // Verifica CPF/CNPJ
     const cpf = cpfInput.value.replace(/\D/g, '');
     if (cpf.length !== 11 && cpf.length !== 14) {
       mostrarErro(cpfInput, 'Insira um CPF (11 dígitos) ou CNPJ (14 dígitos) válido.');
@@ -58,9 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
       limparErro(cpfInput);
     }
 
-    // Verifica senha
     const senha = senhaInput.value;
-    const senhaForte = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{}|\\:;'",.<>/?`~]).{8,}$/;
+    const senhaForte = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\[\]{}|\\:;"',.<>\/?`~]).{8,}$/;
     if (!senhaForte.test(senha)) {
       mostrarErro(senhaInput, 'A senha precisa ter no mínimo 8 caracteres, 1 letra maiúscula, 1 número e 1 caractere especial.');
       valido = false;
@@ -68,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
       limparErro(senhaInput);
     }
 
-    // Confirmação da senha
     if (senha !== confirmaSenhaInput.value) {
       mostrarErro(confirmaSenhaInput, 'As senhas não coincidem!');
       valido = false;
@@ -80,47 +98,53 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
     }
   });
-});
 
-const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
+  // Mensagens de erro personalizadas para campos obrigatórios
+  const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
+  requiredFields.forEach(field => {
+    field.addEventListener('invalid', function () {
+      this.setCustomValidity(`Por favor, preencha o campo "${getFieldLabel(this)}" corretamente.`);
+      this.classList.add('is-invalid');
+    });
 
-requiredFields.forEach(field => {
-  // Define mensagem personalizada se o campo estiver vazio
-  field.addEventListener('invalid', function () {
-    this.setCustomValidity(`Por favor, preencha o campo "${getFieldLabel(this)}" corretamente.`);
+    field.addEventListener('input', function () {
+      this.setCustomValidity('');
+      this.classList.remove('is-invalid');
+    });
   });
 
-  // Limpa a mensagem personalizada ao começar a digitar
-  field.addEventListener('input', function () {
-    this.setCustomValidity('');
-  });
-});
+  function getFieldLabel(input) {
+    const label = document.querySelector(`label[for="${input.id}"]`);
+    return label ? label.innerText.replace(/:$/, '') : 'obrigatório';
+  }
 
-// Função para tentar pegar o label associado ao input
-function getFieldLabel(input) {
-  const label = document.querySelector(`label[for="${input.id}"]`);
-  return label ? label.innerText.replace(/:$/, '') : 'obrigatório';
-}
-
-document.addEventListener("DOMContentLoaded", function () {
+  // Mensagens via URL (SweetAlert2)
   const urlParams = new URLSearchParams(window.location.search);
   const erro = urlParams.get('erro');
 
   if (erro === 'email') {
-      Swal.fire({
-          icon: 'error',
-          title: 'Erro!',
-          text: 'Este e-mail já está cadastrado. Tente outro!',
-          confirmButtonText: 'Entendi',
-          confirmButtonColor: '#00796B'
-      });
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: 'Este e-mail já está cadastrado. Tente outro!',
+      confirmButtonText: 'Entendi',
+      confirmButtonColor: '#00796B'
+    });
   } else if (erro === 'perfil') {
-      Swal.fire({
-          icon: 'error',
-          title: 'Erro!',
-          text: 'Erro ao definir perfil. Tente novamente.',
-          confirmButtonText: 'Entendi',
-          confirmButtonColor: '#00796B'
-      });
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: 'Erro ao definir perfil. Tente novamente.',
+      confirmButtonText: 'Entendi',
+      confirmButtonColor: '#00796B'
+    });
+  } else if (urlParams.get('sucesso') === 'true') {
+    Swal.fire({
+      icon: 'success',
+      title: 'Cadastro realizado!',
+      text: 'Seu cadastro foi concluído com sucesso.',
+      confirmButtonText: 'Entendi',
+      confirmButtonColor: '#00796B'
+    });
   }
 });
