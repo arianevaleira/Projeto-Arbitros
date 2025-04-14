@@ -52,6 +52,7 @@ def login():
             flash("Email ou senha inválidos")
     return render_template('login.html')
 
+
 @app.route('/cadastro', methods=['POST', 'GET'])
 def cadastro():
     if request.method == 'POST':
@@ -74,7 +75,7 @@ def cadastro():
             Arbitro.add_arbitro(user.get_id())
             
         login_user(user)
-        return redirect(url_for('login'))
+        return redirect(url_for('login', sucesso='true'))
 
     return render_template('login.html')
 
