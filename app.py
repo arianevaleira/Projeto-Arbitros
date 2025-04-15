@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, url_for, request, flash, session, jsonify
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
 from models.arbitro import Arbitro
 from models.contratante import Contratante
@@ -7,9 +8,9 @@ from models.comentario import Comentario
 from models.notificacao import Notificacao
 from models.solicitacao import Solicitacao
 from models.partida import Partida
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from models import conectar_db
 from datetime import datetime, date
+from urllib.parse import urlencode
+from models import conectar_db
 import os 
 
 login_manager = LoginManager()
@@ -98,28 +99,34 @@ def sobre():
 def sobre_inicial():
     return render_template('sobre_inicial.html')
 
-#Pagina de solicitação (Cadastrar partidas)
 @app.route('/solicitacao', methods=['GET', 'POST'])
 @login_required
 def solicitacao():
     arbitros = Arbitro.listar()
     if session.get('user_tipo') != "contratante":
         return redirect(url_for('solicitacao_arbitro'))
+
     today = date.today().isoformat()
     now = datetime.now().strftime("%H:%M")
+
     if request.method == 'POST':
         arb_id = request.form['arbitro']
         descricao = request.form['descricao']
         data = request.form['data']
         inicio = request.form['horaInicio']
         fim = request.form['horaFim']
-        if data == today:
-            if inicio < now:
-                return "Não é possível selecionar um horário que já passou"
+
+        if not data or not inicio or not fim:
+            return redirect(url_for('solicitacao', erro='dados_incompletos'))
+
+        if data == today and inicio < now:
+            return redirect(url_for('solicitacao', erro='horario_passado'))
+
         con_id = current_user.get_id()
         Solicitacao.criar_solicitacao(data, inicio, fim, descricao, con_id, arb_id)
-    return render_template('solicitacao.html', arbitros=arbitros, today=today)
+        return redirect(url_for('solicitacao', sucesso='true'))
 
+    return render_template('solicitacao.html', arbitros=arbitros, today=today)
 
 @app.route('/responder_solicitacao', methods=['POST'])
 def responder_solicitacao():
