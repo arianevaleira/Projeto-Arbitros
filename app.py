@@ -9,8 +9,8 @@ from models.solicitacao import Solicitacao
 from models.partida import Partida
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import conectar_db
+from datetime import datetime, date
 import os 
-from datetime import date, datetime
 
 login_manager = LoginManager()
 
@@ -51,7 +51,6 @@ def login():
         else:
             flash("Email ou senha inválidos")
     return render_template('login.html')
-
 
 @app.route('/cadastro', methods=['POST', 'GET'])
 def cadastro():
@@ -121,6 +120,7 @@ def solicitacao():
         Solicitacao.criar_solicitacao(data, inicio, fim, descricao, con_id, arb_id)
     return render_template('solicitacao.html', arbitros=arbitros, today=today)
 
+
 @app.route('/responder_solicitacao', methods=['POST'])
 def responder_solicitacao():
     sol_id = request.form['sol_id']
@@ -136,6 +136,7 @@ def responder_solicitacao():
         Solicitacao.alterar_status(sol_id, "Recusada")
 
     return redirect(url_for('solicitacao_arbitro'))
+
 
 @app.route('/solicitacao_arbitro')
 def solicitacao_arbitro():
@@ -169,6 +170,7 @@ def partidas():
         
     return render_template('partidas.html', partidas=partidas)
 
+
 @app.route('/cancelar_partida', methods=['POST'])
 def cancelar_partida():
     user_id = current_user.get_id()
@@ -180,7 +182,6 @@ def cancelar_partida():
     Notificacao.notificacao_cancelamento(user_tipo, con_id, arb_id, user_id)
 
     return redirect(url_for('partidas'))
-
 
 @app.route('/configuracoes')
 @login_required
