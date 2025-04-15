@@ -75,6 +75,9 @@ h1::after {
 .btn-aceitar {
     background-color: #00796B;
     color: white;
+    border-radius: 15px;
+    padding: 9px;
+    border: none;
 }
 
 .btn-aceitar:hover {
@@ -84,6 +87,9 @@ h1::after {
 .btn-recusar {
     background-color: #d32f2f;
     color: white;
+    border-radius: 15px;
+    padding: 9px;
+    border: none;
 }
 
 .btn-recusar:hover {
