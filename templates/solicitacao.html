@@ -141,19 +141,48 @@
             </div>
         </div>
     </div>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('horaInicio').addEventListener('change', function() {
             const horaInicio = this.value;
             const horaFimInput = document.getElementById('horaFim');
     
-            // Definindo o mínimo do horário final 
+            
             horaFimInput.min = horaInicio;
             
             if (horaFimInput.value < horaInicio) {
                 horaFimInput.value = '';
             }
         });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const erro = urlParams.get('erro');
+
+        if (erro === 'dados_incompletos') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Preencha todos os campos obrigatórios.',
+                confirmButtonText: 'Entendi',
+                confirmButtonColor: '#00796B'
+            });
+        } else if (erro === 'horario_passado') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Não é possível selecionar um horário que já passou.',
+                confirmButtonText: 'Entendi',
+                confirmButtonColor: '#00796B'
+            });
+        } else if (urlParams.get('sucesso') === 'true') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Solicitação enviada!',
+                text: 'A solicitação foi cadastrada com sucesso.',
+                confirmButtonText: 'Entendi',
+                confirmButtonColor: '#00796B'
+            });
+        }
     </script>
 
     <script>
