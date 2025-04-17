@@ -326,7 +326,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
+#Rota imaginaria
 @app.route('/teste')
 def teste():
     return render_template('teste.html')
