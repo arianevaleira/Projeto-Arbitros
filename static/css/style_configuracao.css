@@ -1,80 +1,76 @@
 body {
-    font-family:"open sans";
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .form-container {
     background-color: #ffffff;
-    padding: 20px;
-    margin: 40px auto;
-    width: 60%;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 790px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .form-title {
     font-size: 24px;
-    color: #00796B;
+    color: #004d44;
     text-align: center;
-    margin-bottom: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
 }
 
 .infor_perfil-group {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .infor_perfil {
-    flex: 1;
+    flex: 1 1 100%;
     margin-bottom: 15px;
+}
+
+.infor_perfil-group .infor_perfil {
+    flex: 1 1 calc(50% - 15px);
 }
 
 .infor_perfil label {
     display: block;
     font-weight: bold;
-    color: #00796B;
+    color: #004d44;
     margin-bottom: 5px;
 }
 
 .infor_perfil input,
-.infor_perfil textarea,
-.infor_perfil select {
+.infor_perfil textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     font-size: 14px;
-}
-
-
-input:focus, select:focus, textarea:focus {
-    outline: 1px solid #55a8d1; 
-    box-shadow: 0 0 5px 2px #68c5f3; 
+    background-color: #f9f9f9;
 }
 
 .infor_perfil textarea {
     resize: none;
+    min-height: 100px;
 }
 
-.photo-circle {
-    width: 50px;
-    height: 50px;
-    background-color: #00796B;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    margin-right: 10px;
-}
-
-.alterar-btn {
-    background-color: transparent;
-    border: none;
-    color: #00796B;
-    font-weight: bold;
-    cursor: pointer;
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #00796B;
+    box-shadow: 0 0 6px #55c1b1;
 }
 
 .buttons {
@@ -83,28 +79,40 @@ input:focus, select:focus, textarea:focus {
     margin-top: 20px;
 }
 
-.btn-reset, .btn-submit {
-    padding: 10px 20px;
+.btn-reset,
+.btn-submit {
+    padding: 10px 25px;
     font-size: 16px;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
 }
 
 .btn-reset {
-    background-color: #cccccc;
-    color: white;
-    border: none;
+    background-color: #ccc;
+    color: #fff;
+}
+
+.btn-reset:hover {
+    background-color: #b0b0b0;
 }
 
 .btn-submit {
-    background-color: #004400;
-    color: white;
-    border: none;
+    background-color: #00796B;
+    color: #fff;
 }
 
+.btn-submit:hover {
+    background-color: #005f55;
+}
 
-.foto_perfil{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 3px;
+@media (max-width: 600px) {
+    .infor_perfil-group .infor_perfil {
+        flex: 1 1 100%;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
 }
