@@ -10,6 +10,57 @@ bntSingup.addEventListener("click", function () {
   body.className = 'sing-up-js';
 });
 
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const formLogin = document.querySelector('form[action*="login"]');
+  if (!formLogin) return;
+
+  const emailInput = document.querySelector("#emailLogin");
+  const senhaInput = document.querySelector("#senhaLogin");
+
+  const mostrarErro = (input, mensagem) => {
+    let feedback = input.nextElementSibling;
+    if (!feedback || !feedback.classList.contains('feedback')) {
+      feedback = document.createElement('small');
+      feedback.className = 'feedback';
+      input.parentNode.appendChild(feedback);
+    }
+    feedback.innerHTML = mensagem;
+    feedback.style.color = '#d32f2f';
+    input.classList.add('is-invalid');
+  };
+
+  const limparErro = (input) => {
+    let feedback = input.nextElementSibling;
+    if (feedback && feedback.classList.contains('feedback')) {
+      feedback.textContent = '';
+    }
+    input.classList.remove('is-invalid');
+  };
+
+  formLogin.addEventstener('submit', (e) => {
+    let valido = true;
+
+    if (!emailInput.value.includes("@")) {
+      mostrarErro(emailInput, 'Digite um e-mail válido.');
+      valido = false;
+    } else {
+      limparErro(emailInput);
+    }
+
+    if (senhaInput.value.length < 3) {
+      mostrarErro(senhaInput, 'Senha inválida ou muito curta.');
+      valido = false;
+    } else {
+      limparErro(senhaInput);
+    }
+
+    if (!valido) e.preventDefault();
+  });
+});
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector('form[action*="cadastro"]');
   const senhaInput = form.querySelector('input[name="senha"]');
@@ -17,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const telefoneInput = form.querySelector('input[name="telefone"]');
   const cpfInput = form.querySelector('input[name="cpf"]');
 
-  // Funções de feedback
+  
   const mostrarErro = (input, mensagem) => {
     let feedback = input.nextElementSibling;
     if (!feedback || !feedback.classList.contains('feedback')) {
@@ -99,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Mensagens de erro personalizadas para campos obrigatórios
+  
   const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
   requiredFields.forEach(field => {
     field.addEventListener('invalid', function () {
@@ -118,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return label ? label.innerText.replace(/:$/, '') : 'obrigatório';
   }
 
-  // Mensagens via URL (SweetAlert2)
+  
   const urlParams = new URLSearchParams(window.location.search);
   const erro = urlParams.get('erro');
 
