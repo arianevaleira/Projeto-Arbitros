@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Evento</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_solicitacao.css')}}">
     <style>
@@ -23,11 +24,28 @@
             min-height: 100vh;
         }
 
-        /* Navbar */
         .navbar {
             background-color: #00796B;
         }
-        /* Container principal */
+        
+        .logout-container {
+            display: flex;
+            align-items: center;
+        }
+
+
+        .logout-icon {
+            font-size: 1rem; 
+            color: #ffffff8c; 
+            padding: 0 10px; 
+            transition: color 0.3s ease;
+        }
+
+        
+        .logout-icon:hover {
+            color: #FF5252;  
+        }
+
         .soli-conteiner {
             flex: 1;
             display: flex;
@@ -85,7 +103,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{url_for('home')}}">Árbitros +</a>
+            <a class="navbar-brand" href="{{url_for('home')}}"><img class="logo" src="/static/assets/logo (2).png" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -96,6 +114,11 @@
                     <li class="nav-item"><a class="nav-link" href="{{url_for('notificacoes')}}">Notificações</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes_dinamica')}}">Configurações</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('partidas')}}">Partidas</a></li>
+                    <li class="nav-item logout-container">
+                        <a class="nav-link logout-icon" href="{{url_for('logout')}}" title="Sair">
+                            <i class="bi bi-box-arrow-right"></i> Sair 
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -188,10 +211,10 @@
     <script>
         // Função de inicialização do mapa
         function initMap(lat, lng) {
-            // Coordenadas baseadas na localização atual do usuário
+            
             var userLocation = { lat: lat, lng: lng };
     
-            // Criação do mapa, centrado nas coordenadas da localização atual
+            
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
                 center: userLocation
@@ -205,14 +228,14 @@
             });
         }
     
-        // Verifica se a geolocalização está disponível no navegador
+        
         function loadMap() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     // Obtém a latitude e longitude da posição atual
                     var lat = position.coords.latitude;
                     var lng = position.coords.longitude;
-                    // Inicializa o mapa com a localização atual do usuário
+                    
                     initMap(lat, lng);
                 }, function() {
                     alert("Geolocalização falhou.");
@@ -222,9 +245,10 @@
             }
         }
     
-        // Chama a função de carregar o mapa após carregar a API do Google Maps
+        
         loadMap();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0pUTdpJmnAIw2cGQpu9SZLmCzKnu5HW4&loading=async&callback=initMap"></script>
     <footer class="footer">
         &copy; 2025 Árbitros +. Todos os direitos reservados.
