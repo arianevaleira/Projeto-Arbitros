@@ -65,120 +65,141 @@
     </div>
 
     <script>
-        let map, marker, coordenadas = null;
+            let map, marker = null;
+            coordenadas.lat = document.getElementById("lat").value;  
+            coordenadas.lng = document.getElementById("lng").value;
+            async function initMap() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
 
-        // Função para inicializar o mapa
-        async function initMap() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
+                        map = new google.maps.Map(document.getElementById("map"), {
+                            center: { lat: lat, lng: lng },
+                            zoom: 12
+                        });
 
-                    map = new google.maps.Map(document.getElementById("map"), {
-                        center: { lat: lat, lng: lng },
-                        zoom: 12
-                    });
-
-                    // Criando um marcador no local atual
-                    marker = new google.maps.Marker({
-                        position: { lat: lat, lng: lng },
-                        map: map
-                    });
-
-                    // Armazenando latitude e longitude no formulário
-                    document.getElementById("lat").value = lat;
-                    document.getElementById("lng").value = lng;
-
-                    // Adicionando um evento de clique no mapa
-                    map.addListener("click", (event) => {
-                        if (marker) marker.setMap(null); // Remove o marcador anterior
-
-                        coordenadas = { lat: event.latLng.lat(), lng: event.latLng.lng() }; // Atualiza coordenadas
                         marker = new google.maps.Marker({
-                            position: coordenadas,
+                            position: { lat: lat, lng: lng },
                             map: map
                         });
 
-                        // Armazenando nova latitude e longitude no formulário
-                        document.getElementById("lat").value = coordenadas.lat;
-                        document.getElementById("lng").value = coordenadas.lng;
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lng").value = lng;
+
+                        map.addListener("click", (event) => {
+                            if (marker) marker.setMap(null);
+
+                            coordenadas = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+
+                            marker = new google.maps.Marker({
+                                position: coordenadas,
+                                map: map
+                            });
+
+                            document.getElementById("lat").value = coordenadas.lat;
+                            document.getElementById("lng").value = coordenadas.lng;
+                        });
+                    }, () => {
+                        handleLocationError(true);
                     });
-                }, () => {
-                    handleLocationError(true);
-                });
-            } else {
-                handleLocationError(false);
-            }
+                } else {
+                    handleLocationError(false);
+                }
 
-            // Buscar localizações dos usuários
-            fetch('/recuperar_localizacoes')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(loc => {
-                    new google.maps.Marker({
-                        position: { lat: loc.lat, lng: loc.lng },
-                        map: map,
-                        title: loc.nome // Título do marcador
-                    });
-                });
-            })
-            .catch(error => console.error('Erro ao buscar localizações:', error));
-        }
-
-        // Função para lidar com erros de geolocalização
-        function handleLocationError(browserHasGeolocation) {
-            alert(browserHasGeolocation
-                ? "Erro: O serviço de geolocalização falhou."
-                : "Erro: Seu navegador não suporta geolocalização.");
-        }
-
-        // Função para buscar endereço pelo CEP
-        function buscaEndereco(cep) {
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                fetch('/recuperar_localizacoes')
                 .then(response => response.json())
                 .then(data => {
-                    if (!data.erro) {
-                        document.getElementById('estado').value = data.uf;
-                        document.getElementById('cidade').value = data.localidade;
-                    } else {
-                        alert('CEP não encontrado.');
-                    }
+                    data.forEach(loc => {
+                        new google.maps.Marker({
+                            position: { lat: loc.lat, lng: loc.lng },
+                            map: map,
+                            title: loc.nome
+                        });
+                    });
                 })
-                .catch(error => console.error('Erro:', error));
-        }
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: 'Não foi possível carregar os árbitros no mapa.',
+                        icon: 'error',
+                        background: '#fff',
+                        color: '#222',
+                        confirmButtonColor: '#00796B',
+                        confirmButtonText: 'Ok'
+                    });
+                    console.error('Erro ao buscar localizações:', error);
+                });
+            }
 
-        // Função para enviar dados de localização ao servidor
-        function submitForm() {
-            if (coordenadas) {
-                document.getElementById("lat").value = coordenadas.lat;
-                document.getElementById("lng").value = coordenadas.lng;
-                document.querySelector('form').submit(); // Envia o formulário
-            } else {
+            function handleLocationError(browserHasGeolocation) {
                 Swal.fire({
                     title: 'Erro!',
-                    text: 'Insira Uma Localização no Mapa.',
+                    text: browserHasGeolocation
+                        ? 'O serviço de geolocalização falhou.'
+                        : 'Seu navegador não suporta geolocalização.',
                     icon: 'error',
-                    background: '#fff', 
-                    color: '#222', 
-                    confirmButtonColor: '#00796B', 
-                    confirmButtonText: 'Entendi'
+                    background: '#fff',
+                    color: '#222',
+                    confirmButtonColor: '#00796B',
+                    confirmButtonText: 'Ok'
                 });
-                // 'success' – ✅ sucesso
-
-                // 'error' – ❌ erro
-
-                // 'warning' – ⚠️ aviso
-
-                // 'info' – ℹ️ informação
-
-                // 'question' – ❓ pergunta
-
-
             }
-        }
 
-        // Carregar o Google Maps API
-        window.onload = initMap;
+            function buscaEndereco(cep) {
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('estado').value = data.uf;
+                            document.getElementById('cidade').value = data.localidade;
+                        } else {
+                            Swal.fire({
+                                title: 'CEP não encontrado!',
+                                text: 'Verifique o número digitado.',
+                                icon: 'warning',
+                                background: '#fff',
+                                color: '#222',
+                                confirmButtonColor: '#00796B',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: 'Não foi possível buscar o endereço. Tente novamente.',
+                            icon: 'error',
+                            background: '#fff',
+                            color: '#222',
+                            confirmButtonColor: '#00796B',
+                            confirmButtonText: 'Ok'
+                        });
+                        console.error('Erro:', error);
+                    });
+            }
+
+            function submitForm() {
+                console.log(coordenadas)
+                if (coordenadas) {
+                    document.getElementById("lat").value = coordenadas.lat;
+                    document.getElementById("lng").value = coordenadas.lng;
+                    document.querySelector('form').submit();
+                } else {
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: 'Insira uma localização no mapa.',
+                        icon: 'error',
+                        background: '#fff',
+                        color: '#222',
+                        confirmButtonColor: '#00796B',
+                        confirmButtonText: 'Entendi'
+                    });
+                }
+            }
+
+            window.onload = initMap;
+
     </script>
     {% endblock %}
 </body>
