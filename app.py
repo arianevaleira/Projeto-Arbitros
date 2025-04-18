@@ -11,7 +11,8 @@ from models.partida import Partida
 from datetime import datetime, date
 from urllib.parse import urlencode
 from models import conectar_db
-import os 
+import os, humanize
+
 
 login_manager = LoginManager()
 
@@ -218,81 +219,130 @@ def configuracoes_con():
     return render_template('configuracao_con.html', user=current_user)
 
 
+
+# Rotas de localização
 @app.route('/salvar_localizacao', methods=['POST'])
 @login_required
 def salvar_localizacao():
-    data = request.json
-    lat = data.get('latitude')
-    lng = data.get('longitude')
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Dados inválidos"}), 400
+
+    lat = data.get('lat')
+    lng = data.get('lng')
 
     if not lat or not lng:
         return jsonify({"error": "Latitude e longitude são obrigatórias"}), 400
 
-    # Atualiza a localização do usuário no banco de dados
-    Usuario.atualizar_localizacao(current_user.get_id(), lat, lng)
-    
-    return jsonify({
-        "message": "Localização salva com sucesso!",
-        "lat": lat,
-        "lng": lng,
-        "nome": current_user._nome
-    }), 200
+    try:
+        # Atualiza a localização do usuário no banco de dados
+        Usuario.atualizar_localizacao(current_user.get_id(), lat, lng)
+        return jsonify({
+            "message": "Localização salva com sucesso!",
+            "lat": lat,
+            "lng": lng,
+            "nome": current_user._nome
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/recuperar_localizacoes', methods=['GET'])
 @login_required
 def recuperar_localizacoes():
-    localizacoes = Usuario.listar_localizacoes()
-    return jsonify([{"lat": loc['lat'], "lng": loc['lng'], "nome": loc['nome']} for loc in localizacoes]), 200
+    try:
+        # Recupera apenas usuários com localização definida
+        localizacoes = Usuario.listar_localizacoes()
+        return jsonify([{
+            "id": loc['usu_id'],
+            "nome": loc['usu_nome'],
+            "lat": float(loc['usu_lat']),
+            "lng": float(loc['usu_lng']),
+            "tipo": loc['usu_tipo']
+        } for loc in localizacoes if loc['usu_lat'] and loc['usu_lng']]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-
+# Rotas de atualização de perfil
 @app.route('/update_arbitro', methods=['POST'])
 @login_required
 def update_arbitro():
     if session.get('user_tipo') != "arbitro":
         return redirect(url_for('configuracoes_con'))
-    nome = request.form['nome']
-    cep = request.form['cep']
-    sobre = request.form['sobre']
-    estado = request.form['estado']
-    cidade = request.form['cidade']
-    arquivo = request.files['certificado']
-    caminho_certificado = ""
-    if arquivo:
-        diretorio_certificados = 'certificados'  
-        os.makedirs(diretorio_certificados, exist_ok=True)  
-        caminho_certificado = os.path.join(diretorio_certificados, arquivo.filename)
-        arquivo.save(caminho_certificado)
-        # Atualiza os dados do usuário
-        Arbitro.atualizar_usuario(current_user.get_id(), cep, estado, cidade)
-        # Atualiza o caminho do certificado
-        Arbitro.atualizar_certificado(current_user.get_id(), caminho_certificado)
 
-    flash('Perfil atualizado com sucesso!')
+    try:
+        nome = request.form['nome']
+        cep = request.form['cep']
+        sobre = request.form['sobre']
+        estado = request.form['estado']
+        cidade = request.form['cidade']
+        lat = request.form.get('lat')
+        lng = request.form.get('lng')
+
+        # Atualiza dados básicos
+        Usuario.atualizar(
+            current_user.get_id(),
+            nome=nome,
+            cep=cep,
+            estado=estado,
+            cidade=cidade
+        )
+
+        # Atualiza dados específicos do árbitro
+        Arbitro.atualizar(
+            current_user.get_id(),
+            sobre=sobre,
+            lat=lat,
+            lng=lng
+        )
+
+        # Processa certificado se foi enviado
+        if 'certificado' in request.files:
+            arquivo = request.files['certificado']
+            if arquivo and allowed_file(arquivo.filename):
+                filename = secure_filename(arquivo.filename)
+                caminho = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                arquivo.save(caminho)
+                Arbitro.atualizar_certificado(current_user.get_id(), caminho)
+
+        flash('Perfil atualizado com sucesso!', 'success')
+    except Exception as e:
+        flash(f'Erro ao atualizar perfil: {str(e)}', 'error')
+
     return redirect(url_for('configuracoes_arb'))
 
 @app.route('/update_contratante', methods=['POST'])
 @login_required
 def update_contratante():
-    nome = request.form['nome']
-    cep = request.form['cep']
-    estado = request.form['estado']
-    cidade = request.form['cidade']
-    sobre = request.form['sobre'] #Depois botar essa coluna no banco 
+    if session.get('user_tipo') != "contratante":
+        return redirect(url_for('configuracoes_arb'))
 
+    try:
+        nome = request.form['nome']
+        cep = request.form['cep']
+        estado = request.form['estado']
+        cidade = request.form['cidade']
+        sobre = request.form.get('sobre', '')
+        lat = request.form.get('lat')
+        lng = request.form.get('lng')
 
-    conn = conectar_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE tb_usuarios 
-        SET usu_nome = %s, usu_cep = %s, usu_estado = %s, usu_cidade = %s 
-        WHERE usu_id = %s
-    """, (nome, cep, estado, cidade, current_user.get_id()))
-    conn.commit()
-    cursor.close()
-    conn.close()
+        # Atualiza dados do contratante
+        Usuario.atualizar(
+            current_user.get_id(),
+            nome=nome,
+            cep=cep,
+            estado=estado,
+            cidade=cidade,
+            lat=lat,
+            lng=lng
+        )
 
-    flash('Perfil atualizado com sucesso!')
+        flash('Perfil atualizado com sucesso!', 'success')
+    except Exception as e:
+        flash(f'Erro ao atualizar perfil: {str(e)}', 'error')
+
     return redirect(url_for('configuracoes_con'))
+
+
 
 #Pagina onde ficara as notificações do usuario
 @app.route('/notificacoes')
@@ -326,7 +376,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-#Rota imaginaria
+
 @app.route('/teste')
 def teste():
     return render_template('teste.html')
