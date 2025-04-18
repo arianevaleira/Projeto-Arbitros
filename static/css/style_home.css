@@ -6,7 +6,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
-
 .navbar, footer {
     background-color: #00796B;
 }
@@ -90,6 +89,7 @@ footer p{
     flex-wrap: wrap;
 }
 
+
 .card-custom {
     background-color: #004D40;
     border-radius: 12px;
@@ -100,6 +100,7 @@ footer p{
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     margin: 7px;
 }
+
 
 .card-custom h3 {
     font-size: 1.6rem;
@@ -137,7 +138,7 @@ footer p{
     width: 100%;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     margin-top: 40px;
     text-align: left;
 }
@@ -185,6 +186,81 @@ footer p{
     background-color: #004D40;
 }
 
+.comments-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Cada comentário individual */
+.comment-box {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: 0.3s ease;
+}
+
+/* Avatar circular com inicial */
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    background-color: #00796B;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Conteúdo do comentário */
+.comment-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Nome e tempo */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #086858;
+    font-size: 15px;
+}
+
+.comment-time {
+    font-size: 13px;
+    color: #888;
+}
+
+/* Texto do comentário */
+.comment-text {
+    font-size: 14px;
+    color: #444;
+}
+
+/* Responsividade */
+@media (max-width: 700px) {
+    .comment-box {
+        width: 100%;
+    }
+}
+
 .comment-input {
     display: flex;
     align-items: center;
@@ -196,6 +272,57 @@ footer p{
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.comment-box {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 16px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+}
+
+.comment-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.comment-header {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #111;
+}
+
+
+.reply-link {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #0077cc;
+    cursor: pointer;
+}
 
 
 .comment-input textarea {
