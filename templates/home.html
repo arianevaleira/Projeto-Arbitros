@@ -65,7 +65,19 @@
             <h2>Comentários</h2>
             <div class="comments-list">
                 {% for comentario in comentarios %}
-                <div class="comment"><strong>{{comentario.usuario}}:</strong> {{comentario.comentario}}</div>
+                <div class="comment-box">
+                    <div class="user-avatar">{{comentario.usuario[0] | upper}}</div>
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="user-name">{{comentario.usuario}}</span>
+                            <span class="comment-time">há 2 dias</span> 
+                        </div>
+                        <div class="comment-text">
+                            {{comentario.comentario}}
+                        </div>
+                        <div class="reply-link">Responder</div>
+                    </div>
+                </div>
                 {%endfor%}
             </div>
             <div class="show-more">
