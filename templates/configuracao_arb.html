@@ -16,7 +16,7 @@
     <div class="profile-form-container">
         <div class="form-container">
             <h1 class="form-title">Configuração do Perfil</h1>
-            <form action="{{ url_for('update_arbitro') }}" method="POST" enctype="multipart/form-data">
+            <form id="formConfigArbitro" action="{{ url_for('update_arbitro') }}" method="POST" enctype="multipart/form-data">
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="nome">Nome</label>
@@ -58,6 +58,12 @@
                     <input type="hidden" id="lat" name="lat" value="{{ user.lat if user.lat else '' }}">
                     <input type="hidden" id="lng" name="lng" value="{{ user.lng if user.lng else '' }}">
                 </div>
+                 
+
+                <div style="display: none;">
+                    Lat: <span id="lat-value">{{ user.lat if user.lat else 'N/A' }}</span><br>
+                    Lng: <span id="lng-value">{{ user.lng if user.lng else 'N/A' }}</span>
+                </div>
 
                 <div class="buttons">
                     <button type="reset" class="btn-reset">Redefinir</button>
@@ -76,14 +82,13 @@
         };
 
         async function initMap() {
-            // Coordenadas padrão (centro do Brasil) caso não tenha localização salva
             const defaultLocation = { lat: -15.7889, lng: -47.8792 };
             
-            // Se já tiver coordenadas salvas, usa elas
+            
             const initialLocation = coordenadas.lat && coordenadas.lng ? 
                 { lat: coordenadas.lat, lng: coordenadas.lng } : defaultLocation;
 
-            // Cria o mapa
+            
             map = new google.maps.Map(document.getElementById("map"), {
                 center: initialLocation,
                 zoom: 12,
@@ -125,7 +130,7 @@
             // Permite arrastar o marcador
             marker.addListener("dragend", (event) => {
                 coordenadas = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-                updateHiddenFields();
+                updateHiddenField();
             });
         }
 
@@ -268,6 +273,41 @@
                     console.error('Erro:', error);
                 });
         }
+
+        document.getElementById("formConfigArbitro").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const nome = document.getElementById("nome").value.trim();
+            const certificado = document.getElementById("certificado").value;
+            const cep = document.getElementById("cep").value.trim();
+            const estado = document.getElementById("estado").value.trim();
+            const cidade = document.getElementById("cidade").value.trim();
+            const lat = document.getElementById("lat").value;
+            const lng = document.getElementById("lng").value;
+
+            if (!nome || !cep || !estado || !cidade || !lat || !lng) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Campos obrigatórios!",
+                    text: "Por favor, preencha todos os campos obrigatórios e selecione sua localização no mapa.",
+                    confirmButtonColor: "#00796B"
+                });
+                return;
+            }
+
+            if (!certificado) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Certificado necessário!",
+                    text: "Você deve enviar um certificado para validar seu cadastro.",
+                    confirmButtonColor: "#00796B"
+                });
+                return;
+            }
+
+            // Se tudo estiver certo, submete o formulário
+            this.submit();
+        });
 
         window.onload = initMap;
     </script>
