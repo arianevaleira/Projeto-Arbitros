@@ -15,7 +15,7 @@ create table if not exists tb_usuarios (
     usu_cidade varchar(45),
     usu_estado varchar(45),
     usu_latitude DECIMAL(10, 8),
-    usu_longitude DECIMAL(11, 8),
+	usu_longitude DECIMAL(11, 8),
     usu_tipo enum('arbitro', 'contratante')
 );
 
@@ -23,8 +23,11 @@ create table if not exists tb_arbitros (
     arb_id int auto_increment primary key not null,
     arb_usu_id int not null,
     arb_certificado varchar(255),
+    arb_latitude decimal(10,8),
+    arb_longitude decimal(11,8),
     foreign key (arb_usu_id) references tb_usuarios(usu_id)
 );
+
 
 create table if not exists tb_contratantes (
     con_id int auto_increment primary key not null,
@@ -84,3 +87,5 @@ select * from tb_solicitacoes;
 select * from tb_notificacoes;
 select * from tb_partidas;
 SHOW TABLES;
+
+select usu_nome, usu_tipo from tb_usuarios;
