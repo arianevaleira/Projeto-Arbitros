@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuração do Contratante</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_configuracao.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     {% extends "home.html" %}
@@ -14,23 +14,27 @@
     <div class="profile-form-container">
         <div class="form-container">
             <h1 class="form-title">Configuração do Perfil</h1>
-            <form action="{{ url_for('update_contratante') }}" method="POST">
+            <form id="formPerfil" action="{{ url_for('update_contratante') }}" method="POST">
+                
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="nome">Nome</label>
                         <input type="text" id="nome" name="nome" value="{{ user._nome }}" placeholder="Digite seu nome">
                     </div>
                 </div>
+
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="cep">CEP</label>
-                        <input type="text" id="cep" name="cep" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
+                        <input type="text" id="cep" name="cep" value="{{ user.cep }}" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
                     </div>
                 </div>
+
                 <div class="infor_perfil">
                     <label for="sobre">Sobre</label>
                     <textarea id="sobre" name="sobre" placeholder="Fale um pouco sobre você">{{ user.sobre }}</textarea>
                 </div>
+
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="estado">Estado</label>
@@ -41,6 +45,7 @@
                         <input type="text" id="cidade" name="cidade" value="{{ user.cidade }}" placeholder="Digite sua cidade">
                     </div>
                 </div>
+
                 <div class="buttons">
                     <button type="reset" class="btn-reset">Redefinir</button>
                     <button type="submit" class="btn-submit">Salvar</button>
@@ -58,14 +63,54 @@
                         document.getElementById('estado').value = data.uf;
                         document.getElementById('cidade').value = data.localidade;
                     } else {
-                        alert('CEP não encontrado.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'CEP não encontrado',
+                            text: 'Verifique o CEP digitado.'
+                        });
                     }
                 })
                 .catch(error => {
                     console.error('Erro:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao buscar endereço',
+                        text: 'Tente novamente mais tarde.'
+                    });
                 });
         }
+
+        document.getElementById('formPerfil').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nome = document.getElementById('nome').value.trim();
+            const cep = document.getElementById('cep').value.trim();
+            const estado = document.getElementById('estado').value.trim();
+            const cidade = document.getElementById('cidade').value.trim();
+
+            if (!nome || !cep || !estado || !cidade) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Campos obrigatórios',
+                    text: 'Por favor, preencha todos os campos obrigatórios.'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Deseja salvar as alterações?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim, salvar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
     </script>
+    
     {% endblock %}
 </body>
 </html>
