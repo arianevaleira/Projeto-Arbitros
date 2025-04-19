@@ -21,6 +21,16 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+
+.swal2-confirm {
+    background-color: #00b386; 
+    color: white;
+}
+.swal2-cancel {
+    background-color: #ccc;
+    color: black ;
+}
+
 .form-title {
     font-size: 24px;
     color: #004d44;
