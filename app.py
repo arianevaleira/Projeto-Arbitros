@@ -10,8 +10,9 @@ from models.solicitacao import Solicitacao
 from models.partida import Partida
 from datetime import datetime, date
 from urllib.parse import urlencode
+from werkzeug.utils import secure_filename
 from models import conectar_db
-import os, humanize
+import os
 
 
 login_manager = LoginManager()
@@ -21,7 +22,15 @@ app = Flask(__name__)
 login_manager.init_app(app)
 
 app.config['SECRET_KEY'] = 'muitodificil'
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @login_manager.user_loader
 def load_user(user_id):
