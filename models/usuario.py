@@ -112,3 +112,36 @@ class Usuario(UserMixin):
         cursor.close()
         conn.close()
         return localizacoes
+
+    @classmethod
+    def atualizar(cls, user_id, nome=None, cep=None, estado=None, cidade=None):
+        conn = conectar_db()
+        cursor = conn.cursor()
+
+        
+        updates = []
+        parameters = []
+
+        if nome:
+            updates.append("usu_nome = %s")
+            parameters.append(nome)
+        if cep:
+            updates.append("usu_cep = %s")
+            parameters.append(cep)
+        if estado:
+            updates.append("usu_estado = %s")
+            parameters.append(estado)
+        if cidade:
+            updates.append("usu_cidade = %s")
+            parameters.append(cidade)
+
+
+        parameters.append(user_id)
+
+        if updates:
+            query = f"UPDATE tb_usuarios SET {', '.join(updates)} WHERE usu_id = %s"
+            cursor.execute(query, parameters)
+            conn.commit()
+
+        cursor.close()
+        conn.close()
