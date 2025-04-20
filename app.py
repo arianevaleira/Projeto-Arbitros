@@ -299,7 +299,6 @@ def update_arbitro():
         # Atualiza dados específicos do árbitro
         Arbitro.atualizar(
             current_user.get_id(),
-            sobre=sobre,
             lat=lat,
             lng=lng
         )
