@@ -61,17 +61,13 @@ class Arbitro:
     
 
     @classmethod
-    def atualizar(cls, user_id, sobre=None, lat=None, lng=None):
+    def atualizar(cls, user_id, lat=None, lng=None):
         conn = conectar_db()
         cursor = conn.cursor()
 
-        
         updates = []
         parameters = []
 
-        if sobre:
-            updates.append("arb_sobre = %s")
-            parameters.append(sobre)
         if lat:
             updates.append("arb_latitude = %s")
             parameters.append(lat)
@@ -79,7 +75,6 @@ class Arbitro:
             updates.append("arb_longitude = %s")
             parameters.append(lng)
 
-    
         parameters.append(user_id)
 
         if updates:
