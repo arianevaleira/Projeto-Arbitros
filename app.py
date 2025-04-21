@@ -229,31 +229,17 @@ def configuracoes_con():
 
 
 
-# Rotas de localização
-@app.route('/salvar_localizacao', methods=['POST'])
-@login_required
-def salvar_localizacao():
+@app.route('/save_location', methods=['POST'])
+def save_location():
+    user_id = current_user.get_id()
     data = request.get_json()
-    if not data:
-        return jsonify({"error": "Dados inválidos"}), 400
+    latitude = data['latitude']
+    longitude = data['longitude']
+    Usuario.atualizar_localizacao(user_id, latitude, longitude)
 
-    lat = data.get('lat')
-    lng = data.get('lng')
+    return jsonify({'status': 'success'}), 201
 
-    if not lat or not lng:
-        return jsonify({"error": "Latitude e longitude são obrigatórias"}), 400
 
-    try:
-        # Atualiza a localização do usuário no banco de dados
-        Usuario.atualizar_localizacao(current_user.get_id(), lat, lng)
-        return jsonify({
-            "message": "Localização salva com sucesso!",
-            "lat": lat,
-            "lng": lng,
-            "nome": current_user._nome
-        }), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 @app.route('/recuperar_localizacoes', methods=['GET'])
 @login_required
@@ -330,8 +316,6 @@ def update_contratante():
         estado = request.form['estado']
         cidade = request.form['cidade']
         sobre = request.form.get('sobre', '')
-        lat = request.form.get('lat')
-        lng = request.form.get('lng')
 
         # Atualiza dados do contratante
         Usuario.atualizar(
@@ -339,9 +323,7 @@ def update_contratante():
             nome=nome,
             cep=cep,
             estado=estado,
-            cidade=cidade,
-            lat=lat,
-            lng=lng
+            cidade=cidade
         )
 
         flash('Perfil atualizado com sucesso!', 'success')
