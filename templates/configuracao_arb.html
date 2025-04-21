@@ -103,13 +103,35 @@
         }
 
         map.addListener("click", (event) => {
-            coordenadas = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-            placeMarker(coordenadas);
-            updateHiddenFields();
-        });
+                const lat = event.latLng.lat();
+                const lng = event.latLng.lng();
+                coordenadas = { lat: lat, lng: lng };
+                placeMarker(coordenadas);
+                updateHiddenFields();
+                saveLocation(lat, lng); // Chama a função para salvar a localização
+            });
 
         loadUserMarkers();
     }
+
+    function saveLocation(lat, lng) {
+            fetch('/save_location', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ latitude: lat, longitude: lng }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Localização salva com sucesso!')
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Erro ao salvar a localização.');
+            });
+        }
 
     function placeMarker(location) {
         if (marker) {
@@ -138,16 +160,16 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    coordenadas = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    coordenadas = { lat: lat, lng: lng };
 
                     console.log("Localização atual obtida:", coordenadas); 
 
                     placeMarker(coordenadas);
                     updateHiddenFields();
                     map.setCenter(coordenadas);
+                    saveLocation(lat, lng);
 
                     getAddressFromCoords(coordenadas.lat, coordenadas.lng);
                 },
