@@ -108,30 +108,41 @@
                 coordenadas = { lat: lat, lng: lng };
                 placeMarker(coordenadas);
                 updateHiddenFields();
-                saveLocation(lat, lng); // Chama a função para salvar a localização
+                saveLocation(lat, lng); 
             });
 
         loadUserMarkers();
     }
 
     function saveLocation(lat, lng) {
-            fetch('/save_location', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ latitude: lat, longitude: lng }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Localização salva com sucesso!')
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Erro ao salvar a localização.');
+        fetch('/save_location', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ latitude: lat, longitude: lng }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Localização salva com sucesso!',
+                confirmButtonColor: '#00796B'
             });
-        }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Erro ao salvar a localização.',
+                confirmButtonColor: '#00796B'
+            });
+        });
+    }
+
 
     function placeMarker(location) {
         if (marker) {
