@@ -364,7 +364,7 @@ def unauthorized():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('inicial'))
 
 
 @app.route('/teste')
@@ -374,4 +374,3 @@ def teste():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
