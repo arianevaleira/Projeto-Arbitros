@@ -4,7 +4,7 @@ Este projeto é uma aplicação web desenvolvida como prática profissional de c
 
 ---
 
-## 🚀 Funcionalidades
+##  Funcionalidades
 
 -  **Geolocalização de árbitros**  
   Visualize árbitros disponíveis próximos a você em um mapa interativo com base em **CEP, cidade, estado, latitude e longitude**.
@@ -23,7 +23,7 @@ Este projeto é uma aplicação web desenvolvida como prática profissional de c
 
 ---
 
-## 🎯 Público-Alvo
+## Público-Alvo
 
 -  **Escolas** que organizam eventos esportivos.  
 -  **Árbitros** que desejam se disponibilizar para atuar em partidas.  
@@ -31,7 +31,7 @@ Este projeto é uma aplicação web desenvolvida como prática profissional de c
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **HTML5 & CSS3**  
 - **JavaScript** (validações e interações)  
