@@ -245,7 +245,6 @@ def save_location():
 @login_required
 def recuperar_localizacoes():
     try:
-        # Recupera apenas usuários com localização definida
         localizacoes = Usuario.listar_localizacoes()
         return jsonify([{
             "id": loc['usu_id'],
@@ -256,6 +255,21 @@ def recuperar_localizacoes():
         } for loc in localizacoes if loc['usu_lat'] and loc['usu_lng']]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/arbitros_localizacao', methods=['GET'])
+@login_required
+def arbitros_localizacao():
+    try:
+        arbitros = Usuario.query.filter_by(usu_tipo='arbitro').all()
+        return jsonify([{
+            "id": arb.usu_id,
+            "nome": arb.usu_nome,
+            "lat": arb.usu_latitude,
+            "lng": arb.usu_longitude
+        } for arb in arbitros if arb.usu_latitude and arb.usu_longitude]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 # Rotas de atualização de perfil
 @app.route('/update_arbitro', methods=['POST'])
@@ -272,8 +286,6 @@ def update_arbitro():
         cidade = request.form['cidade']
         lat = request.form.get('lat')
         lng = request.form.get('lng')
-
-        # Atualiza dados básicos
         Usuario.atualizar(
             current_user.get_id(),
             nome=nome,
@@ -281,15 +293,11 @@ def update_arbitro():
             estado=estado,
             cidade=cidade
         )
-
-        # Atualiza dados específicos do árbitro
-        Arbitro.atualizar(
+        Arbitro.atualizar( #que é o que falta funcionar, implementar so no arbitro 
             current_user.get_id(),
             lat=lat,
             lng=lng
         )
-
-        # Processa certificado se foi enviado
         if 'certificado' in request.files:
             arquivo = request.files['certificado']
             if arquivo and allowed_file(arquivo.filename):
@@ -358,7 +366,7 @@ def page_not_found(error):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return redirect(url_for('login'))
+    return redirect(url_for('inicial'))
 
 @app.route('/logout')
 @login_required
@@ -374,3 +382,4 @@ def teste():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
