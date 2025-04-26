@@ -129,8 +129,8 @@
                 <h3>Formulário de Solicitação de Evento</h3>
                 <form action="{{url_for('solicitacao')}}" method="post">
                     <div class="form-group">
-                        <label for="descricao">Arbitro</label>
-                        <select name="arbitro" class="form-control">
+                        <label for="descricao">Árbitro</label>
+                        <select name="arbitro" class="form-control" required>
                             {%for arbitro in arbitros%}
                             <option value="{{arbitro.id}}">{{arbitro.nome}}</option>
                             {%endfor%}
@@ -138,7 +138,7 @@
                     </div>
                     <div class="form-group">
                         <label for="descricao">Descrição do Evento</label>
-                        <textarea class="form-control" id="descricao" rows="3" placeholder="Descreva o evento" name="descricao"></textarea>
+                        <textarea class="form-control" id="descricao" rows="3" placeholder="Descreva o evento" name="descricao" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="data">Data do Evento</label>
@@ -214,7 +214,6 @@
         let map;
     
         function initMap() {
-            // Tenta obter a localização do usuário primeiro
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -225,26 +224,22 @@
                         loadMapWithLocation(userLocation);
                     },
                     () => {
-                        // Se falhar, usa localização padrão
                         userLocation = { lat: -15.7889, lng: -47.8792 };
                         loadMapWithLocation(userLocation);
                     }
                 );
             } else {
-                // Navegador não suporta geolocalização
                 userLocation = { lat: -15.7889, lng: -47.8792 };
                 loadMapWithLocation(userLocation);
             }
         }
     
         function loadMapWithLocation(location) {
-            // Cria o mapa centralizado na localização do usuário
             map = new google.maps.Map(document.getElementById('map'), {
                 center: location,
                 zoom: 12
             });
     
-            // Adiciona marcador do usuário
             userMarker = new google.maps.Marker({
                 position: location,
                 map: map,
@@ -254,7 +249,7 @@
                 }
             });
     
-            // Carrega os árbitros
+
             carregarArbitros(location);
         }
     
@@ -264,27 +259,27 @@
                 {"id": 2, "nome": "Árbitro 2", "lat": -6.2850, "lng": -36.8200},
                 {"id": 3, "nome": "Árbitro 3", "lat": -6.2900, "lng": -36.8150}
             ];
-
-            // Limpa marcadores anteriores
+            
+            
             arbitrosMarkers.forEach(marker => marker.setMap(null));
             arbitrosMarkers = [];
 
-            // Adiciona marcadores para cada árbitro
+        
             arbitros.forEach(arbitro => {
                 const arbitroLocation = { lat: arbitro.lat, lng: arbitro.lng };
 
-                // Calcula a distância do usuário para o árbitro
+                // Pega a localização e calcula a distancia
                 const distancia = calcularDistancia(
                     userLocation.lat, userLocation.lng,
                     arbitro.lat, arbitro.lng
                 );
 
-                // Formata a distância para exibição
+
                 const distanciaTexto = distancia < 1 
                     ? `${Math.round(distancia * 1000)} metros` 
                     : `${distancia.toFixed(1)} km`;
 
-                // Cria o marcador
+            
                 const marker = new google.maps.Marker({
                     position: arbitroLocation,
                     map: map,
@@ -294,14 +289,13 @@
                     }
                 });
 
-                // Adiciona info window com detalhes
+               
                 const infoWindow = new google.maps.InfoWindow({
                     content: `<strong>${arbitro.nome}</strong><br>Distância: ${distanciaTexto}`
                 });
 
                 marker.addListener('click', () => {
                     infoWindow.open(map, marker);
-                    // Seleciona automaticamente este árbitro no dropdown
                     document.querySelector(`select[name="arbitro"] option[value="${arbitro.id}"]`).selected = true;
                 });
 
@@ -309,9 +303,9 @@
             });
         }
     
-        // Função para calcular distância entre dois pontos em km
+        
         function calcularDistancia(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Raio da Terra em km
+            const R = 6371; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
             const a = 
@@ -322,7 +316,6 @@
             return R * c;
         }
     
-        // Inicializa o mapa quando a API do Google Maps estiver carregada
         window.initMap = initMap;
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
