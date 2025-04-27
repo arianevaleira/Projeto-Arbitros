@@ -46,7 +46,7 @@ class Partida:
         cursor = conn.cursor(dictionary=True)
 
         cursor.execute('''
-            SELECT p.par_id, p.status, s.sol_data, s.sol_inicio, s.sol_termino, 
+            SELECT p.par_id, p.status, s.sol_data,s.sol_descricao ,s.sol_inicio, s.sol_termino, 
                 u.usu_nome AS contratante, ar.usu_nome AS arbitro, p.par_arb_id
             FROM tb_partidas AS p
             JOIN tb_solicitacoes AS s ON p.par_sol_id = s.sol_id
