@@ -68,17 +68,17 @@ class Arbitro:
         updates = []
         parameters = []
 
-        if lat:
+        if lat is not None:  
             updates.append("arb_latitude = %s")
             parameters.append(lat)
-        if lng:
+        if lng is not None:  
             updates.append("arb_longitude = %s")
             parameters.append(lng)
 
         parameters.append(user_id)
 
         if updates:
-            query = f"UPDATE tb_arbitros SET {', '.join(updates)} WHERE arb_id = %s"
+            query = f"UPDATE tb_arbitros SET {', '.join(updates)} WHERE arb_usu_id = %s"
             cursor.execute(query, parameters)
             conn.commit()
 
