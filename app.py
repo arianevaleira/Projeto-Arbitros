@@ -119,6 +119,8 @@ def solicitacao():
     today = date.today().isoformat()
     now = datetime.now().strftime("%H:%M")
 
+    arbitro_selecionado = None 
+
     if request.method == 'POST':
         arb_id = request.form['arbitro']
         descricao = request.form['descricao']
@@ -135,8 +137,12 @@ def solicitacao():
         con_id = current_user.get_id()
         Solicitacao.criar_solicitacao(data, inicio, fim, descricao, con_id, arb_id)
         return redirect(url_for('solicitacao', sucesso='true'))
-
-    return render_template('solicitacao.html', arbitros=arbitros, today=today)
+    else:
+        arb_id = request.args.get('arbitro')
+    if arb_id:
+        arbitro_selecionado = Usuario.get(specific_user_id=arb_id)
+        print(f"Dados do árbitro selecionado: {arbitro_selecionado.__dict__}")
+    return render_template('solicitacao.html', arbitros=arbitros, today=today, arbitro=arbitro_selecionado)
 
 @app.route('/responder_solicitacao', methods=['POST'])
 def responder_solicitacao():
@@ -256,19 +262,44 @@ def recuperar_localizacoes():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/arbitros_localizacao', methods=['GET'])
-@login_required
-def arbitros_localizacao():
+@app.route('/api/arbitros')
+def get_arbitros():
     try:
-        arbitros = Usuario.query.filter_by(usu_tipo='arbitro').all()
-        return jsonify([{
-            "id": arb.usu_id,
-            "nome": arb.usu_nome,
-            "lat": arb.usu_latitude,
-            "lng": arb.usu_longitude
-        } for arb in arbitros if arb.usu_latitude and arb.usu_longitude]), 200
+        arbitros_data = []
+        conn = conectar_db()
+        cursor = conn.cursor(dictionary=True)
+
+        arbitros = Arbitro.listar()
+        for arbitro in arbitros:
+            cursor.execute("""
+                SELECT usu_latitude, usu_longitude
+                FROM tb_usuarios
+                WHERE usu_id = %s
+            """, (arbitro['id'],))
+            usuario_data = cursor.fetchone()
+
+            arbitro_data = {
+                'id': arbitro['id'],
+                'nome': arbitro['nome'],
+            }
+
+            if usuario_data and usuario_data['usu_latitude'] is not None and usuario_data['usu_longitude'] is not None:
+                try:
+                    lat = float(usuario_data['usu_latitude'])
+                    lng = float(usuario_data['usu_longitude'])
+                    arbitro_data['lat'] = lat
+                    arbitro_data['lng'] = lng
+                except ValueError:
+                    print(f"Erro ao converter latitude/longitude para float para o árbitro com ID {arbitro['id']}")
+
+            arbitros_data.append(arbitro_data)
+
+        conn.close()  # Fechar a conexão após o uso
+        print("Dados enviados para o JavaScript:", arbitros_data)
+        return jsonify(arbitros_data)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"Erro ao processar /api/arbitros: {e}")
+        return jsonify({"error": "Ocorreu um erro ao carregar os árbitros"}), 500
 
 
 # Rotas de atualização de perfil
@@ -286,6 +317,9 @@ def update_arbitro():
         cidade = request.form['cidade']
         lat = request.form.get('lat')
         lng = request.form.get('lng')
+
+        print(f"Latitude recebida: {lat}, Longitude recebida: {lng}")  
+
         Usuario.atualizar(
             current_user.get_id(),
             nome=nome,
@@ -293,7 +327,7 @@ def update_arbitro():
             estado=estado,
             cidade=cidade
         )
-        Arbitro.atualizar( #que é o que falta funcionar, implementar so no arbitro 
+        Arbitro.atualizar( 
             current_user.get_id(),
             lat=lat,
             lng=lng
@@ -311,7 +345,7 @@ def update_arbitro():
         flash(f'Erro ao atualizar perfil: {str(e)}', 'error')
 
     return redirect(url_for('configuracoes_arb'))
-
+    
 @app.route('/update_contratante', methods=['POST'])
 @login_required
 def update_contratante():
@@ -367,7 +401,7 @@ def page_not_found(error):
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for('inicial'))
-
+    
 @app.route('/logout')
 @login_required
 def logout():
@@ -382,4 +416,3 @@ def teste():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
