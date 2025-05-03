@@ -19,6 +19,8 @@ class Usuario(UserMixin):
         self._cep = kwargs.get('cep')
         self._cidade = kwargs.get('cidade')
         self._estado = kwargs.get('estado')
+        self._latitude = kwargs.get('latitude')
+        self._longitude = kwargs.get('longitude')
 
     def get_id(self):
         return str(self._id)
@@ -50,19 +52,34 @@ class Usuario(UserMixin):
         conn.close()
         return True
 
-    @classmethod
-    def get(cls, user_id):
+    @classmethod  
+    def get(cls, user_id=None, specific_user_id=None):
         conn = conectar_db()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM tb_usuarios WHERE usu_id = %s", (user_id,))
+        
+        if specific_user_id:
+            cursor.execute("SELECT * FROM tb_usuarios WHERE usu_id = %s", (specific_user_id,))
+        else:
+            cursor.execute("SELECT * FROM tb_usuarios WHERE usu_id = %s", (user_id,))
+            
         user = cursor.fetchone()
         conn.commit()
         conn.close()
-
+        print(f"Dados do usuário do banco de dados: {user}")
         if user:
-            loaduser = Usuario(email=user['usu_email'], hash=user['usu_senha'], nome=user['usu_nome'], 
-                               cpf=user['usu_cpf'], telefone=user['usu_telefone'], tipo=user['usu_tipo'], 
-                               cep=user['usu_cep'], cidade=user['usu_cidade'], estado=user['usu_estado'])
+            loaduser = Usuario(
+                nome=user['usu_nome'],
+                email=user['usu_email'],
+                cpf=user['usu_cpf'],
+                telefone=user['usu_telefone'],
+                tipo=user['usu_tipo'],
+                hash=user['usu_senha'],
+                cep=user['usu_cep'],
+                cidade=user['usu_cidade'],
+                estado=user['usu_estado'],
+                latitude=user.get('usu_latitude'),  
+                longitude=user.get('usu_longitude')  
+            )
             loaduser._id = user['usu_id']
             return loaduser
         return None
