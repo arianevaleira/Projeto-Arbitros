@@ -265,37 +265,37 @@ def recuperar_localizacoes():
 @app.route('/api/arbitros')
 def get_arbitros():
     try:
-        arbitros_data = []
         conn = conectar_db()
         cursor = conn.cursor(dictionary=True)
-
-        arbitros = Arbitro.listar()
-        for arbitro in arbitros:
-            cursor.execute("""
-                SELECT usu_latitude, usu_longitude
-                FROM tb_usuarios
-                WHERE usu_id = %s
-            """, (arbitro['id'],))
-            usuario_data = cursor.fetchone()
-
-            arbitro_data = {
-                'id': arbitro['id'],
-                'nome': arbitro['nome'],
-            }
-
-            if usuario_data and usuario_data['usu_latitude'] is not None and usuario_data['usu_longitude'] is not None:
-                try:
-                    lat = float(usuario_data['usu_latitude'])
-                    lng = float(usuario_data['usu_longitude'])
-                    arbitro_data['lat'] = lat
-                    arbitro_data['lng'] = lng
-                except ValueError:
-                    print(f"Erro ao converter latitude/longitude para float para o árbitro com ID {arbitro['id']}")
-
-            arbitros_data.append(arbitro_data)
-
-        conn.close()  # Fechar a conexão após o uso
-        print("Dados enviados para o JavaScript:", arbitros_data)
+        cursor.execute("""
+            SELECT 
+                a.arb_id AS id,
+                u.usu_nome AS nome,
+                COALESCE(u.usu_latitude, a.arb_latitude) AS lat,
+                COALESCE(u.usu_longitude, a.arb_longitude) AS lng
+            FROM tb_arbitros a
+            JOIN tb_usuarios u ON a.arb_usu_id = u.usu_id
+            WHERE (u.usu_latitude IS NOT NULL AND u.usu_longitude IS NOT NULL)
+               OR (a.arb_latitude IS NOT NULL AND a.arb_longitude IS NOT NULL)
+        """)
+        
+        arbitros_data = []
+        for arbitro in cursor.fetchall():
+            try:
+                lat = float(arbitro['lat']) if arbitro['lat'] is not None else None
+                lng = float(arbitro['lng']) if arbitro['lng'] is not None else None
+                
+                if lat is not None and lng is not None:
+                    arbitros_data.append({
+                        'id': arbitro['id'],
+                        'nome': arbitro['nome'],
+                        'lat': lat,
+                        'lng': lng
+                    })
+            except (ValueError, TypeError):
+                continue
+        
+        conn.close()
         return jsonify(arbitros_data)
     except Exception as e:
         print(f"Erro ao processar /api/arbitros: {e}")
