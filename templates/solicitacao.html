@@ -237,12 +237,12 @@
         let userLocation = null;
         let arbitrosMarkers = [];
 
-        // Inicialização do mapa
+        
         function initMap() {
-            // Configuração inicial do mapa
-            const defaultLocation = { lat: -15.7889, lng: -47.8792 }; // Brasília como fallback
+        
+            const defaultLocation = { lat: -15.7889, lng: -47.8792 };
             
-            // Criar mapa
+            
             map = new google.maps.Map(document.getElementById('map'), {
                 center: defaultLocation,
                 zoom: 12,
@@ -252,13 +252,13 @@
                 }
             });
 
-            // Remover mensagem de carregamento
+            
             const loadingElement = document.querySelector('.loading-message');
             if (loadingElement) {
                 loadingElement.remove();
             }
 
-            // Tentar obter localização do usuário
+            
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -267,10 +267,10 @@
                             lng: position.coords.longitude
                         };
                         
-                        // Centralizar mapa na localização do usuário
+                     
                         map.setCenter(userLocation);
                         
-                        // Criar ou atualizar marcador do usuário
+                        
                         if (userMarker) {
                             userMarker.setPosition(userLocation);
                         } else {
@@ -284,12 +284,12 @@
                             });
                         }
                         
-                        // Carregar árbitros
+                       
                         carregarArbitros(userLocation);
                     },
                     (error) => {
                         console.warn("Erro ao obter localização:", error);
-                        // Usar localização padrão
+                        
                         userLocation = defaultLocation;
                         carregarArbitros(userLocation);
                     },
@@ -302,7 +302,7 @@
             }
         }
 
-        // Carregar árbitros no mapa
+        
         function carregarArbitros(userLocation) {
             if (!map) {
                 console.warn("Mapa não inicializado. Tentando novamente...");
@@ -318,19 +318,19 @@
                     return response.json();
                 })
                 .then(arbitros => {
-                    // Limpar marcadores antigos
+                   
                     arbitrosMarkers.forEach(marker => marker.setMap(null));
                     arbitrosMarkers = [];
 
                     arbitros.forEach(arbitro => {
-                        // Verificar e converter coordenadas
+                        
                         const lat = parseFloat(arbitro.lat);
                         const lng = parseFloat(arbitro.lng);
 
                         if (!isNaN(lat) && !isNaN(lng)) {
                             const arbitroLocation = { lat: lat, lng: lng };
                             
-                            // Calcular distância
+                           
                             const distancia = calcularDistancia(
                                 userLocation.lat, userLocation.lng,
                                 lat, lng
@@ -340,7 +340,7 @@
                                 ? `${Math.round(distancia * 1000)} metros` 
                                 : `${distancia.toFixed(1)} km`;
 
-                            // Criar marcador
+                            
                             const marker = new google.maps.Marker({
                                 position: arbitroLocation,
                                 map: map,
@@ -350,7 +350,6 @@
                                 }
                             });
 
-                            // InfoWindow com informações e botão de seleção
                             const infoWindow = new google.maps.InfoWindow({
                                 content: `
                                     <div class="arbitro-info">
@@ -365,11 +364,11 @@
                                 `
                             });
 
-                            // Evento de clique no marcador
+                          
                             marker.addListener('click', () => {
                                 infoWindow.open(map, marker);
                                 
-                                // Adicionar evento de clique no botão dentro do InfoWindow
+                                
                                 setTimeout(() => {
                                     document.querySelector('.selecionar-arbitro')?.addEventListener('click', () => {
                                         selecionarArbitro(arbitro.id, arbitro.nome);
@@ -378,7 +377,7 @@
                                 }, 100);
                             });
 
-                            // Armazenar referência do marcador
+                            
                             marker.arbitroId = arbitro.id;
                             arbitrosMarkers.push(marker);
                         } else {
@@ -392,7 +391,6 @@
                 })
                 .catch(error => {
                     console.error('Erro ao carregar árbitros:', error);
-                    // Mostrar mensagem de erro
                     const mapDiv = document.getElementById('map');
                     if (mapDiv) {
                         mapDiv.innerHTML = `
@@ -405,14 +403,11 @@
                 });
         }
 
-        // Função para selecionar árbitro ao clicar no botão
         function selecionarArbitro(id, nome) {
-            // Selecionar o árbitro no dropdown
             const select = document.getElementById('arbitro');
             if (select) {
                 select.value = id;
                 
-                // Mostrar feedback visual
                 Swal.fire({
                     icon: 'success',
                     title: 'Árbitro selecionado!',
@@ -424,9 +419,8 @@
             }
         }
 
-        // Calcular distância entre dois pontos geográficos
         function calcularDistancia(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Raio da Terra em km
+            const R = 6371; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
             const a =
@@ -437,9 +431,8 @@
             return R * c;
         }
 
-        // Validação do formulário
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Validação de horários
             document.getElementById('horaInicio').addEventListener('change', function() {
                 const horaInicio = this.value;
                 const horaFimInput = document.getElementById('horaFim');
@@ -457,7 +450,7 @@
                 }
             });
 
-            // Verificar parâmetros da URL para mensagens
+            
             const urlParams = new URLSearchParams(window.location.search);
             const erro = urlParams.get('erro');
 
