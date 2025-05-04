@@ -6,7 +6,6 @@
     <title>Árbitros +</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_solicitacao.css')}}">
     <style>
         * {
@@ -33,14 +32,12 @@
             align-items: center;
         }
 
-
         .logout-icon {
             font-size: 1rem; 
             color: #ffffff8c; 
             padding: 0 10px; 
             transition: color 0.3s ease;
         }
-
         
         .logout-icon:hover {
             color: #FF5252;  
@@ -72,6 +69,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        
         .mapa {
             width: 55%;
             display: flex;
@@ -85,6 +83,31 @@
             border-radius: 8px;
         }
 
+        .loading-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-warning {
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
         .footer {
             background-color: #00796B;
             color: white;
@@ -93,6 +116,41 @@
             position: relative;
             bottom: 0;
             width: 100%;
+        }
+
+        .form-row {
+            display: flex;
+        }
+
+        .arbitro-info {
+            padding: 10px;
+            min-width: 200px;
+        }
+
+        .arbitro-info h6 {
+            color: #00796B;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .arbitro-info p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .selecionar-arbitro {
+            width: 100%;
+            background-color: #00796B;
+            border: none;
+            padding: 5px 10px;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .selecionar-arbitro:hover {
+            background-color: #00695C;
         }
     </style>
 </head>
@@ -120,14 +178,15 @@
             </div>
         </div>
     </nav>
+
     <div class="soli-conteiner">
         <div class="conteiner">
             <div class="formulario-evento">
                 <h3>Formulário de Solicitação de Evento</h3>
                 <form action="{{url_for('solicitacao')}}" method="post">
                     <div class="form-group">
-                        <label for="descricao">Árbitro</label>
-                        <select name="arbitro" class="form-control" required>
+                        <label for="arbitro">Árbitro</label>
+                        <select name="arbitro" id="arbitro" class="form-control" required>
                             {%for arbitro in arbitros%}
                             <option value="{{arbitro.id}}">{{arbitro.nome}}</option>
                             {%endfor%}
@@ -145,72 +204,61 @@
                         <div class="form-group col-md-6">
                             <label for="horaInicio">Hora de Início</label>
                             <input type="time" class="form-control" id="horaInicio" name="horaInicio" required>
-                            
                         </div>
-                        
                         <div class="form-group col-md-6">
                             <label for="horaFim">Hora de Fim</label>
                             <input type="time" class="form-control" id="horaFim" name="horaFim" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Enviar Solicitação</button>
+                    <button type="submit" class="btn btn-success mt-3">Enviar Solicitação</button>
                 </form>
             </div>
             <div class="mapa">
-                <div id="map"></div>
+                <div id="map">
+                    <div class="loading-message">
+                        <p>Carregando mapa...</p>
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.getElementById('horaInicio').addEventListener('change', function() {
-            const horaInicio = this.value;
-            const horaFimInput = document.getElementById('horaFim');
-    
-            
-            horaFimInput.min = horaInicio;
-            
-            if (horaFimInput.value < horaInicio) {
-                horaFimInput.value = '';
-            }
-        });
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0pUTdpJmnAIw2cGQpu9SZLmCzKnu5HW4&callback=initMap"></script>
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const erro = urlParams.get('erro');
-
-        if (erro === 'dados_incompletos') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Preencha todos os campos obrigatórios.',
-                confirmButtonText: 'Entendi',
-                confirmButtonColor: '#00796B'
-            });
-        } else if (erro === 'horario_passado') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Não é possível selecionar um horário que já passou.',
-                confirmButtonText: 'Entendi',
-                confirmButtonColor: '#00796B'
-            });
-        } else if (urlParams.get('sucesso') === 'true') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Solicitação enviada!',
-                text: 'A solicitação foi cadastrada com sucesso.',
-                confirmButtonText: 'Entendi',
-                confirmButtonColor: '#00796B'
-            });
-        }
-    </script>
     <script>
+        // Variáveis globais
+        let map;
         let userMarker;
         let userLocation = null;
         let arbitrosMarkers = [];
-        let map;
-    
+
+        // Inicialização do mapa
         function initMap() {
+            // Configuração inicial do mapa
+            const defaultLocation = { lat: -15.7889, lng: -47.8792 }; // Brasília como fallback
+            
+            // Criar mapa
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: defaultLocation,
+                zoom: 12,
+                streetViewControl: false,
+                mapTypeControlOptions: {
+                    mapTypeIds: ['roadmap', 'satellite']
+                }
+            });
+
+            // Remover mensagem de carregamento
+            const loadingElement = document.querySelector('.loading-message');
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+
+            // Tentar obter localização do usuário
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -218,60 +266,81 @@
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         };
-                        loadMapWithLocation(userLocation);
+                        
+                        // Centralizar mapa na localização do usuário
+                        map.setCenter(userLocation);
+                        
+                        // Criar ou atualizar marcador do usuário
+                        if (userMarker) {
+                            userMarker.setPosition(userLocation);
+                        } else {
+                            userMarker = new google.maps.Marker({
+                                position: userLocation,
+                                map: map,
+                                title: 'Sua Localização',
+                                icon: {
+                                    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                                }
+                            });
+                        }
+                        
+                        // Carregar árbitros
+                        carregarArbitros(userLocation);
                     },
-                    () => {
-                        userLocation = { lat: -15.7889, lng: -47.8792 };
-                        loadMapWithLocation(userLocation);
-                    }
+                    (error) => {
+                        console.warn("Erro ao obter localização:", error);
+                        // Usar localização padrão
+                        userLocation = defaultLocation;
+                        carregarArbitros(userLocation);
+                    },
+                    { timeout: 5000 }
                 );
             } else {
-                userLocation = { lat: -15.7889, lng: -47.8792 };
-                loadMapWithLocation(userLocation);
+                console.warn("Geolocalização não suportada pelo navegador");
+                userLocation = defaultLocation;
+                carregarArbitros(userLocation);
             }
         }
-    
-        function loadMapWithLocation(location) {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: location,
-                zoom: 12
-            });
-    
-            userMarker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: 'Sua Localização',
-                icon: {
-                    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-                }
-            });
-    
-            carregarArbitros(location);
-        }
-    
+
+        // Carregar árbitros no mapa
         function carregarArbitros(userLocation) {
+            if (!map) {
+                console.warn("Mapa não inicializado. Tentando novamente...");
+                setTimeout(() => carregarArbitros(userLocation), 500);
+                return;
+            }
+
             fetch('/api/arbitros')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na resposta da API');
+                    }
+                    return response.json();
+                })
                 .then(arbitros => {
+                    // Limpar marcadores antigos
                     arbitrosMarkers.forEach(marker => marker.setMap(null));
                     arbitrosMarkers = [];
-    
+
                     arbitros.forEach(arbitro => {
-                        let lat = arbitro.lat;
-                        let lng = arbitro.lng;
-    
-                        if (typeof lat === 'number' && typeof lng === 'number') {
+                        // Verificar e converter coordenadas
+                        const lat = parseFloat(arbitro.lat);
+                        const lng = parseFloat(arbitro.lng);
+
+                        if (!isNaN(lat) && !isNaN(lng)) {
                             const arbitroLocation = { lat: lat, lng: lng };
-    
+                            
+                            // Calcular distância
                             const distancia = calcularDistancia(
                                 userLocation.lat, userLocation.lng,
-                                arbitro.lat, arbitro.lng
+                                lat, lng
                             );
-    
-                            const distanciaTexto = distancia < 1
-                                ? `${Math.round(distancia * 1000)} metros`
+                            
+                            const distanciaTexto = distancia < 1 
+                                ? `${Math.round(distancia * 1000)} metros` 
                                 : `${distancia.toFixed(1)} km`;
-    
+
+                            // Criar marcador
                             const marker = new google.maps.Marker({
                                 position: arbitroLocation,
                                 map: map,
@@ -280,30 +349,84 @@
                                     url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
                                 }
                             });
-    
+
+                            // InfoWindow com informações e botão de seleção
                             const infoWindow = new google.maps.InfoWindow({
-                                content: `<strong>${arbitro.nome}</strong><br>Distância: ${distanciaTexto}`
+                                content: `
+                                    <div class="arbitro-info">
+                                        <h6>${arbitro.nome}</h6>
+                                        <p>Distância: ${distanciaTexto}</p>
+                                        <button class="selecionar-arbitro" 
+                                                data-id="${arbitro.id}" 
+                                                data-nome="${arbitro.nome}">
+                                            Selecionar este árbitro
+                                        </button>
+                                    </div>
+                                `
                             });
-    
+
+                            // Evento de clique no marcador
                             marker.addListener('click', () => {
                                 infoWindow.open(map, marker);
-                                document.querySelector(`select[name="arbitro"] option[value="${arbitro.id}"]`).selected = true;
+                                
+                                // Adicionar evento de clique no botão dentro do InfoWindow
+                                setTimeout(() => {
+                                    document.querySelector('.selecionar-arbitro')?.addEventListener('click', () => {
+                                        selecionarArbitro(arbitro.id, arbitro.nome);
+                                        infoWindow.close();
+                                    });
+                                }, 100);
                             });
-    
+
+                            // Armazenar referência do marcador
+                            marker.arbitroId = arbitro.id;
                             arbitrosMarkers.push(marker);
                         } else {
-                            console.warn(`Árbitro ${arbitro.nome} tem coordenadas inválidas (lat: ${lat}, lng: ${lng}). Marcador não criado.`);
+                            console.warn(`Árbitro ${arbitro.nome} não possui coordenadas válidas.`);
                         }
                     });
+
+                    if (arbitrosMarkers.length === 0) {
+                        console.warn("Nenhum árbitro com localização válida encontrado.");
+                    }
                 })
                 .catch(error => {
                     console.error('Erro ao carregar árbitros:', error);
-                    alert('Erro ao carregar árbitros. Verifique o console para mais detalhes.');
+                    // Mostrar mensagem de erro
+                    const mapDiv = document.getElementById('map');
+                    if (mapDiv) {
+                        mapDiv.innerHTML = `
+                            <div class="alert alert-warning">
+                                Erro ao carregar localizações dos árbitros. 
+                                <button onclick="window.location.reload()" class="btn btn-sm btn-primary">Recarregar</button>
+                            </div>
+                        `;
+                    }
                 });
         }
-    
+
+        // Função para selecionar árbitro ao clicar no botão
+        function selecionarArbitro(id, nome) {
+            // Selecionar o árbitro no dropdown
+            const select = document.getElementById('arbitro');
+            if (select) {
+                select.value = id;
+                
+                // Mostrar feedback visual
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Árbitro selecionado!',
+                    text: `${nome} foi selecionado para a partida`,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#00796B',
+                    timer: 2000
+                });
+            }
+        }
+
+        // Calcular distância entre dois pontos geográficos
         function calcularDistancia(lat1, lon1, lat2, lon2) {
-            const R = 6371;
+            const R = 6371; // Raio da Terra em km
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
             const a =
@@ -313,11 +436,59 @@
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             return R * c;
         }
-    
-        window.initMap = initMap;
+
+        // Validação do formulário
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validação de horários
+            document.getElementById('horaInicio').addEventListener('change', function() {
+                const horaInicio = this.value;
+                const horaFimInput = document.getElementById('horaFim');
+                
+                horaFimInput.min = horaInicio;
+                
+                if (horaFimInput.value && horaFimInput.value < horaInicio) {
+                    horaFimInput.value = '';
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Horário inválido',
+                        text: 'A hora de término deve ser após a hora de início',
+                        confirmButtonColor: '#00796B'
+                    });
+                }
+            });
+
+            // Verificar parâmetros da URL para mensagens
+            const urlParams = new URLSearchParams(window.location.search);
+            const erro = urlParams.get('erro');
+
+            if (erro === 'dados_incompletos') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Preencha todos os campos obrigatórios.',
+                    confirmButtonText: 'Entendi',
+                    confirmButtonColor: '#00796B'
+                });
+            } else if (erro === 'horario_passado') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Não é possível selecionar um horário que já passou.',
+                    confirmButtonText: 'Entendi',
+                    confirmButtonColor: '#00796B'
+                });
+            } else if (urlParams.get('sucesso') === 'true') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Solicitação enviada!',
+                    text: 'A solicitação foi cadastrada com sucesso.',
+                    confirmButtonText: 'Entendi',
+                    confirmButtonColor: '#00796B'
+                });
+            }
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0pUTdpJmnAIw2cGQpu9SZLmCzKnu5HW4&callback=initMap"></script>
+
     <footer class="footer">
         &copy; 2025 Árbitros +. Todos os direitos reservados.
     </footer>
