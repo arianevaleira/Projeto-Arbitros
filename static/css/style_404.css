@@ -5,65 +5,174 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     color: #333;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .container {
     text-align: center;
-    padding: 25px;
+    padding: 40px;
     background-color: white;
-    border-radius: 12px; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     max-width: 700px;
-    width: 100%;
+    width: 90%;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.8s ease-out;
 }
 
 .image-container img {
     width: 100%;
     max-width: 290px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    transition: transform 0.5s ease;
 }
 
 .message h2 {
-    font-size: 33px;
-    font-weight: bold;
-    color: #2c3e50; 
-    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #00796B, #024139);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .message p {
-    font-size: 18px;
+    font-size: 1.1rem;
     color: #7f8c8d;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    line-height: 1.6;
 }
 
 .back-button .btn {
     display: inline-block;
-    padding: 12px 24px; 
-    background-color: #00796B; 
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #00796B, #00b894);
     color: white;
-    font-size: 18px;
+    font-size: 1rem;
+    font-weight: 600;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease; 
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 121, 107, 0.3);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 .back-button .btn:hover {
-    background-color: #024139; 
-    transform: scale(1.05); 
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 121, 107, 0.4);
 }
 
-
-.voltar{
-    color: #1b8377;
+.back-button .btn:active {
+    transform: translateY(1px);
 }
 
-.voltar:hover{
-    text-decoration: none;
+/* Animação de flutuação */
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+/* Animação de pulso */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    opacity: 0;
+    animation: confetti 5s ease-in-out infinite;
+}
+
+.confetti:nth-child(1) {
+    background-color: #00796B;
+    left: 10%;
+    top: -10%;
+    animation-delay: 0;
+}
+
+.confetti:nth-child(2) {
+    background-color: #00b894;
+    left: 20%;
+    top: -10%;
+    animation-delay: 0.5s;
+}
+
+.confetti:nth-child(3) {
+    background-color: #2c3e50;
+    left: 30%;
+    top: -10%;
+    animation-delay: 1.2s;
+}
+
+.confetti:nth-child(4) {
+    background-color: #7f8c8d;
+    left: 40%;
+    top: -10%;
+    animation-delay: 0.8s;
+}
+
+.confetti:nth-child(5) {
+    background-color: #024139;
+    left: 50%;
+    top: -10%;
+    animation-delay: 1.5s;
+}
+
+/* Keyframes */
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+    
+    .message h2 {
+        font-size: 2rem;
+    }
+    
+    .message p {
+        font-size: 1rem;
+    }
+    
+    .back-button .btn {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+    }
 }
