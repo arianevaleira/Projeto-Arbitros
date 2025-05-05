@@ -4,46 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Árbitros +</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_solicitacao_arb.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     {% extends "home.html" %}
+
     {% block conteudo %}
-    <main>
-        <section class="partidas">
-            <h1>Minhas Solicitações</h1>
-
-            {% if solicitacoes|length == 0 %}
-            <div class="alert alert-info alert-dismissible fade show mx-auto" role="alert" style="font-size: 1.1rem; padding: 15px 25px; max-width: 80%; border-radius: 8px;">
-                <strong>Sem Solicitações Pendentes!</strong> Ainda não há Solicitações registradas.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% else %}
+    <div class="container">
+        <div class="page-header">
+            <h1>SOLICITAÇÕES RECEBIDAS</h1>
+            <p class="subtitle">Gerencie todas as solicitações de partidas que você recebeu</p>
+        </div>
+        
+        {% if solicitacoes|length > 0 %}
+            <div class="solicitacoes-container">
                 {% for solicitacao in solicitacoes %}
-                <div class="solicitacao-card">
-                    <div class="status">{{ solicitacao.status }}</div>
-                    
-                    <h3>⚽ {{ solicitacao.descricao }}</h3>
-                    <p><strong>📅 Data:</strong> {{ solicitacao.data }}</p>
-                    <p><strong>⏰ Horário:</strong> {{ solicitacao.incio }} - {{ solicitacao.fim }}</p>
-                    <p><strong>👤 Contratante:</strong> {{ solicitacao.contratante }}</p>
-
-                    {% if solicitacao.status == "Pendente" %}
-                    <form action="{{ url_for('responder_solicitacao') }}" method="POST">
-                        <input type="hidden" name="sol_id" value="{{ solicitacao.sol_id }}">
-                        <input type="hidden" name="con_id" value="{{ solicitacao.con_id }}">
-                        <input type="hidden" name="arb_id" value="{{ solicitacao.arb_id }}">
-                        <button type="submit" name="acao" value="aceitar" class="btn-aceitar">Aceitar</button>
-                        <button type="submit" name="acao" value="recusar" class="btn-recusar">Recusar</button>
-                    </form>
-                    {% endif %}
-                </div>
+                    <div class="solicitacao-card">
+                        <div class="solicitacao-header">
+                            <h3 class="solicitacao-title">
+                                <i class="fas fa-futbol"></i> {{solicitacao.descricao}}
+                            </h3>
+                        </div>
+                        
+                        <div class="solicitacao-details">
+                            <div class="solicitacao-detail">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div><strong>Data:</strong> {{ solicitacao.data }}</div>
+                            </div>
+                            
+                            <div class="solicitacao-detail">
+                                <i class="fas fa-play"></i>
+                                <div><strong>Início:</strong> {{ solicitacao.inicio }}</div>
+                            </div>
+                            
+                            <div class="solicitacao-detail">
+                                <i class="fas fa-flag-checkered"></i>
+                                <div><strong>Fim:</strong> {{ solicitacao.fim }}</div>
+                            </div>
+                            
+                            <div class="solicitacao-detail">
+                                <i class="fas fa-user-tie"></i>
+                                <div><strong>Contratante:</strong> {{ solicitacao.contratante }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="solicitacao-footer">
+                            <div class="status-container">
+                                {% if solicitacao.status == "Aceita" %}
+                                <span class="status-badge status-aceita">
+                                    <i class="fas fa-check-circle"></i> {{ solicitacao.status }}
+                                </span>
+                                {% elif solicitacao.status == "Recusada" %}
+                                <span class="status-badge status-recusada">
+                                    <i class="fas fa-ban"></i> {{ solicitacao.status }}
+                                </span>
+                                {% else %}
+                                <span class="status-badge status-pendente">
+                                    <i class="fas fa-clock"></i> {{ solicitacao.status }}
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            {% if solicitacao.status == "Pendente" %}
+                            <form action="{{ url_for('responder_solicitacao') }}" method="POST" class="d-flex">
+                                <input type="hidden" name="sol_id" value="{{ solicitacao.sol_id }}">
+                                <input type="hidden" name="con_id" value="{{ solicitacao.con_id }}">
+                                <input type="hidden" name="arb_id" value="{{ solicitacao.arb_id }}">
+                                <button type="submit" name="acao" value="aceitar" class="btn-aceitar">
+                                    <i class="fas fa-check"></i> ACEITAR
+                                </button>
+                                <button type="submit" name="acao" value="recusar" class="btn-recusar">
+                                    <i class="fas fa-times"></i> RECUSAR
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endfor %}
-            {% endif %}
-        </section>
-    </main>
+            </div>
+        {% else %}
+            <div class="empty-state" id="vazio">
+                <i class="fas fa-bell-slash"></i>
+                <h3>NENHUMA SOLICITAÇÃO RECEBIDA</h3>
+                <p>No momento não há solicitações pendentes em sua conta. Quando novas solicitações forem enviadas, elas aparecerão aqui.</p>
+            </div>
+        {% endif %}
+    </div>
     {% endblock %}
-    
 </body>
 </html>
