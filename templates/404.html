@@ -5,21 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Não Encontrada</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_404.css')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        
         <div class="image-container">
-            <img src="../static/assets/desenho tela inicial (3).png" alt="Logo do CliqueCompra" alt="Página não encontrada">
+            <img src="../static/assets/desenho tela inicial (3).png" alt="Logo do CliqueCompra" class="floating">
         </div>
 
-        
         <div class="message">
             <h2>Ops! Página não encontrada.</h2>
             <p>Desculpe, a página que você procura não existe ou foi movida.</p>
-            <p><a class="voltar" href="{{url_for('inicial')}}">Voltar à página inicial</a></p>
+            <div class="back-button">
+                <a href="{{url_for('inicial')}}" class="btn pulse">Voltar à página inicial</a>
+            </div>
         </div>
 
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
     </div>
 </body>
 </html>
