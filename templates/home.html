@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arbitros +</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style_home.css')}}">
@@ -18,11 +19,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('sobre')}}">Sobre</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('solicitacao')}}">Solicitações</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('notificacoes')}}">Notificações</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('partidas')}}">Partidas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('configuracoes_dinamica')}}">Configurações</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('sobre')}}">
+                            <span class="material-icons icones">info</span>Sobre
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('solicitacao')}}">
+                            <span class="material-icons icones">assignment</span>Solicitações
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('notificacoes')}}">
+                            <span class="material-icons icones">notifications</span>Notificações
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('partidas')}}">
+                            <span class="material-icons icones">calendar_month</span>Partidas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('configuracoes_dinamica')}}">
+                            <span class="material-icons icones">settings</span>Configurações
+                        </a>
+                    </li>
                     <li class="nav-item logout-container">
                         <a class="nav-link logout-icon" href="{{url_for('logout')}}" title="Sair">
                             <i class="bi bi-box-arrow-right"></i> Sair 
