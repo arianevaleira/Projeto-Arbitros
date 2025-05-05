@@ -18,8 +18,12 @@
             </div>
             {% if not notificacoes %}
             <div class="no-notifications">
-                <h3>Você não tem novas notificações!</h3>
-                <p>Fique tranquilo, tudo está em ordem. Volte mais tarde!</p>
+                <div class="empty-state">
+                    <span class="material-icons" style="font-size: 80px; color: #00796B;">notifications_off</span>
+                    <h3>Nenhuma notificação por aqui!</h3>
+                    <p>Quando surgir algo novo, aparecerá aqui.</p>
+                    <div class="smile-emoji">😊</div>
+                </div>
             </div>
             {% else %}
             {% for notificacao in notificacoes %}
