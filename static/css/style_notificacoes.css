@@ -53,19 +53,17 @@
 .apagar-btn {
     background: none;
     border: none;
-    color: #ff4d4d;
     cursor: pointer;
-    font-size: 1.2em;
 }
 
+
 .apagar-btn:hover {
-    transition: 0.2s;
-    background-color: #00796B;
-    padding: 4px 12px;
-    font-weight: bold;
-    font-size: 1.4rem;
-    border-radius: 60%;
-    color: white;
+    transition: 0.3s;
+    background-color: #ff4d4d;
+    display: flex;
+    align-items: center;
+    border-radius: 70%;
+    height: 32px;
 }
 
 .no-notifications {
