@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{url_for('home')}}"><img class="logo" src="/static/assets/logo (2).png" alt=""></a>
+            <a class="navbar-brand" href="{{url_for('home')}}"><img class="logo" src="/static/assets/ÁRBITRO+_logo.png" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,32 +21,38 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('sobre')}}">
-                            <span class="material-icons icones">info</span>Sobre
+                            <i class="material-icons md-18">info</i>
+                            <span class="nav-text">Sobre</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('solicitacao')}}">
-                            <span class="material-icons icones">assignment</span>Solicitações
+                            <i class="material-icons md-18">assignment</i>
+                            <span class="nav-text">Solicitações</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('notificacoes')}}">
-                            <span class="material-icons icones">notifications</span>Notificações
+                            <i class="material-icons md-18">notifications</i>
+                            <span class="nav-text">Notificações</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('partidas')}}">
-                            <span class="material-icons icones">calendar_month</span>Partidas
+                            <i class="material-icons md-18">calendar_month</i>
+                            <span class="nav-text">Partidas</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('configuracoes_dinamica')}}">
-                            <span class="material-icons icones">settings</span>Configurações
+                            <i class="material-icons md-18">settings</i>
+                            <span class="nav-text">Configurações</span>
                         </a>
                     </li>
-                    <li class="nav-item logout-container">
-                        <a class="nav-link logout-icon" href="{{url_for('logout')}}" title="Sair">
-                            <i class="bi bi-box-arrow-right"></i> Sair 
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{url_for('logout')}}" title="Sair">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span class="nav-text">Sair</span>
                         </a>
                     </li>
                 </ul>
@@ -54,8 +60,8 @@
         </div>
     </nav>
 
+
     {% block conteudo %}
-    <!-- Conteúdo Principal -->
     <div class="content">
         <div class="banner">
             <div class="banner-text">
@@ -112,7 +118,6 @@
     </div>
     {% endblock %}
 
-    
     <footer class="mt-auto">
         <p>&copy; 2025 Árbitros +. Todos os direitos reservados.</p>
     </footer>
