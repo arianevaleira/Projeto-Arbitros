@@ -4,6 +4,16 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #265751;
+    --secondary-color: #1b998a;
+    --accent-color: #58c7e9;
+    --light-color: #f4f9f4;
+    --dark-color: #2d3436;
+    --text-color: #4a4a4a;
+    --text-light: #7f8c8d;
+}
+
 body {
     background-color: #E0F2F1;
     color: #004D40;
@@ -25,6 +35,24 @@ h3, h4, h5 {
 .navbar, footer {
     background-color: #00796B;
 }
+
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    border-radius: 25px;
+    margin-right: 11px;
+    margin-left: 11px;
+    padding: 0 20px;
+}
+
 
 footer {
     text-align: center;
@@ -65,7 +93,7 @@ footer p {
 }
 
 .btn-custom {
-    background-color: #00796B;
+    background-color: #0b5f55;
     color: white;
     padding: 12px 24px; 
     border-radius: 5px;
@@ -122,7 +150,6 @@ footer p {
     width: 50%;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .feature, .highlight {
         flex-direction: column;
