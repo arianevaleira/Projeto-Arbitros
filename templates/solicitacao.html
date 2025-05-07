@@ -235,12 +235,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('sobre')}}">
-                            <i class="material-icons md-18">info</i>
-                            <span class="nav-text">Sobre</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{url_for('solicitacao')}}">
                             <i class="material-icons md-18">assignment</i>
                             <span class="nav-text">Solicitações</span>
@@ -264,7 +258,13 @@
                             <span class="nav-text">Configurações</span>
                         </a>
                     </li>
-                    <li class="nav-item "><!--logout-container-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('sobre')}}">
+                            <i class="material-icons md-18">info</i>
+                            <span class="nav-text">Sobre</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
                         <a class="nav-link" href="{{url_for('logout')}}" title="Sair">
                             <i class="bi bi-box-arrow-right"></i>
                             <span class="nav-text">Sair</span>
