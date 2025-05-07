@@ -8,7 +8,7 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
-/*Div onde esta os dois conteudos*/
+
 .conteiner {
     display: flex;
     justify-content: center;
@@ -496,5 +496,112 @@ input:invalid {
     
     .form .gru-input-second input {
         width: 100%;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+        min-height: auto;
+        padding: 0;
+    }
+    
+    .content::before {
+        display: none; 
+    }
+    
+    .primeira-coluna, .segunda-coluna {
+        width: 100% !important;
+        padding: 30px 20px;
+        text-align: center;
+    }
+    
+    .primeira-coluna {
+        background-color: #00796B;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 25px 20px;
+    }
+    
+    .segunda-coluna {
+        padding: 30px 20px;
+    }
+    
+    .sing-in-js .primeira-coluna {
+        order: 2;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    .sing-in-js .segunda-coluna {
+        order: 1;
+    }
+    
+    .form {
+        max-width: 100%;
+        padding: 10px 0;
+    }
+    
+    .btn {
+        padding: 12px 40px;
+        margin-top: 10px;
+    }
+    
+    
+    .second-content {
+        flex-direction: column;
+    }
+    
+    .gru-input.gru-input-second {
+        flex-direction: column;
+    }
+    
+    .gru-input.gru-input-second div {
+        width: 100% !important;
+    }
+    
+    .gru-input.gru-input-second div:first-child {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .descricao {
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 15px;
+    }
+    
+    .form input, .form select {
+        height: 45px;
+        font-size: 15px;
+    }
+    
+    .form label {
+        font-size: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 14px;
+    }
+    
+    
+    .gru-input {
+        margin-bottom: 20px;
+    }
+    
+    
+    .gru-input select {
+        padding: 12px 14px;
+        background-position: right 10px center;
     }
 }
