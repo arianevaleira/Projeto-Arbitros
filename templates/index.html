@@ -15,34 +15,83 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            margin: 0;
         }
         .navbar, footer {
             background-color: #00796B;
         }
+        
+        .logo {
+            max-height: 50px;
+        }
+        
         .hero {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            justify-content: center;
             align-items: center;
             flex-grow: 1;
-            padding: 50px;
+            padding: 40px 20px;
+            gap: 30px;
+            min-height: calc(100vh - 120px);
         }
 
         .hero-text {
-            max-width: 40%;
-            text-align: left;
-            margin-bottom: 45px;
+            max-width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 15px;
         }
+        
+        @media (min-width: 768px) {
+            .hero-text {
+                max-width: 40%;
+                text-align: left;
+                padding: 0;
+            }
+        }
+        
         .hero-text h1 {
-            font-size: 2.5rem;
-            margin-bottom: 45px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
         }
+        
+        @media (min-width: 576px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .hero-text h1 {
+                font-size: 2.2rem;
+                margin-bottom: 25px;
+            }
+        }
+
         .hero-text p {
-            font-size: 1.2rem;
-            margin-bottom: 45px; 
+            font-size: 1rem;
+            margin-bottom: 30px; 
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 576px) {
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .hero-text p {
+                font-size: 1.15rem;
+                margin-bottom: 35px;
+            }
         }
 
         .hero-card {
-            width: 65%;
+            width: 100%;
+            max-width: 800px;
             background-color: #80CBC4;
             border-radius: 10px;
             overflow: hidden;
@@ -50,24 +99,54 @@
             justify-content: center;
             align-items: center;
         }
+        
+        @media (min-width: 768px) {
+            .hero-card {
+                width: 55%;
+            }
+        }
 
         .hero-card img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
         }
 
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .button-group {
+                justify-content: flex-start;
+            }
+        }
+        
         .btn-custom, .btn-outline {
             padding: 10px 20px;
             border-radius: 30px;
             font-size: 1rem;
+            white-space: nowrap;
+            min-width: 120px;
+            text-align: center;
         }
+        
         .btn-custom {
             background-color: #00796B;
             border: none;
             color: white;
             text-decoration: none;
         }
+        
+        .btn-custom:hover {
+            background-color: #00695C;
+            color: white;
+        }
+        
         .btn-outline {
             border: 2px solid #00796B;
             color: #00796B;
@@ -78,20 +157,48 @@
         .btn-outline:hover {
             background-color: #00796B;
             color: white;
-            transform: scale(1.05);
         }
         
         footer {
             text-align: center;
             padding: 15px 0;
+            margin-top: auto;
+        }
+        
+        /* Ajustes para o navbar */
+        .navbar {
+            padding: 12px 0;
+        }
+        
+        .navbar-collapse {
+            padding-top: 10px;
+        }
+        
+        .nav-item {
+            text-align: center;
+            margin: 5px 0;
+        }
+        
+        .nav-link {
+            font-size: 1rem;
+            padding: 6px 12px;
+        }
+        
+        @media (min-width: 992px) {
+            .nav-item {
+                text-align: left;
+                margin: 0 8px;
+            }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="logo" href="{{url_for('login')}}"><img class="logo" src="/static/assets/ÁRBITRO+_logo.png" alt="logo"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="{{url_for('login')}}">
+                <img class="logo" src="/static/assets/ÁRBITRO+_logo.png" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -103,8 +210,7 @@
         </div>
     </nav>
 
-
-    <section class="hero">
+    <section class="hero container">
         <div class="hero-text">
             <div class="hero-titulo">
                 <h1>Prontos para conduzir o jogo com excelência!</h1>
@@ -113,12 +219,12 @@
                <p>Nossa equipe de árbitros está preparada para garantir justiça e profissionalismo em cada partida.</p>
             </div>
             <div class="button-group">
-                <a href="{{url_for('saiba_mais')}}" class="btn-custom">Saiba Mais</a>
-                <a href="{{url_for('cadastro')}}" class="btn-outline">Cadastre-se</a>
+                <a href="{{url_for('saiba_mais')}}" class="btn btn-custom">Saiba Mais</a>
+                <a href="{{url_for('cadastro')}}" class="btn btn-outline">Cadastre-se</a>
             </div>
         </div>
         <div class="hero-card">
-            <img src="/static/assets/desenho tela inicial (1).png" alt="Jogadores">
+            <img src="/static/assets/desenho tela inicial (1).png" alt="Jogadores" class="img-fluid">
         </div>
     </section>
 
