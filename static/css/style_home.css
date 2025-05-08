@@ -10,6 +10,74 @@ body {
     background-color: #00796B;
 }
 
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 8px 15px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #B2DFDB !important;
+}
+
+.navbar-brand {
+    margin-right: 30px;
+}
+
+.logout-container .nav-link {
+    color: #ffffff8c !important;
+}
+
+.logout-container .nav-link:hover {
+    color: #FF5252 !important;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav .nav-link {
+        padding: 10px 15px;
+        margin: 5px 0;
+    }
+}
+
+
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+}
+
+.navbar-nav .nav-link i {
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover i {
+    color: #4DB6AC;
+}
+
+.nav-text {
+    font-size: 0.9rem;
+}
+
+
+.logout-container .nav-link i {
+    font-size: 1.1rem;
+}
+
+.logout-container .nav-link:hover i {
+    color: #FF5252;
+}
+
+
+.material-icons.md-18 {
+    font-size: 18px;
+}
+
+
 footer {
     text-align: center;
     padding: 15px 0;
@@ -363,10 +431,6 @@ footer p{
 
 .logout-icon:hover {
     color: #FF5252;  
-}
-
-.material-icons.icones {
-    color: #ffffff;
 }
 
 @media (max-width: 992px) {
