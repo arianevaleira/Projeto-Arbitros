@@ -1,8 +1,259 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    background-color: #E0F2F1;
+    color: #004D40;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 8px 15px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #B2DFDB !important;
+}
+
+.navbar-brand {
+    margin-right: 30px;
+}
+
+.logout-container .nav-link {
+    color: #ffffff8c !important;
+}
+
+.logout-container .nav-link:hover {
+    color: #FF5252 !important;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav .nav-link {
+        padding: 10px 15px;
+        margin: 5px 0;
+    }
+}
+
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+}
+
+.navbar-nav .nav-link i {
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover i {
+    color: #4DB6AC;
+}
+
+.nav-text {
+    font-size: 0.9rem;
+}
+
+.logout-container .nav-link i {
+    font-size: 1.1rem;
+}
+
+.logout-container .nav-link:hover i {
+    color: #FF5252;
+}
+
+.material-icons.md-18 {
+    font-size: 18px;
+}
+
+.navbar {
+    background-color: #00796B;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+}
+
+.logout-icon {
+    font-size: 1rem; 
+    color: #ffffff8c; 
+    padding: 0 10px; 
+    transition: color 0.3s ease;
+}
+
+.logout-icon:hover {
+    color: #FF5252;  
+}
+
+.soli-conteiner {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.conteiner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    margin: 20px auto;
+    gap: 20px;
+}
+
+.formulario-evento {
+    background-color: white;
+    width: 100%;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mapa {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    margin-top: 20px;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+.loading-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.footer {
+    background-color: #00796B;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-row .form-group {
+    width: 100%;
+}
+
+.arbitro-info {
+    padding: 10px;
+    min-width: 200px;
+}
+
+.arbitro-info h6 {
+    color: #00796B;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.arbitro-info p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.selecionar-arbitro {
+    width: 100%;
+    background-color: #00796B;
+    border: none;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.selecionar-arbitro:hover {
+    background-color: #00695C;
+}
+
+/* Media Queries para responsividade */
+@media (min-width: 768px) {
+    .formulario-evento {
+        width: 45%;
+    }
+    
+    .mapa {
+        width: 50%;
+        height: 600px;
+        margin-top: 0;
+    }
+    
+    .form-row .form-group {
+        width: 50%;
+        padding-right: 15px;
+    }
+    
+    .form-row .form-group:last-child {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .formulario-evento {
+        padding: 15px;
+    }
+    
+    .conteiner {
+        padding: 10px;
+        margin: 10px auto;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .navbar-brand img {
+        max-width: 150px;
+    }
+}
 .formulario-evento {
     background-color: #ffffff;
     border-radius: 12px;
