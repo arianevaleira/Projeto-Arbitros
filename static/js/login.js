@@ -12,6 +12,19 @@ bntSingup.addEventListener("click", function () {
 
 
 
+function togglePassword(inputId) {
+  const passwordInput = document.getElementById(inputId);
+  const toggleButton = passwordInput.nextElementSibling;
+  
+  if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      toggleButton.textContent = "Ocultar";
+  } else {
+      passwordInput.type = "password";
+      toggleButton.textContent = "Mostrar";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const formLogin = document.querySelector('form[action*="login"]');
   if (!formLogin) return;
@@ -89,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
     input.classList.remove('is-invalid');
   };
 
-  // Máscara telefone
   telefoneInput.addEventListener('input', () => {
     let v = telefoneInput.value.replace(/\D/g, '');
     if (v.length > 2) v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
@@ -97,17 +109,15 @@ document.addEventListener("DOMContentLoaded", function () {
     telefoneInput.value = v.slice(0, 14);
   });
 
-  // Máscara CPF/CNPJ
+
   cpfInput.addEventListener('input', () => {
     let valor = cpfInput.value.replace(/\D/g, '');
 
     if (valor.length <= 11) {
-      // CPF: 000.000.000-00
       valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
       valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
       valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
     } else {
-      // CNPJ: 00.000.000/0000-00
       valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
       valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
       valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
@@ -117,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cpfInput.value = valor.slice(0, 18);
   });
 
-  // Validação do formulário
+  
   form.addEventListener('submit', (e) => {
     let valido = true;
 
