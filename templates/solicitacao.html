@@ -223,6 +223,92 @@
         .selecionar-arbitro:hover {
             background-color: #00695C;
         }
+        
+
+        @media (max-width: 1200px) {
+            .conteiner {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .formulario-evento, .mapa {
+                width: 90%;
+                max-width: 100%;
+            }
+            
+            .mapa {
+                order: -1; 
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-item {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .nav-link {
+                padding: 10px 15px;
+            }
+            
+            .navbar-toggler {
+                display: block;
+            }
+            
+            .navbar-collapse {
+                display: none;
+                width: 100%;
+            }
+            
+            .navbar-collapse.show {
+                display: flex;
+            }
+            
+            #map {
+                height: 400px; 
+                margin-bottom: 27px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group.col-md-6 {
+                width: 100%;
+            }
+            
+            #map {
+                height: 350px;
+            }
+            
+            .formulario-evento, .mapa {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+
+        
+        .navbar-toggler {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        
+        #map {
+            min-height: 500px;
+        }
     </style>
 </head>
 <body>
