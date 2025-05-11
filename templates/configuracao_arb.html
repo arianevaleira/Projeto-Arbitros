@@ -26,11 +26,11 @@
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="certificado">Certificado</label>
-                        <input type="file" id="certificado" name="certificado" required>
+                        <input type="file" id="certificado" value="{{ user._certificado }}" name="certificado" required>
                     </div>
                     <div class="infor_perfil">
                         <label for="cep">CEP</label>
-                        <input type="text" id="cep" name="cep" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
+                        <input type="text" id="cep" name="cep" value="{{ user._cep }}" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
                     </div>
                 </div>
                 <div class="infor_perfil">
@@ -40,21 +40,28 @@
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="estado">Estado</label>
-                        <input type="text" id="estado" name="estado" value="{{ user.estado }}" placeholder="Digite seu estado">
+                        <input type="text" id="estado" name="estado" value="{{ user._estado }}" placeholder="Digite seu estado">
                     </div>
                     <div class="infor_perfil">
                         <label for="cidade">Cidade</label>
-                        <input type="text" id="cidade" name="cidade" value="{{ user.cidade }}" placeholder="Digite sua cidade">
+                        <input type="text" id="cidade" name="cidade" value="{{ user._cidade }}" placeholder="Digite sua cidade">
                     </div>
                 </div>
 
-                <!-- Mapa para selecionar localização -->
+                
                 <div class="infor_perfil">
                     <label>Localização no Mapa</label>
                     <button type="button" class="btn btn-sm btn-primary mb-2" onclick="getCurrentLocation()">
                         Usar minha localização atual
                     </button>
-                    <div id="map" style="height: 300px; width: 100%;"></div>
+                    <div id="map" style="height: 300px; width: 100%;">
+                        <div class="loading-message">
+                            <p>Carregando mapa...</p>
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                        </div>
+                    </div>
                     <input type="hidden" id="lat" name="lat" value="{{ user.lat if user.lat else '' }}">
                     <input type="hidden" id="lng" name="lng" value="{{ user.lng if user.lng else '' }}">
                 </div>
