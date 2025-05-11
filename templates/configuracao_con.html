@@ -26,7 +26,7 @@
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="cep">CEP</label>
-                        <input type="text" id="cep" name="cep" value="{{ user.cep }}" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
+                        <input type="text" id="cep" name="cep" value="{{ user._cep }}" placeholder="Digite seu CEP" onblur="buscaEndereco(this.value)">
                     </div>
                 </div>
 
@@ -38,11 +38,11 @@
                 <div class="infor_perfil-group">
                     <div class="infor_perfil">
                         <label for="estado">Estado</label>
-                        <input type="text" id="estado" name="estado" value="{{ user.estado }}" placeholder="Digite seu estado">
+                        <input type="text" id="estado" name="estado" value="{{ user._estado }}" placeholder="Digite seu estado">
                     </div>
                     <div class="infor_perfil">
                         <label for="cidade">Cidade</label>
-                        <input type="text" id="cidade" name="cidade" value="{{ user.cidade }}" placeholder="Digite sua cidade">
+                        <input type="text" id="cidade" name="cidade" value="{{ user._cidade }}" placeholder="Digite sua cidade">
                     </div>
                 </div>
 
