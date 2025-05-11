@@ -22,6 +22,17 @@ body {
 }
 
 
+.loading-message {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000;
+}
+
 .swal2-confirm {
     background-color: #00b386; 
     color: white;
@@ -126,3 +137,4 @@ textarea:focus {
         padding: 20px;
     }
 }
+
