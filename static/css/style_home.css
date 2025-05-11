@@ -277,7 +277,7 @@ footer p{
 }
 
 
-/* Avatar circular com inicial */
+
 .user-avatar {
     width: 45px;
     height: 45px;
@@ -299,7 +299,7 @@ footer p{
     flex-direction: column;
 }
 
-/* Nome e tempo */
+
 .comment-header {
     display: flex;
     justify-content: space-between;
