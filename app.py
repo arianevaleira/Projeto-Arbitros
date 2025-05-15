@@ -344,7 +344,7 @@ def update_arbitro():
     except Exception as e:
         flash(f'Erro ao atualizar perfil: {str(e)}', 'error')
 
-    return redirect(url_for('configuracoes_arb'))
+    return redirect(url_for('home'))
     
 @app.route('/update_contratante', methods=['POST'])
 @login_required
@@ -372,7 +372,7 @@ def update_contratante():
     except Exception as e:
         flash(f'Erro ao atualizar perfil: {str(e)}', 'error')
 
-    return redirect(url_for('configuracoes_con'))
+    return redirect(url_for('home'))
 
 
 
