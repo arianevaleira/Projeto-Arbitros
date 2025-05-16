@@ -113,8 +113,17 @@
                 <textarea placeholder="Escreva um comentário..." name="conteudo"></textarea>
                 <button type="submit">➤</button>
             </form>
+            <script>
+                window.onload = function() {
+                    const mensagem = "{{ get_flashed_messages()[-1] }}";
+                    if (mensagem) {
+                        alert(mensagem);
+                    }
+                };
+            </script>
         </div>
     </div>
+    
     {% endblock %}
 
     <footer class="mt-auto">
