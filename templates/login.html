@@ -34,9 +34,6 @@
                         <label>Senha:</label>
                         <input type="password" name="senha" placeholder="senha">
                     </div>
-                    {% if get_flashed_messages() %}
-                        <div class="flash">{{ get_flashed_messages()[-1] }}</div>
-                    {% endif %}
                     <button  class="btn btn-second">Logar</button>
                 </form>
             </div>
@@ -81,7 +78,8 @@
                             <label>Confirme Sua Senha:</label>
                             <input type="password" name="confirmaSenha" required>
                         </div>
-                    </div>      
+                    </div>
+                    
                     <div class="gru-input">
                        <label>Selecione Sua Area:</label>
                        <select id="userType" name="tipo">
