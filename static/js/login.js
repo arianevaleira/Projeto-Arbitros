@@ -207,5 +207,66 @@ document.addEventListener("DOMContentLoaded", function () {
       confirmButtonText: 'Entendi',
       confirmButtonColor: '#00796B'
     });
-  }
+  } 
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const erro = urlParams.get('erro');
+
+    if (erro === 'validacao') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Email ou senha incorretos',
+            confirmButtonText: 'Entendi',
+            confirmButtonColor: '#00796B'
+        });
+    }
+
+    const formLogin = document.querySelector('form[action*="login"]');
+    if (!formLogin) return;
+
+    const emailInput = document.querySelector("#emailLogin");
+    const senhaInput = document.querySelector("#senhaLogin");
+
+    const mostrarErro = (input, mensagem) => {
+        let feedback = input.nextElementSibling;
+        if (!feedback || !feedback.classList.contains('feedback')) {
+            feedback = document.createElement('small');
+            feedback.className = 'feedback';
+            input.parentNode.appendChild(feedback);
+        }
+        feedback.innerHTML = mensagem;
+        feedback.style.color = '#d32f2f';
+        input.classList.add('is-invalid');
+    };
+
+    const limparErro = (input) => {
+        let feedback = input.nextElementSibling;
+        if (feedback && feedback.classList.contains('feedback')) {
+            feedback.textContent = '';
+        }
+        input.classList.remove('is-invalid');
+    };
+
+    formLogin.addEventListener('submit', (e) => {
+        let valido = true;
+
+        if (!emailInput.value.includes("@")) {
+            mostrarErro(emailInput, 'Digite um e-mail válido.');
+            valido = false;
+        } else {
+            limparErro(emailInput);
+        }
+
+        if (senhaInput.value.length < 3) {
+            mostrarErro(senhaInput, 'Senha inválida ou muito curta.');
+            valido = false;
+        } else {
+            limparErro(senhaInput);
+        }
+
+        if (!valido) e.preventDefault();
+    });
 });
