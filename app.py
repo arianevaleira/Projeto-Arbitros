@@ -42,8 +42,6 @@ def load_user(user_id):
 def inicial():
     return render_template('index.html')
 
-
-#Pagina inicial (login)
 @app.route('/login', methods=['POST','GET'])
 def login():
     if request.method == 'POST':
@@ -58,9 +56,13 @@ def login():
                 session['user_tipo'] = "contratante"
             login_user(Usuario.get(user['usu_id']))
             return redirect(url_for('home'))
-        
         else:
-            flash("Email ou senha inválidos")
+            return redirect(url_for('login', erro='validacao'))
+    
+    
+    erro = request.args.get('erro')
+    if erro == 'validacao':
+        return render_template('login.html', show_error=True)
     return render_template('login.html')
 
 @app.route('/cadastro', methods=['POST', 'GET'])
