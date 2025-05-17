@@ -305,7 +305,7 @@
                 console.error('Erro:', error);
             });
     }
-
+    
     document.getElementById("formConfigArbitro").addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -337,10 +337,20 @@
             return;
         }
 
-        console.log("Dados enviados:", { nome, cep, estado, cidade, lat, lng, certificado }); 
-
-        this.submit();
+        Swal.fire({
+            title: 'Deseja salvar as alterações?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, salvar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("Dados enviados:", { nome, cep, estado, cidade, lat, lng, certificado }); 
+                e.target.submit();
+            }
+        });
     });
+
 
     window.onload = initMap;
 </script>
