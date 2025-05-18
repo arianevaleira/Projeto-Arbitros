@@ -82,8 +82,10 @@ body {
     padding: 2rem;
     position: relative;
     overflow: hidden;
+    margin-bottom: 35px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-top: 4px solid var(--primary-color);
+    border-left: 4px solid var(--primary-color);
 }
 
 .match-card:hover {
