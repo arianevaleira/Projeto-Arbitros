@@ -14,6 +14,7 @@ from werkzeug.utils import secure_filename
 from models import conectar_db
 import os
 
+#echo .env > .gitignore rodar esse comando kaka, se não vai a env
 
 login_manager = LoginManager()
 
