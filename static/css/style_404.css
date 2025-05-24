@@ -79,17 +79,16 @@ body {
     transform: translateY(1px);
 }
 
-/* Animação de flutuação */
+
 .floating {
     animation: floating 3s ease-in-out infinite;
 }
 
-/* Animação de pulso */
 .pulse {
     animation: pulse 2s infinite;
 }
 
-/* Confetti */
+
 .confetti {
     position: absolute;
     width: 10px;
@@ -134,7 +133,7 @@ body {
     animation-delay: 1.5s;
 }
 
-/* Keyframes */
+
 @keyframes floating {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-15px); }
@@ -157,7 +156,7 @@ body {
     100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
     .container {
         padding: 30px 20px;

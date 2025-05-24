@@ -7,29 +7,24 @@ class Partida:
     def registrar_partida(cls, sol_id, con_id, arb_id):
             conn = conectar_db()
             cursor = conn.cursor(dictionary=True)
-
-            # Verificar se o arbitro ta no banco 
             cursor.execute("SELECT arb_id FROM tb_arbitros WHERE arb_id = %s", (arb_id,))
             if not cursor.fetchone():
                 cursor.close()
                 conn.close()
                 raise ValueError("Árbitro não encontrado.")
 
-           #Ver se o contrantante ta tambem
             cursor.execute("SELECT con_id FROM tb_contratantes WHERE con_id = %s", (con_id,))
             if not cursor.fetchone():
                 cursor.close()
                 conn.close()
                 raise ValueError("Contratante não encontrado.")
 
-            # Verificar se a solicitação existe
             cursor.execute("SELECT sol_id FROM tb_solicitacoes WHERE sol_id = %s", (sol_id,))
             if not cursor.fetchone():
                 cursor.close()
                 conn.close()
                 raise ValueError("Solicitação não encontrada.")
 
-            # Tenta inserir a partida 
             cursor.execute('''
                 INSERT INTO tb_partidas (par_sol_id, par_con_id, par_arb_id, status)
                 VALUES (%s, %s, %s, 'Agendada')
@@ -60,8 +55,7 @@ class Partida:
         partidas = cursor.fetchall()
         
         data_atual = date.today()
-        
-        # Atualiza status se a data já passou
+
         for partida in partidas:
             if partida['sol_data'] < data_atual:
                 cursor.execute("""
