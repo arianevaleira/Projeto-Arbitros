@@ -207,10 +207,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('solicitacao')}}">
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('solicitacao' if user_tipo == 'contratante' else 'solicitacao_arbitro')}}">
                             <i class="material-icons md-18">assignment</i>
-                            <span class="nav-text">Solicitações</span>
+                            <span class="nav-text">
+                                {% if user_tipo == 'contratante' %}
+                                    Solicitar Evento <!-- Esse if esta errado, so entra no else, sendo que não deveria ter como-->
+                                {% else %}  
+                                    Solicitar Evento
+                                {% endif %}
+                            </span>
                         </a>
                     </li>
                     <li class="nav-item">

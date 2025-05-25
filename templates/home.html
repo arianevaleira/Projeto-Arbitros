@@ -20,9 +20,15 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('solicitacao')}}">
+                        <a class="nav-link" href="{{url_for('solicitacao' if user_tipo == 'contratante' else 'solicitacao_arbitro')}}">
                             <i class="material-icons md-18">assignment</i>
-                            <span class="nav-text">Solicitações</span>
+                            <span class="nav-text">
+                                {% if user_tipo == 'contratante' %}
+                                    Solicitar Evento
+                                {% else %}
+                                    Solicitações
+                                {% endif %}
+                            </span>
                         </a>
                     </li>
                     <li class="nav-item">

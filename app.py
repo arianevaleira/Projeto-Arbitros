@@ -97,8 +97,8 @@ def cadastro():
 @login_required 
 def home():
     comentarios = Comentario.listar()
-    return render_template('home.html', comentarios=comentarios)
-
+    user_tipo = session.get('user_tipo')
+    return render_template('home.html', comentarios=comentarios, user_tipo=user_tipo)
 
 #Pagina sobre (informações)
 @app.route('/sobre')
