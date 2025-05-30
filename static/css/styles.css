@@ -8,7 +8,6 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
-
 .conteiner {
     display: flex;
     justify-content: center;
@@ -18,10 +17,37 @@ body {
     background-color: #E0F2F1;
 }
 
-i {
-    width: 7px;
-    height: 7px;
-    background-color: #00796B;
+/* Estilos para os campos de entrada */
+.form input, .form select {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+/* Estilo específico para campos de senha */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    padding-right: 40px !important;
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+    z-index: 10;
 }
 
 .gru-input select {
@@ -64,51 +90,12 @@ i {
     padding: 10px;
 }
 
-/*div dentro de conteiner onde esta login e cadastro*/
-.content {
-    background-color: #ffff;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 1000px;
-    height: auto;
-    min-height: 500px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-
 input.is-invalid,
 select.is-invalid,
 textarea.is-invalid {
-  border: 1px solid #d32f2f !important;
-  background-color: #fff6f6;
-  outline: none;
-}
-
-/* Mensagem de erro */
-.feedback {
-  font-size: 0.8rem;
-  margin-top: 4px;
-  display: block;
-  color: #d32f2f;
-}
-
-/* Suavizar transições (opcional) */
-input,
-select,
-textarea {
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-/* Estilo para a div.flash do login */
-.flash {
-  color: #d32f2f;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  font-weight: bold;
+    border: 1px solid #d32f2f !important;
+    background-color: #fff6f6;
+    outline: none;
 }
 
 .feedback {
@@ -140,6 +127,20 @@ input:invalid {
     border-color: #e53935;
 }
 
+.content {
+    background-color: #ffff;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1000px;
+    height: auto;
+    min-height: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
 .content::before {
     content: "";
     position: absolute;
@@ -151,7 +152,6 @@ input:invalid {
     left: 0;
 }
 
-/*Div onde esta o login*/
 .first-content {
     display: flex;
     width: 100%;
@@ -161,7 +161,6 @@ input:invalid {
     z-index: 11;
 }
 
-/*div onde fica a descricao*/
 .primeira-coluna {
     text-align: center;
     width: 40%;
@@ -169,7 +168,6 @@ input:invalid {
     padding: 20px;
 }
 
-/*div onde fica os inputs */
 .segunda-coluna {
     display: flex;
     width: 60%;
@@ -264,18 +262,6 @@ input:invalid {
     margin-bottom: 5px;
 }
 
-.form input, .form select {
-    width: 100%;
-    max-width: 100%;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 14px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    overflow-wrap: break-word;
-}
-
 .form input:focus {
     outline: none;
     border-color: #00796B;
@@ -296,7 +282,6 @@ input:invalid {
     width: 95%;
 }
 
-/*div de cadastro*/
 .second-content {
     position: absolute;
     display: flex;
@@ -326,7 +311,6 @@ input:invalid {
     z-index: 13;
 }
 
-/*Quando estiver na tela de cadastro*/
 .sing-in-js .content::before {
     left: 60%;
     border-top-left-radius: 0;
@@ -385,7 +369,6 @@ input:invalid {
     border: 1px solid #c3e6cb;
 }
 
-/*Adicionando as propriedades de animação*/
 @keyframes slidein {
     from {
         left: 0;
@@ -432,74 +415,7 @@ input:invalid {
     }
 }
 
-/* Media Queries para responsividade */
-@media (max-width: 768px) {
-    .content {
-        flex-direction: column;
-        width: 95%;
-        height: auto;
-    }
-    
-    .content::before {
-        width: 100%;
-        height: 40%;
-        border-radius: 0;
-        bottom: 0;
-        top: auto;
-    }
-    
-    .primeira-coluna, .segunda-coluna {
-        width: 100% !important;
-        padding: 20px;
-    }
-    
-    .sing-in-js .content::before {
-        top: 0;
-        bottom: auto;
-        left: 0;
-        width: 100%;
-        height: 40%;
-        border-radius: 0;
-    }
-    
-    .form {
-        width: 100%;
-    }
-    
-    .btn {
-        padding: 10px 30px;
-    }
-}
-
-@media (max-width: 480px) {
-    .titulo {
-        font-size: 22px;
-    }
-    
-    .descricao {
-        font-size: 12px;
-        line-height: 24px;
-    }
-    
-    .form input, .form select {
-        font-size: 13px;
-        padding: 6px 10px;
-    }
-    
-    .gru-input.gru-input-second div {
-        width: 100%;
-    }
-    
-    .form .gru-input-second {
-        flex-direction: column;
-    }
-    
-    .form .gru-input-second input {
-        width: 100%;
-    }
-}
-
-
+/* Ajustes para campos lado a lado em mobile */
 @media (max-width: 768px) {
     .content {
         flex-direction: column;
@@ -549,7 +465,6 @@ input:invalid {
         margin-top: 10px;
     }
     
-    
     .second-content {
         flex-direction: column;
     }
@@ -564,6 +479,10 @@ input:invalid {
     
     .gru-input.gru-input-second div:first-child {
         margin-bottom: 15px;
+    }
+    
+    .form .gru-input-second input {
+        width: 100%;
     }
 }
 
@@ -594,52 +513,23 @@ input:invalid {
         font-size: 14px;
     }
     
-    
     .gru-input {
         margin-bottom: 20px;
     }
-    
     
     .gru-input select {
         padding: 12px 14px;
         background-position: right 10px center;
     }
-}
-
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.password-wrapper input[type="password"] {
-    width: 100%;
-    padding-right: 35px; 
-}
-
-.password-wrapper .toggle-password {
-    position: absolute;
-    right: 10px;
-    color: #888; 
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.password-wrapper input[type="password"] {
-    width: 100%;
-    padding-right: 35px;
-}
-
-.password-wrapper .toggle-password {
-    position: absolute;
-    right: 10px;
-    color: #888;
-    cursor: pointer;
-    font-size: 18px;
+    
+    
+    .nome input, .cpf input, .telefone input {
+        min-width: 0;
+    }
+    
+    
+    #cpf {
+        min-width: 0;
+        width: 100%;
+    }
 }

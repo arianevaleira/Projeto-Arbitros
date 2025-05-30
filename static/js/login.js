@@ -10,30 +10,20 @@ bntSingup.addEventListener("click", function () {
   body.className = 'sing-up-js';
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    function setupPasswordToggle() {
-        const toggleIcons = document.querySelectorAll('.toggle-password');
-        
-        toggleIcons.forEach(icon => {
-            icon.addEventListener('click', function() {
-                const targetId = this.getAttribute('data-target');
-                const passwordInput = document.getElementById(targetId);
-                
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    this.classList.remove('fa-eye');
-                    this.classList.add('fa-eye-slash');
-                } else {
-                    passwordInput.type = 'password';
-                    this.classList.remove('fa-eye-slash');
-                    this.classList.add('fa-eye');
-                }
-            });
-        });
+function togglePassword(id) {
+    const passwordInput = document.getElementById(id);
+    const icon = passwordInput.nextElementSibling;
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
     }
-
-    setupPasswordToggle();
-});
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const formLogin = document.querySelector('form[action*="login"]');

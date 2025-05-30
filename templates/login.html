@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.cs" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -32,13 +31,15 @@
                         <input type="email" name="email" placeholder="email">
                     </div>
                     <div class="senha gru-input">
-                        <label>Senha:</label>
-                        <div class="password-wrapper">
-                            <input type="password" name="senha" required id="registerPassword">
-                            <i class="toggle-password fas fa-eye" data-target="registerPassword"></i>
+                        <div class="form-group">
+                            <label>Senha:</label>
+                            <div class="password-wrapper">
+                                <input class="form-control password-input" type="password" name="senha" required id="loginPassword">
+                                <i class="toggle-password fas fa-eye" onclick="togglePassword('loginPassword')"></i>
+                            </div>
                         </div>
                     </div>
-                    <button  class="btn btn-second">Logar</button>
+                    <button class="btn btn-second">Logar</button>
                 </form>
             </div>
         </div>
@@ -49,7 +50,7 @@
                 <h2 class="titulo titulo-primary">Bem - vindo !</h2>
                 <p class="descricao descricao-primary">Para se manter conectado conosco</p>
                 <p class="descricao descricao-primary">Por favor logue-se com suas informações</p>
-                <button  id="singup" class="btn btn-primary">Login</button>
+                <button id="singup" class="btn btn-primary">Login</button>
             </div>
             <!--Div onde fica o formulario-->
             <div class="segunda-coluna">
@@ -57,7 +58,7 @@
                 <form action="{{url_for('cadastro')}}" class="form" method="POST">
                     <div class="nome gru-input">
                         <label>Nome:</label>
-                        <input type="text" name="nome" required>
+                        <input type="text" name="nome" placeholder="Nome Completo" required>
                     </div> 
                     <div class="gru-input gru-input-second">
                         <div class="cpf">    
@@ -71,21 +72,21 @@
                     </div>
                     <div class="gru-input">
                         <label>Email:</label>
-                        <input type="email" name="email" required>
+                        <input type="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="gru-input gru-input-second">
                         <div class="senha1">
                             <label>Crie Sua Senha:</label>
                             <div class="password-wrapper">
-                                <input type="password" name="senha" required id="registerPassword">
-                                <i class="toggle-password fas fa-eye" data-target="registerPassword"></i>
+                                <input type="password" name="senha" required id="registerPassword" class="password-input">
+                                <i class="toggle-password fas fa-eye" onclick="togglePassword('registerPassword')"></i>
                             </div>
                         </div>
                         <div class="senha1">
                             <label>Confirme Sua Senha:</label>
                             <div class="password-wrapper">
-                                <input type="password" name="confirmaSenha" required id="confirmPassword">
-                                <i class="toggle-password fas fa-eye" data-target="confirmPassword"></i>
+                                <input type="password" name="confirmaSenha" required id="confirmPassword" class="password-input">
+                                <i class="toggle-password fas fa-eye" onclick="togglePassword('confirmPassword')"></i>
                             </div>
                         </div>
                     </div>
@@ -104,6 +105,21 @@
     </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script>
+function togglePassword(id) {
+    const passwordInput = document.getElementById(id);
+    const icon = passwordInput.nextElementSibling;
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+</script>
 </body>
 </html>
-
