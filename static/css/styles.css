@@ -17,7 +17,61 @@ body {
     background-color: #E0F2F1;
 }
 
-/* Estilos para os campos de entrada */
+
+.senha-field {
+    margin-bottom: 15px;
+    width: 48%; 
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; 
+}
+
+.password-input {
+    width: 100%;
+    padding-right: 35px !important; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #555;
+    z-index: 2; 
+}
+
+
+select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    padding-right: 30px; 
+    cursor: pointer;
+}
+
+
+select.form-control:hover {
+    border-color: #00796B;
+}
+
+@media (max-width: 768px) {
+    .senha-field {
+        width: 100% !important; 
+        margin-bottom: 15px;
+    }
+    
+    .gru-input-second {
+        flex-direction: column;
+    }
+}
+
 .form input, .form select {
     width: 100%;
     height: 45px;
@@ -27,49 +81,6 @@ body {
     font-size: 16px;
     transition: border-color 0.3s, box-shadow 0.3s;
     box-sizing: border-box;
-}
-
-/* Estilo específico para campos de senha */
-.password-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.password-input {
-    padding-right: 40px !important;
-    width: 100%;
-}
-
-.toggle-password {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #555;
-    z-index: 10;
-}
-
-.gru-input select {
-    padding: 10px 14px;
-    font-size: 16px;
-    border: 2px solid #4CAF50;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #333;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 18px;
-    transition: border-color 0.3s ease;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .gru-input select:focus {
@@ -100,7 +111,7 @@ body {
     border: 1px solid #ffffff !important;
 }
 
-
+.password-wrapper
 
 input.is-invalid,
 select.is-invalid,

@@ -75,14 +75,14 @@
                         <input type="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="gru-input gru-input-second">
-                        <div class="senha1">
+                        <div class="senha-field" style="width: 48%;">
                             <label>Crie Sua Senha:</label>
                             <div class="password-wrapper">
                                 <input type="password" name="senha" required id="registerPassword" class="password-input">
                                 <i class="toggle-password fas fa-eye" onclick="togglePassword('registerPassword')"></i>
                             </div>
                         </div>
-                        <div class="senha1">
+                        <div class="senha-field" style="width: 48%;">
                             <label>Confirme Sua Senha:</label>
                             <div class="password-wrapper">
                                 <input type="password" name="confirmaSenha" required id="confirmPassword" class="password-input">
@@ -91,13 +91,13 @@
                         </div>
                     </div>
                     
-                    <div class="gru-input">
-                       <label>Selecione Sua Area:</label>
-                       <select id="userType" name="tipo">
-                           <option value="contratante" selected>Contratante</option>
-                           <option value="arbitro">Árbitro</option>
-                       </select>
-                    </div>
+                   <div class="gru-input" style="margin-top: 20px;">
+                        <label>Selecione Sua Área:</label>
+                        <select id="userType" name="tipo" class="form-control">
+                            <option value="contratante" selected>Contratante</option>
+                            <option value="arbitro">Árbitro</option>
+                        </select>
+                   </div>
                     <button class="btn btn-second">Cadastrar</button>
                 </form>
             </div>
