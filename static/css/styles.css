@@ -90,6 +90,18 @@ body {
     padding: 10px;
 }
 
+.btn-comborda{
+    border: solid #ffff 1px;
+    border-radius: 5px;
+}
+
+
+.btn.btn-second.btn-comborda {
+    border: 1px solid #ffffff !important;
+}
+
+
+
 input.is-invalid,
 select.is-invalid,
 textarea.is-invalid {
@@ -415,7 +427,7 @@ input:invalid {
     }
 }
 
-/* Ajustes para campos lado a lado em mobile */
+
 @media (max-width: 768px) {
     .content {
         flex-direction: column;
