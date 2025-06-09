@@ -155,6 +155,7 @@ def responder_solicitacao():
     arb_id = request.form['arb_id']
     if acao == "aceitar":
         Notificacao.notificacao_contratante(con_id, arb_id, "aceitou")
+        Notificacao.notificacao_arbitro(con_id, arb_id)
         Solicitacao.alterar_status(sol_id, "Aceita")
         Partida.registrar_partida(sol_id, con_id ,arb_id)
     elif acao == "recusar":
