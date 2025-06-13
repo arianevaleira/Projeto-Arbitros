@@ -34,7 +34,7 @@ Este projeto é uma aplicação web desenvolvida como prática profissional de c
 ## Tecnologias Utilizadas
 
 - **HTML5 & CSS3**  
-- **JavaScript** (validações e interações)  
+- **JavaScript** (validações e Interação com API)  
 - **Python (Flask)**  
 - **API do Google Maps**  
 - **MySQL Workbench** 
