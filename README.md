@@ -37,4 +37,4 @@ Este projeto é uma aplicação web desenvolvida como prática profissional de c
 - **JavaScript** (validações e interações)  
 - **Python (Flask)**  
 - **API do Google Maps**  
-- **MySQL + MySQL Workbench** 
+- **MySQL Workbench** 
