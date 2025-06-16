@@ -81,26 +81,38 @@ document.addEventListener("DOMContentLoaded", function () {
   const telefoneInput = form.querySelector('input[name="telefone"]');
   const cpfInput = form.querySelector('input[name="cpf"]');
 
+
+  const erroExibido = {
+    cpf: false,
+    senha: false,
+    confirmaSenha: false,
+  };
   
   const mostrarErro = (input, mensagem) => {
     let feedback = input.nextElementSibling;
+
     if (!feedback || !feedback.classList.contains('feedback')) {
-      feedback = document.createElement('small');
-      feedback.className = 'feedback';
-      input.parentNode.appendChild(feedback);
+        feedback = document.createElement('small');
+        feedback.className = 'feedback';
+        input.parentNode.appendChild(feedback);
     }
-    feedback.innerHTML = mensagem;
-    feedback.style.color = '#d32f2f';
-    input.classList.add('is-invalid');
-  };
+
+    if (!erroExibido[input.name]) {
+        feedback.innerHTML = mensagem;
+        feedback.style.color = '#d32f2f';
+        input.classList.add('is-invalid');
+        erroExibido[input.name] = true;
+    }
+};
 
   const limparErro = (input) => {
     let feedback = input.nextElementSibling;
     if (feedback && feedback.classList.contains('feedback')) {
-      feedback.textContent = '';
+        feedback.textContent = '';
     }
     input.classList.remove('is-invalid');
-  };
+    erroExibido[input.name] = false;
+};
 
   telefoneInput.addEventListener('input', () => {
     let v = telefoneInput.value.replace(/\D/g, '');
